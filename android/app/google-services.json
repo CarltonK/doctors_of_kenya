@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "923542846110",
+    "firebase_url": "https://doctors-of-kenya.firebaseio.com",
+    "project_id": "doctors-of-kenya",
+    "storage_bucket": "doctors-of-kenya.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923542846110:android:7d09a717e48cf74a60598f",
+        "android_client_info": {
+          "package_name": "com.doctors.of.doctors_of_kenya"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923542846110-bqohgi70us65e5oukgastq2fnk1qk5ft.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.doctors.of.doctors_of_kenya",
+            "certificate_hash": "3081983faae1e95a6f56c659b54afa55efea0763"
+          }
+        },
+        {
+          "client_id": "923542846110-1vss2occ9936bm32vbn1eh326vtjl20e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEOFyE7dkbQf5N60tH-IMziFAAVl-zs8Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "923542846110-1vss2occ9936bm32vbn1eh326vtjl20e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
