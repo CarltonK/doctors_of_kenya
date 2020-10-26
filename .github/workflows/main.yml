@@ -1,4 +1,4 @@
-name: Build and Release APK
+name: Build and Release Development APK
 on:
   push:
     branches: [ main ]
