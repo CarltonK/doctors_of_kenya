@@ -1,4 +1,4 @@
-name: Build and Release Development APK
+name: Build and Release APK
 on:
   push:
     branches: [ main ]
@@ -23,7 +23,7 @@ jobs:
     - name: Push APK to Releases
       uses: ncipollo/release-action@v1
       with:
-        commit: master
+        commit: main
         artifacts: "build/app/outputs/apk/release/*.apk"
         token: ${{ secrets.TOKEN }}
         tag: v1.1.${{ github.run_number }}
