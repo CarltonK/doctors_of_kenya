@@ -1,5 +1,7 @@
+import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,8 +16,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Doctors of Kenya',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        accentColor: Colors.orange[600],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: FutureBuilder<FirebaseApp>(
@@ -24,16 +28,21 @@ class MyApp extends StatelessWidget {
           if (snapshot.hasError) {
             return Container(
               color: Colors.blue,
+              child: Text('Error -> ${snapshot.error.toString()}'),
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            print(snapshot.data.options);
-            return Container(
-              color: Colors.yellow,
+            return CustomPaint(
+              size: Size.infinite,
+              painter: BackgroundPainter(),
             );
           }
           return Container(
-            color: Colors.red,
+            alignment: Alignment.center,
+            child: SpinKitWave(
+              color: Theme.of(context).accentColor,
+              size: 100,
+            ),
           );
         },
       ),
