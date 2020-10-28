@@ -1,4 +1,4 @@
-import 'package:doctors_of_kenya/utilities/utilities.dart';
+import 'package:doctors_of_kenya/screens/authentication/authentication.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -32,10 +32,7 @@ class MyApp extends StatelessWidget {
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return CustomPaint(
-              size: Size.infinite,
-              painter: BackgroundPainter(),
-            );
+            return LoginScreen();
           }
           return Container(
             alignment: Alignment.center,

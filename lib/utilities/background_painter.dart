@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
 class BackgroundPainter extends CustomPainter {
-  final Color color = Colors.white;
-
   @override
   void paint(Canvas canvas, Size size) {
     // Background
     final backgroundBounds = Rect.fromLTRB(0, 0, size.width, size.height);
-    final paintBackground = Paint()..color = color;
+    final paintBackground = Paint()..color = Colors.grey[200];
     canvas.drawRect(backgroundBounds, paintBackground);
 
     // Foreground
@@ -27,10 +25,10 @@ class BackgroundPainter extends CustomPainter {
 
     canvas.drawPath(pathBounds, paintForeground);
 
-    // Circle
-    final circleBounds = Offset(size.width / 2, size.height / 2);
-    final circlePaint = Paint()..color = Colors.orange[400];
-    canvas.drawCircle(circleBounds, 90, circlePaint);
+    // // Circle
+    // final circleBounds = Offset(size.width / 2, size.height / 2);
+    // final circlePaint = Paint()..color = Colors.orange[400];
+    // canvas.drawCircle(circleBounds, 75, circlePaint);
   }
 
   @override
