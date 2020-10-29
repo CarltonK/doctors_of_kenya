@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return RegistrationScreen();
+            return LoginScreen();
           }
           return Container(
             alignment: Alignment.center,

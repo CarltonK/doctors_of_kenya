@@ -43,6 +43,5 @@ class NavigationHelper extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

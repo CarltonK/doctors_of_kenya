@@ -1,9 +1,8 @@
 import 'package:doctors_of_kenya/utilities/utilities.dart';
-import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RegistrationScreen extends StatelessWidget {
+class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,14 +10,14 @@ class RegistrationScreen extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
         child: CustomPaint(
           painter: BackgroundPainter(),
-          child: RegistrationBody(),
+          child: ResetPasswordBody(),
         ),
       ),
     );
   }
 }
 
-class RegistrationBody extends StatelessWidget {
+class ResetPasswordBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -51,7 +50,7 @@ class RegistrationBody extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Welcome',
+                          'It happens',
                           style: GoogleFonts.lato(
                             fontWeight: FontWeight.w700,
                             fontSize: 30,
@@ -59,7 +58,7 @@ class RegistrationBody extends StatelessWidget {
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          'Create an Account',
+                          "We'll send you an email",
                           style: GoogleFonts.lato(
                             fontWeight: FontWeight.w500,
                             fontSize: 18,
@@ -76,26 +75,6 @@ class RegistrationBody extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 16),
-                        Container(
-                          padding: EdgeInsets.all(6),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Password',
-                              prefixIcon: Icon(Icons.vpn_key),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Container(
-                          padding: EdgeInsets.all(6),
-                          child: TextField(
-                            decoration: InputDecoration(
-                              labelText: 'Confirm Password',
-                              prefixIcon: Icon(Icons.vpn_key),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
                         MaterialButton(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
@@ -104,7 +83,7 @@ class RegistrationBody extends StatelessWidget {
                           padding: EdgeInsets.all(12),
                           child: Center(
                             child: Text(
-                              'Register',
+                              'Send Email',
                               style: GoogleFonts.lato(
                                 color: Colors.white,
                                 letterSpacing: 0.5,
@@ -121,14 +100,6 @@ class RegistrationBody extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: NavigationHelper(
-            leading: "Already have an account?",
-            action: "Login",
-            onTap: () => Navigator.of(context).pop(),
           ),
         ),
       ],
