@@ -1,3 +1,4 @@
+//import 'package:doctors_of_kenya/screens/Authentication/authentication.dart';
 import 'package:doctors_of_kenya/screens/authentication/authentication.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
-            return LoginScreen();
+            return RegistrationScreen();
           }
           return Container(
             alignment: Alignment.center,
