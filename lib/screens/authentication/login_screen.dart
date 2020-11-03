@@ -10,9 +10,13 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: CustomPaint(
-          painter: BackgroundPainter(),
-          child: LoginBody(),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            CustomPaint(
+              painter: BackgroundPainter(),
+            ),
+          ],
         ),
       ),
     );
