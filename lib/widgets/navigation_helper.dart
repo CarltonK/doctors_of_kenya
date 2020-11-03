@@ -15,11 +15,13 @@ class NavigationHelper extends StatelessWidget {
 
   final leadingStyle = GoogleFonts.lato(
     fontSize: 15,
+    color: Colors.black,
     fontWeight: FontWeight.w700,
   );
 
   final actionStyle = GoogleFonts.lato(
     fontSize: 17,
+    color: Colors.black,
     fontWeight: FontWeight.bold,
     decoration: TextDecoration.underline,
   );
