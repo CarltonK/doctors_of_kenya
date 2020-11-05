@@ -18,6 +18,12 @@ class MyApp extends StatelessWidget {
     fontSize: 30,
   );
 
+  final miniheadlineStyle = GoogleFonts.lato(
+    fontWeight: FontWeight.w700,
+    fontSize: 24,
+    color: Colors.black54,
+  );
+
   final subheadlineStyle = GoogleFonts.lato(
     fontWeight: FontWeight.w500,
     fontSize: 18,
@@ -30,6 +36,12 @@ class MyApp extends StatelessWidget {
     fontSize: 22,
   );
 
+  final boldWhite = GoogleFonts.lato(
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+    letterSpacing: .2,
+  );
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,9 +52,11 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.orange[600],
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: TextTheme(
+          headline4: miniheadlineStyle,
           headline5: headlineStyle,
           subtitle1: subheadlineStyle,
           button: buttonStyle,
+          bodyText1: boldWhite,
         ),
       ),
       home: FutureBuilder<FirebaseApp>(
@@ -50,7 +64,7 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Container(
-              color: Colors.blue,
+              color: Colors.white,
               child: Text('Error -> ${snapshot.error.toString()}'),
             );
           }

@@ -1,7 +1,7 @@
 name: doctors_of_kenya
 description: A new Flutter project.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+version: 1.0.0.1+1
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -12,6 +12,7 @@ dependencies:
 
   flutter_spinkit: "^4.1.2"
   google_fonts: ^1.1.1
+  cached_network_image: ^2.2.0+1
   # ***---REQUIREMENT---***
   firebase_core: "0.5.0+1"
 

@@ -1,4 +1,5 @@
 import 'package:doctors_of_kenya/screens/authentication/authentication.dart';
+import 'package:doctors_of_kenya/screens/home/home.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -105,7 +106,11 @@ class LoginBody extends StatelessWidget {
                           style: Theme.of(context).textTheme.button,
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: HomeScreen(),
+                        ),
+                      ),
                     ),
                   ],
                 ),
