@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
   final miniheadlineStyle = GoogleFonts.lato(
     fontWeight: FontWeight.w700,
     fontSize: 24,
+    color: Colors.black54,
   );
 
   final subheadlineStyle = GoogleFonts.lato(
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
   final boldWhite = GoogleFonts.lato(
     color: Colors.white,
     fontWeight: FontWeight.bold,
+    letterSpacing: .2,
   );
 
   @override

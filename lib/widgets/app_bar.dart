@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class HomeAppBar extends StatelessWidget {
   final String url =
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb'
-      '-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80';
+      'https://images.unsplash.com/photo-1535745318714-da922ca9cc81?ixlib='
+      'rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80';
 
   @override
   Widget build(BuildContext context) {

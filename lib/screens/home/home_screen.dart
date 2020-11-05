@@ -1,5 +1,4 @@
 import 'package:doctors_of_kenya/widgets/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -51,7 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0.0),
-              sliver: SliverToBoxAdapter(),
+              sliver: SliverToBoxAdapter(
+                child: InstitutionsList(),
+              ),
             ),
           ],
         ),

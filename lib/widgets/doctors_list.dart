@@ -17,7 +17,7 @@ class DoctorsList extends StatelessWidget {
             height: 200,
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(
-                vertical: 10.0,
+                vertical: 8.0,
                 horizontal: 8.0,
               ),
               scrollDirection: Axis.horizontal,
@@ -49,13 +49,13 @@ class _DoctorListCard extends StatelessWidget {
           child: CachedNetworkImage(
             imageUrl: url,
             height: double.infinity,
-            width: 110.0,
+            width: 130.0,
             fit: BoxFit.cover,
           ),
         ),
         Container(
           height: double.infinity,
-          width: 110,
+          width: 130,
           decoration: BoxDecoration(
             gradient: Palette.storyGradient,
             borderRadius: BorderRadius.circular(12.0),
