@@ -17,7 +17,7 @@ class CircleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(icon, color: Colors.black),
+      icon: Icon(icon, color: Colors.white),
       iconSize: iconSize,
       onPressed: onPressed,
       tooltip: tooltip,
