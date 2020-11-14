@@ -41,7 +41,9 @@ class _InstitutionsListState extends State<InstitutionsList> {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         margin: const EdgeInsets.symmetric(horizontal: 4),
         decoration: BoxDecoration(
-          color: isActive ? Colors.blue.withOpacity(0.4) : Colors.grey[100],
+          color: isActive
+              ? Theme.of(context).accentColor.withOpacity(0.3)
+              : Colors.grey[100],
           borderRadius: BorderRadius.circular(30),
         ),
         child: child,

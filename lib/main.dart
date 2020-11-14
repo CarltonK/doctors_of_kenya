@@ -21,12 +21,19 @@ class MyApp extends StatelessWidget {
   final miniheadlineStyle = GoogleFonts.lato(
     fontWeight: FontWeight.w700,
     fontSize: 24,
-    color: Colors.black54,
+    color: Colors.black,
   );
 
   final subheadlineStyle = GoogleFonts.lato(
     fontWeight: FontWeight.w500,
     fontSize: 18,
+  );
+
+  final drawerItemStyle = GoogleFonts.lato(
+    fontWeight: FontWeight.w500,
+    fontSize: 18,
+    color: Colors.black,
+    letterSpacing: 0.3,
   );
 
   final buttonStyle = GoogleFonts.lato(
@@ -55,6 +62,7 @@ class MyApp extends StatelessWidget {
           headline4: miniheadlineStyle,
           headline5: headlineStyle,
           subtitle1: subheadlineStyle,
+          subtitle2: drawerItemStyle,
           button: buttonStyle,
           bodyText1: boldWhite,
         ),
