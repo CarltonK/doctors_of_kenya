@@ -9,8 +9,8 @@ class CircleButton extends StatelessWidget {
   const CircleButton({
     Key key,
     @required this.icon,
-    @required this.iconSize,
     @required this.onPressed,
+    this.iconSize,
     this.tooltip,
   }) : super(key: key);
 
@@ -18,7 +18,7 @@ class CircleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       icon: Icon(icon, color: Colors.white),
-      iconSize: iconSize,
+      iconSize: iconSize ?? 24,
       onPressed: onPressed,
       tooltip: tooltip,
     );

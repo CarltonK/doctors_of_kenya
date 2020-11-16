@@ -44,13 +44,11 @@ class HomeScreen extends StatelessWidget {
         actions: [
           CircleButton(
             icon: CupertinoIcons.search,
-            iconSize: 35.0,
             onPressed: () => print('Search'),
             tooltip: 'Search',
           ),
           CircleButton(
             icon: CupertinoIcons.settings,
-            iconSize: 35.0,
             onPressed: () => print('Settings'),
             tooltip: 'Settings',
           ),

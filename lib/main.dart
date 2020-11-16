@@ -43,9 +43,22 @@ class MyApp extends StatelessWidget {
     fontSize: 22,
   );
 
-  final boldWhite = GoogleFonts.lato(
+  final normalWhite = GoogleFonts.lato(
     color: Colors.white,
     fontWeight: FontWeight.bold,
+    letterSpacing: .2,
+  );
+
+  final headerWhite = GoogleFonts.lato(
+    color: Colors.white,
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    letterSpacing: .2,
+  );
+
+  final subtitleWhite = GoogleFonts.lato(
+    color: Colors.white,
+    fontSize: 18,
     letterSpacing: .2,
   );
 
@@ -61,10 +74,12 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           headline4: miniheadlineStyle,
           headline5: headlineStyle,
+          headline3: headerWhite,
           subtitle1: subheadlineStyle,
           subtitle2: drawerItemStyle,
           button: buttonStyle,
-          bodyText1: boldWhite,
+          bodyText1: normalWhite,
+          bodyText2: subtitleWhite,
         ),
       ),
       home: FutureBuilder<FirebaseApp>(
@@ -72,6 +87,7 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Container(
+              alignment: Alignment.center,
               color: Colors.white,
               child: Text('Error -> ${snapshot.error.toString()}'),
             );
