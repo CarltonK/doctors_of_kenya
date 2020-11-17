@@ -3,7 +3,7 @@ import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
-  static const double avatarRadius = 90;
+  static const double avatarRadius = 85;
   static const double titleBottomMargin = (avatarRadius * 2) + 18;
 
   @override
@@ -131,7 +131,7 @@ class AppDrawer extends StatelessWidget {
 
 class ListItem extends StatelessWidget {
   final String title;
-  final Function onTap;
+  final GestureTapCallback onTap;
 
   const ListItem({
     Key key,
@@ -155,7 +155,7 @@ class ListItem extends StatelessWidget {
           },
         ),
         Divider(
-          color: Theme.of(context).accentColor.withOpacity(0.5),
+          color: Theme.of(context).accentColor.withOpacity(0.4),
           indent: 2,
           endIndent: 2,
         ),
