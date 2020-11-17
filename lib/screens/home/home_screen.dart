@@ -41,16 +41,15 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Theme.of(context).accentColor,
+        title: Text(
+          'Medical Practicioners',
+          style: Theme.of(context).textTheme.headline3,
+        ),
         actions: [
           CircleButton(
             icon: CupertinoIcons.search,
             onPressed: () => print('Search'),
             tooltip: 'Search',
-          ),
-          CircleButton(
-            icon: CupertinoIcons.settings,
-            onPressed: () => print('Settings'),
-            tooltip: 'Settings',
           ),
         ],
       ),

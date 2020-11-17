@@ -1,8 +1,9 @@
+import 'package:doctors_of_kenya/screens/home/home.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
 class AppDrawer extends StatelessWidget {
-  static const double avatarRadius = 90;
+  static const double avatarRadius = 85;
   static const double titleBottomMargin = (avatarRadius * 2) + 18;
 
   @override
@@ -55,14 +56,70 @@ class AppDrawer extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               children: [
-                ListItem(title: 'Medical Practicioners', onTap: null),
-                ListItem(title: 'Medical Services', onTap: null),
-                ListItem(title: 'Medical Facilities', onTap: null),
-                ListItem(title: 'Medical Concierge', onTap: null),
-                ListItem(title: 'Medical Store', onTap: null),
-                ListItem(title: 'Practicioner Resources', onTap: null),
-                ListItem(title: 'Patient Center', onTap: null),
-                ListItem(title: 'Employment Opportunities', onTap: null),
+                ListItem(title: 'Medical Practicioners', onTap: () {}),
+                ListItem(
+                    title: 'Medical Services',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: ServicesScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Medical Facilities',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: FacilitiesScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Medical Concierge',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: ConciergeScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Medical Store',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: StoreScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Practicioner Resources',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: ResourcesScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Patient Center',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: PatientCenterScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Employment Opportunities',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: EmploymentScreen(),
+                        ),
+                      );
+                    }),
               ],
             ),
           ),
@@ -74,7 +131,7 @@ class AppDrawer extends StatelessWidget {
 
 class ListItem extends StatelessWidget {
   final String title;
-  final Function onTap;
+  final GestureTapCallback onTap;
 
   const ListItem({
     Key key,
@@ -91,10 +148,14 @@ class ListItem extends StatelessWidget {
             title ?? '',
             style: Theme.of(context).textTheme.subtitle2,
           ),
-          onTap: onTap,
+          onTap: () {
+            // Pop the drawer before pushing a route
+            Navigator.of(context).pop();
+            onTap();
+          },
         ),
         Divider(
-          color: Theme.of(context).accentColor.withOpacity(0.5),
+          color: Theme.of(context).accentColor.withOpacity(0.4),
           indent: 2,
           endIndent: 2,
         ),
