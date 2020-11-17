@@ -1,3 +1,4 @@
+import 'package:doctors_of_kenya/screens/home/home.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
@@ -55,14 +56,70 @@ class AppDrawer extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               children: [
-                ListItem(title: 'Medical Practicioners', onTap: null),
-                ListItem(title: 'Medical Services', onTap: null),
-                ListItem(title: 'Medical Facilities', onTap: null),
-                ListItem(title: 'Medical Concierge', onTap: null),
-                ListItem(title: 'Medical Store', onTap: null),
-                ListItem(title: 'Practicioner Resources', onTap: null),
-                ListItem(title: 'Patient Center', onTap: null),
-                ListItem(title: 'Employment Opportunities', onTap: null),
+                ListItem(title: 'Medical Practicioners', onTap: () {}),
+                ListItem(
+                    title: 'Medical Services',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: ServicesScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Medical Facilities',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: FacilitiesScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Medical Concierge',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: ConciergeScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Medical Store',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: StoreScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Practicioner Resources',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: ResourcesScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Patient Center',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: PatientCenterScreen(),
+                        ),
+                      );
+                    }),
+                ListItem(
+                    title: 'Employment Opportunities',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: EmploymentScreen(),
+                        ),
+                      );
+                    }),
               ],
             ),
           ),
@@ -91,7 +148,11 @@ class ListItem extends StatelessWidget {
             title ?? '',
             style: Theme.of(context).textTheme.subtitle2,
           ),
-          onTap: onTap,
+          onTap: () {
+            // Pop the drawer before pushing a route
+            Navigator.of(context).pop();
+            onTap();
+          },
         ),
         Divider(
           color: Theme.of(context).accentColor.withOpacity(0.5),
