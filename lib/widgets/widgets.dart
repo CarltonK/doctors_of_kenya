@@ -6,3 +6,4 @@ export 'doctors_list.dart';
 export 'institutions_list.dart';
 export 'app_drawer.dart';
 export 'tab_widget.dart';
+export 'job_post_card.dart';
