@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           CircleButton(
             icon: CupertinoIcons.search,
-            onPressed: () => print('Search'),
+            onPressed: () => showSearch(context: context, delegate: Search()),
             tooltip: 'Search',
           ),
         ],
@@ -59,5 +59,42 @@ class HomeScreen extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
       ),
     );
+  }
+}
+
+class Search extends SearchDelegate {
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      CircleButton(
+        icon: Icons.clear,
+        color: Colors.black,
+        onPressed: () => query = '',
+      ),
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    return CircleButton(
+      icon: Icons.arrow_back_ios,
+      color: Colors.black,
+      onPressed: () => close(context, null),
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container(
+      child: Text(
+        query ?? '',
+        style: Theme.of(context).textTheme.subtitle1,
+      ),
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return Text(query);
   }
 }
