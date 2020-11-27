@@ -1,6 +1,6 @@
 export 'home_screen.dart';
 export 'services_screen.dart';
-export 'facilities_screen.dart';
+export 'medical_facilities/facilities.dart';
 export 'concierge_screen.dart';
 export 'store_screen.dart';
 export 'resources_screen.dart';
