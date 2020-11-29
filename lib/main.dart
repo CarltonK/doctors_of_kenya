@@ -72,14 +72,14 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.orange[600],
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: TextTheme(
-          headline4: miniheadlineStyle,
           headline5: headlineStyle,
+          headline4: miniheadlineStyle,
           headline3: headerWhite,
           subtitle1: subheadlineStyle,
           subtitle2: drawerItemStyle,
-          button: buttonStyle,
           bodyText1: normalWhite,
           bodyText2: subtitleWhite,
+          button: buttonStyle,
         ),
       ),
       home: FutureBuilder<FirebaseApp>(
