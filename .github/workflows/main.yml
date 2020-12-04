@@ -1,6 +1,6 @@
 name: Build and Release APK
 on:
-  pull_request:
+  push:
     branches: [ main ]
 
 jobs:
