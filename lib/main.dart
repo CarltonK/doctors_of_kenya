@@ -49,7 +49,13 @@ class MyApp extends StatelessWidget {
     letterSpacing: .2,
   );
 
-  final headerWhite = GoogleFonts.lato(
+  final headlineWhite = GoogleFonts.lato(
+    color: Colors.white,
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+  );
+
+  final subHeadlineWhite = GoogleFonts.lato(
     color: Colors.white,
     fontSize: 24,
     fontWeight: FontWeight.bold,
@@ -74,7 +80,8 @@ class MyApp extends StatelessWidget {
         textTheme: TextTheme(
           headline5: headlineStyle,
           headline4: miniheadlineStyle,
-          headline3: headerWhite,
+          headline3: subHeadlineWhite,
+          headline2: headlineWhite,
           subtitle1: subheadlineStyle,
           subtitle2: drawerItemStyle,
           bodyText1: normalWhite,

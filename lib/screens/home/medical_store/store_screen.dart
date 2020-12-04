@@ -1,48 +1,48 @@
-import 'package:doctors_of_kenya/models/models.dart';
+import 'package:doctors_of_kenya/screens/home/medical_store/store.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StoreScreen extends StatelessWidget {
+  Widget _tabHeaders() {
+    return TabBar(
+      tabs: [
+        TabWidget(title: 'Equipment'),
+        TabWidget(title: 'Attire'),
+        TabWidget(title: 'Perishables'),
+      ],
+    );
+  }
+
+  final List<Widget> _pages = [
+    EquipmentStore(),
+    AttireStore(),
+    PerishablesStore(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
-        title: Text(
-          'Medical Store',
-          style: Theme.of(context).textTheme.headline3,
-        ),
-        actions: [
-          CircleButton(
-            icon: CupertinoIcons.search,
-            onPressed: () => print('Search'),
-            tooltip: 'Search',
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).accentColor,
+          title: Text(
+            'Medical Store',
+            style: Theme.of(context).textTheme.headline3,
           ),
-        ],
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 8),
-          Container(
-            height: 130,
-            child: ListView.builder(
-              padding: const EdgeInsets.only(left: 10.0),
-              scrollDirection: Axis.horizontal,
-              itemCount: storeModels.length,
-              itemBuilder: (context, index) {
-                StoreModel _singleModel = storeModels[index];
-                return CategoryItem(
-                  storeModel: _singleModel,
-                );
-              },
+          actions: [
+            CircleButton(
+              icon: CupertinoIcons.search,
+              onPressed: () => print('Search'),
+              tooltip: 'Search',
             ),
-          ),
-          const SizedBox(height: 8),
-          Expanded(
-            child: Container(),
-          ),
-        ],
+          ],
+          bottom: _tabHeaders(),
+        ),
+        body: TabBarView(
+          children: _pages,
+        ),
       ),
     );
   }

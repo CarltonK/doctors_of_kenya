@@ -57,6 +57,19 @@ class HomeScreen extends StatelessWidget {
       drawer: AppDrawer(),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
+        child: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 3, vertical: 5),
+          children: [
+            PractitionerCard(),
+            PractitionerCard(),
+            PractitionerCard(),
+            PractitionerCard(),
+            PractitionerCard(),
+            PractitionerCard(),
+            PractitionerCard(),
+            PractitionerCard(),
+          ],
+        ),
       ),
     );
   }
