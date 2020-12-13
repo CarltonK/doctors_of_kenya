@@ -7,12 +7,6 @@ class JobPostCard extends StatelessWidget {
     return Card(
       child: ListTile(
         onTap: () => print("I want to view this job"),
-        leading: CircleButton(
-          icon: Icons.arrow_forward_ios,
-          iconSize: 30,
-          color: Colors.black.withOpacity(0.5),
-          onPressed: null,
-        ),
         title: Text(
           "Surgeon",
           style: Theme.of(context).textTheme.headline4,
