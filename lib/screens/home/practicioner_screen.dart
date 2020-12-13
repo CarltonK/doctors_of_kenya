@@ -67,7 +67,9 @@ class PracticionerScreen extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: Container(),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+            ),
           )
         ],
       ),
