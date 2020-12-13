@@ -29,13 +29,6 @@ class EmploymentScreen extends StatelessWidget {
             'Employment Opportunities',
             style: Theme.of(context).textTheme.headline3,
           ),
-          actions: [
-            CircleButton(
-              icon: CupertinoIcons.search,
-              onPressed: () => print('Search'),
-              tooltip: 'Search',
-            ),
-          ],
           bottom: _tabHeaders(),
         ),
         body: TabBarView(

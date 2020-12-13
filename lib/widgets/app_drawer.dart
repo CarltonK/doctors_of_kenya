@@ -102,15 +102,15 @@ class AppDrawer extends StatelessWidget {
                         ),
                       );
                     }),
-                ListItem(
-                    title: 'Patient Center',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        SlideLeftTransition(
-                          page: PatientCenterScreen(),
-                        ),
-                      );
-                    }),
+                // ListItem(
+                //     title: 'Patient Center',
+                //     onTap: () {
+                //       Navigator.of(context).push(
+                //         SlideLeftTransition(
+                //           page: PatientCenterScreen(),
+                //         ),
+                //       );
+                //     }),
                 ListItem(
                     title: 'Employment Opportunities',
                     onTap: () {
