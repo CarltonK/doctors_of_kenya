@@ -58,68 +58,74 @@ class AppDrawer extends StatelessWidget {
               children: [
                 ListItem(title: 'Medical Practicioners', onTap: () {}),
                 ListItem(
-                    title: 'Medical Services',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        SlideLeftTransition(
-                          page: ServicesScreen(),
-                        ),
-                      );
-                    }),
+                  title: 'Medical Services',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      SlideLeftTransition(
+                        page: ServicesScreen(),
+                      ),
+                    );
+                  },
+                ),
                 ListItem(
-                    title: 'Medical Facilities',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        SlideLeftTransition(
-                          page: FacilitiesScreen(),
-                        ),
-                      );
-                    }),
+                  title: 'Medical Facilities',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      SlideLeftTransition(
+                        page: FacilitiesScreen(),
+                      ),
+                    );
+                  },
+                ),
                 ListItem(
-                    title: 'Medical Concierge',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        SlideLeftTransition(
-                          page: ConciergeScreen(),
-                        ),
-                      );
-                    }),
+                  title: 'Medical Concierge',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      SlideLeftTransition(
+                        page: ConciergeScreen(),
+                      ),
+                    );
+                  },
+                ),
                 ListItem(
-                    title: 'Medical Store',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        SlideLeftTransition(
-                          page: StoreScreen(),
-                        ),
-                      );
-                    }),
+                  title: 'Medical Store',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      SlideLeftTransition(
+                        page: StoreScreen(),
+                      ),
+                    );
+                  },
+                ),
                 ListItem(
-                    title: 'Practicioner Resources',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        SlideLeftTransition(
-                          page: ResourcesScreen(),
-                        ),
-                      );
-                    }),
+                  title: 'Practicioner Resources',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      SlideLeftTransition(
+                        page: ResourcesScreen(),
+                      ),
+                    );
+                  },
+                ),
+                // ListItem(
+                //     title: 'Patient Center',
+                //     onTap: () {
+                //       Navigator.of(context).push(
+                //         SlideLeftTransition(
+                //           page: PatientCenterScreen(),
+                //         ),
+                //       );
+                //     }),
                 ListItem(
-                    title: 'Patient Center',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        SlideLeftTransition(
-                          page: PatientCenterScreen(),
-                        ),
-                      );
-                    }),
-                ListItem(
-                    title: 'Employment Opportunities',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        SlideLeftTransition(
-                          page: EmploymentScreen(),
-                        ),
-                      );
-                    }),
+                  title: 'Employment Opportunities',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      SlideLeftTransition(
+                        page: EmploymentScreen(),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),

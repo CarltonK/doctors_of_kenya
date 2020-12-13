@@ -36,13 +36,6 @@ class ServicesScreen extends StatelessWidget {
             'Medical Services',
             style: Theme.of(context).textTheme.headline3,
           ),
-          actions: [
-            CircleButton(
-              icon: CupertinoIcons.search,
-              onPressed: () => print('Search'),
-              tooltip: 'Search',
-            ),
-          ],
           bottom: _tabHeaders(),
         ),
         body: TabBarView(
