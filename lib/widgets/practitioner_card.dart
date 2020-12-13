@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctors_of_kenya/screens/home/home.dart';
+import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,11 @@ class PractitionerCard extends StatelessWidget {
       alignment: Alignment.center,
       child: CircleButton(
         icon: Icons.arrow_forward_sharp,
-        onPressed: null,
+        onPressed: () => Navigator.of(context).push(
+          SlideLeftTransition(
+            page: PracticionerScreen(),
+          ),
+        ),
         iconSize: 40,
       ),
     );
