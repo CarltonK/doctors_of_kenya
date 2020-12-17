@@ -98,7 +98,7 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListItem(
-                  title: 'Practicioner Resources',
+                  title: 'Resources',
                   onTap: () {
                     Navigator.of(context).push(
                       SlideLeftTransition(
@@ -117,7 +117,7 @@ class AppDrawer extends StatelessWidget {
                 //       );
                 //     }),
                 ListItem(
-                  title: 'Employment Opportunities',
+                  title: 'Opportunities',
                   onTap: () {
                     Navigator.of(context).push(
                       SlideLeftTransition(
