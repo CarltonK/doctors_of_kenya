@@ -1,28 +1,28 @@
-import 'package:doctors_of_kenya/screens/home/medical_services/services.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:doctors_of_kenya/screens/home/practitioner_resources/resources.dart';
 
-class ServicesScreen extends StatelessWidget {
+class ResourcesScreen extends StatelessWidget {
   Widget _tabHeaders() {
     return TabBar(
       isScrollable: true,
       tabs: [
-        TabWidget(title: 'Wellness'),
-        TabWidget(title: 'Preventive'),
-        TabWidget(title: 'Diagnostic'),
-        TabWidget(title: 'Therapeutic'),
-        TabWidget(title: 'Rehabilitative'),
+        TabWidget(title: 'Legal'),
+        TabWidget(title: 'Insurance'),
+        TabWidget(title: 'Financial'),
+        TabWidget(title: 'Networking'),
+        TabWidget(title: 'Education'),
       ],
     );
   }
 
   final List<Widget> _pages = [
-    WellnessServices(),
-    PreventiveServices(),
-    DiagnosticServices(),
-    TherapeuticServices(),
-    RehabiilitativeServices(),
+    LegalScreen(),
+    InsuranceScreen(),
+    FinancialScreen(),
+    NetworkingScreen(),
+    EducationScreen(),
   ];
 
   @override
@@ -33,7 +33,7 @@ class ServicesScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).accentColor,
           title: Text(
-            'Services',
+            'Practicioner Resources',
             style: Theme.of(context).textTheme.headline3,
           ),
           bottom: _tabHeaders(),

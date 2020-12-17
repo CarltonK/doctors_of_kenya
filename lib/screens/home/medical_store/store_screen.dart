@@ -28,7 +28,7 @@ class StoreScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).accentColor,
           title: Text(
-            'Medical Store',
+            'Store',
             style: Theme.of(context).textTheme.headline3,
           ),
           bottom: _tabHeaders(),
