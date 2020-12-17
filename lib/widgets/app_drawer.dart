@@ -58,7 +58,7 @@ class AppDrawer extends StatelessWidget {
               children: [
                 ListItem(title: 'Medical Practicioners', onTap: () {}),
                 ListItem(
-                  title: 'Medical Services',
+                  title: 'Services',
                   onTap: () {
                     Navigator.of(context).push(
                       SlideLeftTransition(
@@ -68,7 +68,7 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListItem(
-                  title: 'Medical Facilities',
+                  title: 'Facilities',
                   onTap: () {
                     Navigator.of(context).push(
                       SlideLeftTransition(
@@ -78,7 +78,7 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListItem(
-                  title: 'Medical Concierge',
+                  title: 'Concierge',
                   onTap: () {
                     Navigator.of(context).push(
                       SlideLeftTransition(
@@ -88,7 +88,7 @@ class AppDrawer extends StatelessWidget {
                   },
                 ),
                 ListItem(
-                  title: 'Medical Store',
+                  title: 'Store',
                   onTap: () {
                     Navigator.of(context).push(
                       SlideLeftTransition(
