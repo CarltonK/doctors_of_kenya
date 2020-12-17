@@ -9,19 +9,21 @@ class EmploymentScreen extends StatelessWidget {
       tabs: [
         TabWidget(title: 'Permanent'),
         TabWidget(title: 'Contract'),
+        TabWidget(title: 'NGO'),
       ],
     );
   }
 
   final List<Widget> _pages = [
     PermanentEmploymentScreen(),
-    ContractEmploymentScreen()
+    ContractEmploymentScreen(),
+    InternationalScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 3,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).accentColor,
