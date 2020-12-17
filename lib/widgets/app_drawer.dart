@@ -56,7 +56,7 @@ class AppDrawer extends StatelessWidget {
             child: ListView(
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
               children: [
-                ListItem(title: 'Medical Practitioners', onTap: () {}),
+                ListItem(title: 'Practitioners', onTap: () {}),
                 ListItem(
                   title: 'Services',
                   onTap: () {
