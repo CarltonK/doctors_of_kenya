@@ -1,34 +1,39 @@
-import 'package:doctors_of_kenya/screens/home/home.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:doctors_of_kenya/screens/home/practitioner_resources/resources.dart';
 
-class EmploymentScreen extends StatelessWidget {
+class ResourcesScreen extends StatelessWidget {
   Widget _tabHeaders() {
     return TabBar(
+      isScrollable: true,
       tabs: [
-        TabWidget(title: 'Permanent'),
-        TabWidget(title: 'Contract'),
-        TabWidget(title: 'NGO'),
+        TabWidget(title: 'Legal'),
+        TabWidget(title: 'Insurance'),
+        TabWidget(title: 'Financial'),
+        TabWidget(title: 'Networking'),
+        TabWidget(title: 'Education'),
       ],
     );
   }
 
   final List<Widget> _pages = [
-    PermanentEmploymentScreen(),
-    ContractEmploymentScreen(),
-    InternationalScreen(),
+    LegalScreen(),
+    InsuranceScreen(),
+    FinancialScreen(),
+    NetworkingScreen(),
+    EducationScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).accentColor,
           title: Text(
-            'Employment Opportunities',
+            'Practicioner Resources',
             style: Theme.of(context).textTheme.headline3,
           ),
           bottom: _tabHeaders(),

@@ -1,6 +1,7 @@
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:doctors_of_kenya/screens/home/medical_practictoners/practitioners.dart';
 
 class HomeScreen extends StatelessWidget {
   // Widget _firstOption() {
@@ -35,36 +36,49 @@ class HomeScreen extends StatelessWidget {
   //   );
   // }
 
+  Widget _tabHeaders() {
+    return TabBar(
+      tabs: [
+        TabWidget(title: 'Doctors'),
+        TabWidget(title: 'Dentists'),
+        TabWidget(title: 'Non-clinical'),
+        TabWidget(title: 'Others'),
+      ],
+    );
+  }
+
+  final List<Widget> _pages = [
+    DoctorsScreen(),
+    DentistScreen(),
+    NonClinicalScreen(),
+    OthersScreen(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).accentColor,
-        title: Text(
-          'Medical Practicioners',
-          style: Theme.of(context).textTheme.headline3,
-        ),
-        actions: [
-          CircleButton(
-            icon: CupertinoIcons.search,
-            onPressed: () => showSearch(context: context, delegate: Search()),
-            tooltip: 'Search',
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).accentColor,
+          title: Text(
+            'Medical Practicioners',
+            style: Theme.of(context).textTheme.headline3,
           ),
-        ],
-      ),
-      drawerEnableOpenDragGesture: false,
-      drawer: AppDrawer(),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-          children: [
-            PractitionerCard(),
-            PractitionerCard(),
-            PractitionerCard(),
-            PractitionerCard(),
+          bottom: _tabHeaders(),
+          actions: [
+            CircleButton(
+              icon: CupertinoIcons.search,
+              onPressed: () => showSearch(context: context, delegate: Search()),
+              tooltip: 'Search',
+            ),
           ],
+        ),
+        drawerEnableOpenDragGesture: false,
+        drawer: AppDrawer(),
+        body: TabBarView(
+          children: _pages,
         ),
       ),
     );

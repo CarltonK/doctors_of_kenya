@@ -8,21 +8,21 @@ class ServicesScreen extends StatelessWidget {
     return TabBar(
       isScrollable: true,
       tabs: [
+        TabWidget(title: 'Wellness'),
         TabWidget(title: 'Preventive'),
         TabWidget(title: 'Diagnostic'),
         TabWidget(title: 'Therapeutic'),
         TabWidget(title: 'Rehabilitative'),
-        TabWidget(title: 'Wellness'),
       ],
     );
   }
 
   final List<Widget> _pages = [
+    WellnessServices(),
     PreventiveServices(),
     DiagnosticServices(),
     TherapeuticServices(),
     RehabiilitativeServices(),
-    WellnessServices(),
   ];
 
   @override
@@ -33,7 +33,7 @@ class ServicesScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).accentColor,
           title: Text(
-            'Medical Services',
+            'Services',
             style: Theme.of(context).textTheme.headline3,
           ),
           bottom: _tabHeaders(),

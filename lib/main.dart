@@ -15,18 +15,18 @@ class MyApp extends StatelessWidget {
 
   final headlineStyle = GoogleFonts.lato(
     fontWeight: FontWeight.w700,
-    fontSize: 30,
+    fontSize: 27,
   );
 
   final miniheadlineStyle = GoogleFonts.lato(
     fontWeight: FontWeight.w700,
-    fontSize: 24,
+    fontSize: 21,
     color: Colors.black,
   );
 
   final subheadlineStyle = GoogleFonts.lato(
     fontWeight: FontWeight.w500,
-    fontSize: 18,
+    fontSize: 15,
   );
 
   final drawerItemStyle = GoogleFonts.lato(
@@ -51,21 +51,19 @@ class MyApp extends StatelessWidget {
 
   final headlineWhite = GoogleFonts.lato(
     color: Colors.white,
-    fontSize: 30,
+    fontSize: 27,
     fontWeight: FontWeight.bold,
   );
 
   final subHeadlineWhite = GoogleFonts.lato(
     color: Colors.white,
-    fontSize: 24,
+    fontSize: 21,
     fontWeight: FontWeight.bold,
-    letterSpacing: .2,
   );
 
   final subtitleWhite = GoogleFonts.lato(
     color: Colors.white,
-    fontSize: 18,
-    letterSpacing: .2,
+    fontSize: 15,
   );
 
   @override
