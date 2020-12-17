@@ -33,7 +33,7 @@ class ResourcesScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Theme.of(context).accentColor,
           title: Text(
-            'Practicioner Resources',
+            'Resources',
             style: Theme.of(context).textTheme.headline3,
           ),
           bottom: _tabHeaders(),
