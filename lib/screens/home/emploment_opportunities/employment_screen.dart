@@ -11,6 +11,7 @@ class EmploymentScreen extends StatelessWidget {
         TabWidget(title: 'Contract'),
         TabWidget(title: 'NGO'),
       ],
+      isScrollable: true,
     );
   }
 

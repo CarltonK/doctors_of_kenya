@@ -1,7 +1,7 @@
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:doctors_of_kenya/screens/home/medical_practictoners/practitioners.dart';
+import 'package:doctors_of_kenya/screens/home/medical_practitioners/practitioners.dart';
 
 class HomeScreen extends StatelessWidget {
   // Widget _firstOption() {
@@ -44,6 +44,7 @@ class HomeScreen extends StatelessWidget {
         TabWidget(title: 'Non-clinical'),
         TabWidget(title: 'Others'),
       ],
+      isScrollable: true,
     );
   }
 
