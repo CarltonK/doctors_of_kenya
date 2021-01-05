@@ -11,6 +11,7 @@ class StoreScreen extends StatelessWidget {
         TabWidget(title: 'Attire'),
         TabWidget(title: 'Perishables'),
       ],
+      isScrollable: true,
     );
   }
 

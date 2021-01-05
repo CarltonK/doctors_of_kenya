@@ -11,6 +11,7 @@ class ConciergeScreen extends StatelessWidget {
         TabWidget(title: 'Pharmaceutical'),
         TabWidget(title: 'Equipment'),
       ],
+      isScrollable: true,
     );
   }
 
