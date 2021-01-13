@@ -1,1 +1,2 @@
-export 'styles.dart';
+export 'textStyles.dart';
+export 'pageStyles.dart';
