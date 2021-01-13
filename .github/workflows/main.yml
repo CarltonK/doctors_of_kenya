@@ -14,11 +14,13 @@ jobs:
         java-version: '12.x'
     - uses: subosito/flutter-action@v1
       with:
-        channel: 'stable'
+        channel: 'beta'
 
+    - run: flutter config --enable-web
     - run: flutter pub get
     # - run: flutter test --> Uncomment this line IF testing has been implemented
     - run: flutter build apk --shrink --target-platform android-arm
+    - run: flutter build web
 
     - name: Push APK to Releases
       uses: ncipollo/release-action@v1
@@ -41,3 +43,13 @@ jobs:
         token: ${{ secrets.FIREBASE_TOKEN }}
         groups: admin
         file: build/app/outputs/apk/release/app-release.apk
+
+    - name: Deploy to Firebase Hosting
+      uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SANLAM_9F2AD }}'
+        channelId: live
+        projectId: '${{ secrets.PROJECT_ID }}'
+      env:
+        FIREBASE_CLI_PREVIEWS: hostingchannels
