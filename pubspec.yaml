@@ -31,6 +31,10 @@ dependencies:
   
   cupertino_icons: ^1.0.0
 
+dependency_overrides:
+  # Override path_provider to pick up fixes for FFI changes.
+  path_provider: ^1.6.28
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
