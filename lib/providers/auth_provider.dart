@@ -27,6 +27,22 @@ class AuthProvider with ChangeNotifier {
   }
 
   /*
+  ANONYMOUS LOGIN
+  */
+  Future anonymousSignIn() async {
+    try {
+      UserCredential result = await FirebaseAuth.instance.signInAnonymously();
+      currentUser = result.user;
+
+      return Future.value(currentUser);
+    } catch (e) {
+      _status = Status.Unauthenticated;
+      notifyListeners();
+      return null;
+    }
+  }
+
+  /*
   USER LOGIN
   */
   Future signInEmailPass(UserModel user) async {
