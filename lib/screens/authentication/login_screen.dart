@@ -1,9 +1,11 @@
 import 'package:doctors_of_kenya/constants/constants.dart';
+import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/screens/authentication/authentication.dart';
 import 'package:doctors_of_kenya/screens/home/home.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -129,6 +131,13 @@ class LoginBody extends StatelessWidget {
                     page: RegistrationScreen(),
                   ),
                 ),
+              ),
+              const SizedBox(height: 8),
+              NavigationHelper(
+                leading: "Only want to have a look around?",
+                action: "Sign In",
+                onTap: () => Provider.of<AuthProvider>(context, listen: false)
+                    .anonymousSignIn(),
               ),
             ],
           ),
