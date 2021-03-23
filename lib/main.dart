@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/screens/authentication/authentication.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -8,11 +9,27 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:doctors_of_kenya/constants/constants.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  final List<SingleChildWidget> providers = [
+    ChangeNotifierProvider(
+      create: (context) => AuthProvider.instance(),
+    ),
+    Provider(
+      create: (context) => DatabaseProvider(),
+    ),
+  ];
+
   runZonedGuarded(() {
-    runApp(MyApp());
+    runApp(
+      MultiProvider(
+        providers: providers,
+        child: MyApp(),
+      ),
+    );
   }, (error, stackTrace) {
     FirebaseCrashlytics.instance.recordError(error, stackTrace);
   });
