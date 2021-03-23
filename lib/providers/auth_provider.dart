@@ -9,6 +9,9 @@ class AuthProvider with ChangeNotifier {
   User currentUser;
   Status _status = Status.Uninitialized;
 
+  Status get status => _status;
+  User get user => currentUser;
+
   AuthProvider.instance() : auth = FirebaseAuth.instance {
     auth.authStateChanges().listen(_onAuthStateChanged);
   }
@@ -30,6 +33,8 @@ class AuthProvider with ChangeNotifier {
   ANONYMOUS LOGIN
   */
   Future anonymousSignIn() async {
+    _status = Status.Authenticating;
+    notifyListeners();
     try {
       UserCredential result = await FirebaseAuth.instance.signInAnonymously();
       currentUser = result.user;
@@ -82,7 +87,7 @@ class AuthProvider with ChangeNotifier {
   /*
   USER LOGOUT
   */
-  Future<void> logout() async {
+  Future<void> signOut() async {
     auth.signOut();
     _status = Status.Unauthenticated;
     notifyListeners();
