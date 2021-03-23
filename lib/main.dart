@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/screens/authentication/authentication.dart';
 import 'package:firebase_core/firebase_core.dart';
