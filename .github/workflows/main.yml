@@ -11,10 +11,10 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-java@v1
       with:
-        java-version: '12.x'
+        java-version: '1.8'
     - uses: subosito/flutter-action@v1
       with:
-        channel: 'beta'
+        channel: 'stable'
 
     - run: flutter config --enable-web
     - run: flutter pub get
@@ -26,7 +26,7 @@ jobs:
       uses: ncipollo/release-action@v1
       with:
         commit: main
-        artifacts: "build/app/outputs/apk/release/*.apk"
+        artifacts: "build/app/outputs/flutter-apk/*.apk"
         token: ${{ secrets.TOKEN }}
         tag: v1.1.${{ github.run_number }}
 
@@ -48,7 +48,7 @@ jobs:
       uses: FirebaseExtended/action-hosting-deploy@v0
       with:
         repoToken: '${{ secrets.GITHUB_TOKEN }}'
-        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SANLAM_9F2AD }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCTORS_OF_KENYA }}'
         channelId: live
         projectId: '${{ secrets.PROJECT_ID }}'
       env:
