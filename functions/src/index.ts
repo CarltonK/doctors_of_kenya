@@ -1,9 +1,26 @@
 import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
+import { Logger } from '@firebase/logger';
+import FirestoreUserHandler from './handlers/firestore_user';
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//   functions.logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+admin.initializeApp();
+
+const GlobalFirestoreUserHandler = new FirestoreUserHandler();
+
+// Define Logger
+const logger = new Logger('Root');
+logger.setLogLevel('debug');
+
+// Define Static Functions
+const runtimeOpts: functions.RuntimeOptions = {
+    memory: '512MB',
+    timeoutSeconds: 60,
+    ingressSettings: 'ALLOW_ALL',
+}
+const regionalFunctions = functions.runWith(runtimeOpts);
+
+
+/*
+FIRESTORE TRIGGERS
+*/
+export const onNewUserCreated = regionalFunctions.auth.user().onCreate(GlobalFirestoreUserHandler.newUserHandler.bind(GlobalFirestoreUserHandler));
