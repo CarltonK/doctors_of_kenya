@@ -41,13 +41,12 @@ steps:
 
         echo
         echo "**********************************************"
-        echo "* Build functions *"
+        echo "* Install modules *"
         echo "**********************************************"
         echo
 
         cd ./functions
         npm install
-        npm run build
 
         echo
         echo "**********************************************"
