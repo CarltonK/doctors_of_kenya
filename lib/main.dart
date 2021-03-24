@@ -12,9 +12,6 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 void main() {
-  // Pass all uncaught errors to Crashlytics.
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-
   WidgetsFlutterBinding.ensureInitialized();
   final List<SingleChildWidget> providers = [
     ChangeNotifierProvider(
@@ -78,6 +75,10 @@ class MyApp extends StatelessWidget {
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
+            // Pass all uncaught errors to Crashlytics.
+            FlutterError.onError =
+                FirebaseCrashlytics.instance.recordFlutterError;
+
             return Consumer<AuthProvider>(
               builder: (context, value, child) {
                 if (value.status == Status.Authenticated) return HomeScreen();
