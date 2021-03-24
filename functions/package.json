@@ -4,6 +4,8 @@
     "lint": "eslint \"src/**/*\"",
     "build": "tsc",
     "serve": "npm run build && firebase emulators:start --only functions",
+    "serve:dev": "npm run kill && npm run build && firebase emulators:start --import=./data",
+    "local": "npm run build && firebase emulators:start --import=./data",
     "shell": "npm run build && firebase functions:shell",
     "local:dev": "firebase emulators:start",
     "start": "npm run shell",
