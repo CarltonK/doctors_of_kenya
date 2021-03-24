@@ -1,7 +1,9 @@
+import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:doctors_of_kenya/screens/home/medical_practitioners/practitioners.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   // Widget _firstOption() {
@@ -73,6 +75,12 @@ class HomeScreen extends StatelessWidget {
               icon: CupertinoIcons.search,
               onPressed: () => showSearch(context: context, delegate: Search()),
               tooltip: 'Search',
+            ),
+            CircleButton(
+              icon: Icons.exit_to_app,
+              onPressed: () =>
+                  Provider.of<AuthProvider>(context, listen: false).signOut(),
+              tooltip: 'Signout',
             ),
           ],
         ),
