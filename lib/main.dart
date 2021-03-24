@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Trigger workflow');
     return MaterialApp(
       title: 'Doctors of Kenya',
       debugShowCheckedModeBanner: false,
