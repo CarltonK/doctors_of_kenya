@@ -17,7 +17,7 @@ const runtimeOpts: functions.RuntimeOptions = {
     timeoutSeconds: 60,
     ingressSettings: 'ALLOW_ALL',
 }
-const regionalFunctions = functions.runWith(runtimeOpts);
+const regionalFunctions = functions.runWith(runtimeOpts).region('europe-west2');
 
 
 /*
