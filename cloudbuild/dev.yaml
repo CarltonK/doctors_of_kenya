@@ -32,27 +32,37 @@ steps:
 
         echo
         echo "**********************************************"
+        echo "* Install firebase *"
+        echo "**********************************************"
+        echo
+
+        npm install -g firebase-tools
+        npm install --save firebase-functions@latest
+
+        echo
+        echo "**********************************************"
         echo "* Build functions *"
         echo "**********************************************"
         echo
 
-          cd ./functions
-          npm install
-          npm run lint
-          npm run build
-          
-  - id: "Deploy functions"
-    name: "gcr.io/$PROJECT_ID/firebase"
-    args: [
-      "deploy",
-      "--only=functions",
-      "--project=${_PROJECT_ID}"
-    ]
+        cd ./functions
+        npm install
+        npm run build
 
-  - id: "Deploy firestore rules"
-    name: "gcr.io/$PROJECT_ID/firebase"
-    args: [
-      "deploy", 
-      "--only=firestore:rules", 
-      "--project=${_PROJECT_ID}"
-    ]
+        echo
+        echo "**********************************************"
+        echo "* Deploy functions *"
+        echo "**********************************************"
+        echo
+
+        firebase deploy --only functions --project=${_PROJECT_ID} --token=${_FIREBASE_TOKEN}
+
+        echo
+        echo "**********************************************"
+        echo "* Deploy rules *"
+        echo "**********************************************"
+        echo
+
+        firebase deploy --only firestore:rules --project=${_PROJECT_ID} --token=${_FIREBASE_TOKEN}
+
+        
