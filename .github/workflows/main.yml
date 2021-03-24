@@ -16,11 +16,11 @@ jobs:
       with:
         channel: 'stable'
 
-    - run: flutter config --enable-web
+    # - run: flutter config --enable-web
     - run: flutter pub get
     # - run: flutter test --> Uncomment this line IF testing has been implemented
     - run: flutter build apk --shrink --target-platform android-arm
-    - run: flutter build web
+    # - run: flutter build web
 
     - name: Push APK to Releases
       uses: ncipollo/release-action@v1
