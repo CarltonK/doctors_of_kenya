@@ -12,6 +12,9 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 void main() {
+  // Pass all uncaught errors to Crashlytics.
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
   WidgetsFlutterBinding.ensureInitialized();
   final List<SingleChildWidget> providers = [
     ChangeNotifierProvider(
