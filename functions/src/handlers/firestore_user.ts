@@ -20,7 +20,7 @@ export default class FirestoreUserHandler {
                 email: user.email ?? null,
             });
         } catch (error) {
-            this.logger.error('newUserHandler', error);
+            this.logger.error('newUserHandler: ', error);
         }
         return;
     }
