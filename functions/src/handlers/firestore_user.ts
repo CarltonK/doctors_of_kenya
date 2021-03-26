@@ -1,26 +1,21 @@
-import { auth, firestore } from 'firebase-admin';
-import { Logger } from '@firebase/logger';
+import { Logger } from "@firebase/logger";
 import * as functions from 'firebase-functions';
+import { firestore } from 'firebase-admin';
 
 export default class FirestoreUserHandler {
     private logger: Logger = new Logger('FirestoreUserHandler');
-    private db: firestore.Firestore = firestore();
+    // private db: firestore.Firestore = firestore();
 
     constructor() {
         this.logger.setLogLevel('debug');
     }
 
-    public async newUserHandler(user: auth.UserRecord, context: functions.EventContext) {
-        // Main Doc Reference
-        const userRef = this.db.doc(`users/${user.uid}`);
+    public async newUserDocumentHandler(snapshot: firestore.QueryDocumentSnapshot, context: functions.EventContext) {
 
         try {
-            await userRef.set({
-                uid: user.uid,
-                email: user.email ?? null,
-            });
+            this.logger.info('The new user is identified by: ', snapshot.data().uid);
         } catch (error) {
-            this.logger.error('newUserHandler', error);
+            this.logger.error('newUserDocumentHandler: ', error);
         }
         return;
     }
