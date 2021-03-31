@@ -4,7 +4,7 @@ import { firestore } from 'firebase-admin';
 
 export default class FirestoreUserHandler {
     private logger: Logger = new Logger('FirestoreUserHandler');
-    // private db: firestore.Firestore = firestore();
+    private db: firestore.Firestore = firestore();
 
     constructor() {
         this.logger.setLogLevel('debug');
@@ -15,7 +15,7 @@ export default class FirestoreUserHandler {
             try {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
-                firestore().doc('users/{${snapshot.data().uid}}/public_profile').set({
+                this.db.doc(`users/{${snapshot.data().uid}}/public_profile/{${snapshot.data().uid}}}`).set({
                     Name: snapshot.data().name,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
@@ -35,7 +35,7 @@ export default class FirestoreUserHandler {
             try {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
-                firestore().doc('users/{${snapshot.data().uid}}/public_profile').set({
+                this.db.doc(`users/{${snapshot.data().uid}}/public_profile/{${snapshot.data().uid}}`).set({
                     Name: snapshot.data().name,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex ?? "",
@@ -50,7 +50,7 @@ export default class FirestoreUserHandler {
 
                 });
                 //private profile
-                firestore().doc('users/{${snapshot.data().uid}}/private_profile').set({
+                this.db.doc(`users/{${snapshot.data().uid}}/private_profile/{${snapshot.data().uid}}`).set({
                     Name: snapshot.data().name,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
@@ -67,7 +67,7 @@ export default class FirestoreUserHandler {
             try {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set institution public profile
-                firestore().doc('users/{${snapshot.data().uid}}/public_profile').set({
+                this.db.doc(`users/{${snapshot.data().uid}}/public_profile/{${snapshot.data().uid}}`).set({
                     Name: snapshot.data().name,
                     Location: snapshot.data().location,
                     contact: snapshot.data().contact,
@@ -77,7 +77,7 @@ export default class FirestoreUserHandler {
 
                 });
                 //institution private profile
-                firestore().doc('users/{${snapshot.data().uid}}/private_profile').set({
+                this.db.doc(`users/{${snapshot.data().uid}}/private_profile/{${snapshot.data().uid}}`).set({
                     Name: snapshot.data().name,
                     location: snapshot.data().location,
                     liasonContacts: snapshot.data().liasonContacts,
@@ -94,7 +94,7 @@ export default class FirestoreUserHandler {
             try {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public Liason profile
-                firestore().doc('users/{${snapshot.data().uid}}/public_profile').set({
+                this.db.doc(`users/{${snapshot.data().uid}}/public_profile/{${snapshot.data().uid}}`).set({
                     Name: snapshot.data().name,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex ?? "",
@@ -105,7 +105,7 @@ export default class FirestoreUserHandler {
 
                 });
                 //private Liason profile
-                firestore().doc('users/{${snapshot.data().uid}}/private_profile').set({
+                this.db.doc(`users/{${snapshot.data().uid}}/private_profile/{${snapshot.data().uid}}`).set({
                     Name: snapshot.data().name,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
