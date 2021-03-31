@@ -15,7 +15,7 @@ export default class FirestoreUserHandler {
             try {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
-                this.db.doc(`users/{${snapshot.data().uid}}/public_profile/{${snapshot.data().uid}}}`).set({
+                this.db.doc(`users/${snapshot.data().uid}/public_profile/${snapshot.data().uid}`).set({
                     Name: snapshot.data().name,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
@@ -35,7 +35,7 @@ export default class FirestoreUserHandler {
             try {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
-                this.db.doc(`users/{${snapshot.data().uid}}/public_profile/{${snapshot.data().uid}}`).set({
+                this.db.doc(`users/${snapshot.data().uid}/public_profile/${snapshot.data().uid}`).set({
                     Name: snapshot.data().name,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex ?? "",
@@ -50,7 +50,7 @@ export default class FirestoreUserHandler {
 
                 });
                 //private profile
-                this.db.doc(`users/{${snapshot.data().uid}}/private_profile/{${snapshot.data().uid}}`).set({
+                this.db.doc(`users/${snapshot.data().uid}/private_profile/${snapshot.data().uid}`).set({
                     Name: snapshot.data().name,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
@@ -63,38 +63,12 @@ export default class FirestoreUserHandler {
             } catch (error) {
                 this.logger.error('newUserDocumentHandler: ', error);
             }
-        } else if (snapshot.data().role == 'institution') {
-            try {
-                this.logger.info('The new user is identified by: ', snapshot.data().uid);
-                //set institution public profile
-                this.db.doc(`users/{${snapshot.data().uid}}/public_profile/{${snapshot.data().uid}}`).set({
-                    Name: snapshot.data().name,
-                    Location: snapshot.data().location,
-                    contact: snapshot.data().contact,
-                    affiliated: snapshot.data().affiliated,
-                    services: snapshot.data().services,
-                    paymentsMode: snapshot.data().paymentsMode,
-
-                });
-                //institution private profile
-                this.db.doc(`users/{${snapshot.data().uid}}/private_profile/{${snapshot.data().uid}}`).set({
-                    Name: snapshot.data().name,
-                    location: snapshot.data().location,
-                    liasonContacts: snapshot.data().liasonContacts,
-                    discountfacilitis: snapshot.data().discountfacilitis,
-                    serviceSpecifics: snapshot.data().serviceSpecifics,
-                    practionerSpecifics: snapshot.data().practionerSpecifics,
-
-                });
-            } catch (error) {
-                this.logger.error('newUserDocumentHandler: ', error);
-            }
         }
         else {
             try {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public Liason profile
-                this.db.doc(`users/{${snapshot.data().uid}}/public_profile/{${snapshot.data().uid}}`).set({
+                this.db.doc(`users/${snapshot.data().uid}/public_profile/${snapshot.data().uid}`).set({
                     Name: snapshot.data().name,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex ?? "",
@@ -105,7 +79,7 @@ export default class FirestoreUserHandler {
 
                 });
                 //private Liason profile
-                this.db.doc(`users/{${snapshot.data().uid}}/private_profile/{${snapshot.data().uid}}`).set({
+                this.db.doc(`users/${snapshot.data().uid}/private_profile/${snapshot.data().uid}`).set({
                     Name: snapshot.data().name,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
