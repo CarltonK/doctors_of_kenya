@@ -16,8 +16,8 @@ export default class FirestoreUserHandler {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
                 this.db.doc(`users/${snapshot.data().uid}/public_profile/${snapshot.data().uid}`).set({
-                    firstname: snapshot.data().firstname,
-                    lastname: snapshot.data().lastname,
+                    firstfirstName: snapshot.data().firstfirstName,
+                    lastfirstName: snapshot.data().lastfirstName,
                     age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
                     designation: snapshot.data().designation,
@@ -37,22 +37,23 @@ export default class FirestoreUserHandler {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
                 this.db.doc(`users/${snapshot.data().uid}/public_profile/${snapshot.data().uid}`).set({
-                    Name: snapshot.data().name,
-                    Age: snapshot.data().age ?? "",
+                    firstfirstName: snapshot.data().firstfirstName,
+                    lastfirstName: snapshot.data().lastfirstName,
+                    age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex ?? "",
-                    userID: snapshot.data().uid,
-                    mpdRegistrationNumber: snapshot.data().mpdRegistrationNumber ?? null,
-                    mpdRegistrationDate: snapshot.data().mpdRegistrationDate ?? null,
-                    address: snapshot.data().address ?? null,
+                    mpdbRegNumber: snapshot.data().mpdbRegNumber ?? null,
+                    mpdbRegDate: snapshot.data().mpdbRegDate ?? null,
+                    userAddress: snapshot.data().userAddress ?? null,
                     countyOfPrimaryWork: snapshot.data().countyOfPrimaryWork ?? null,
-                    officeContact: snapshot.data().officeContact ?? null,
+                    userContact: snapshot.data().userContact ?? null,
                     email: snapshot.data().email ?? null,
-                    professionalQualification: snapshot.data().professionalQualification ?? null,
+                    professionalQualifications: snapshot.data().professionalQualification ?? null,
 
                 });
                 //private profile
                 this.db.doc(`users/${snapshot.data().uid}/private_profile/${snapshot.data().uid}`).set({
-                    Name: snapshot.data().name,
+                    firstName: snapshot.data().firstName,
+                    lastName: snapshot.data().lastName,
                     Age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
                     userID: snapshot.data().uid,
@@ -70,8 +71,8 @@ export default class FirestoreUserHandler {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public Liason profile
                 this.db.doc(`users/${snapshot.data().uid}/public_profile/${snapshot.data().uid}`).set({
-                    Name: snapshot.data().name,
-                    Age: snapshot.data().age ?? "",
+                    firstName: snapshot.data().firstName,
+                    age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex ?? "",
                     userID: snapshot.data().uid,
                     areaOfWork: snapshot.data().areaOfWork,
@@ -81,10 +82,9 @@ export default class FirestoreUserHandler {
                 });
                 //private Liason profile
                 this.db.doc(`users/${snapshot.data().uid}/private_profile/${snapshot.data().uid}`).set({
-                    Name: snapshot.data().name,
-                    Age: snapshot.data().age ?? "",
+                    firstName: snapshot.data().firstName,
+                    age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
-                    userID: snapshot.data().uid,
 
                 });
             } catch (error) {
