@@ -16,14 +16,15 @@ export default class FirestoreUserHandler {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
                 this.db.doc(`users/${snapshot.data().uid}/public_profile/${snapshot.data().uid}`).set({
-                    Name: snapshot.data().name,
-                    Age: snapshot.data().age ?? "",
+                    firstname: snapshot.data().firstname,
+                    lastname: snapshot.data().lastname,
+                    age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
-                    userID: snapshot.data().uid,
+                    designation: snapshot.data().designation,
                     chronicConditions: snapshot.data().chronicConditions ?? [],
                     medications: snapshot.data().medications ?? [],
                     primaryDoctor: snapshot.data().primaryDoctor ?? null,
-                    additionalDoctors: snapshot.data().additionalDoctors ?? null,
+                    otherDoctors: snapshot.data().otherDoctors ?? null,
 
                 });
                 //does not have a private profile
