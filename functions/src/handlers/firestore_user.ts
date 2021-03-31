@@ -11,7 +11,7 @@ export default class FirestoreUserHandler {
     }
 
     public async newUserDocumentHandler(snapshot: firestore.QueryDocumentSnapshot, context: functions.EventContext) {
-        if (snapshot.data().role == 'nonpractitioner') {
+        if (snapshot.data().designation == 'user') {
             try {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
@@ -32,7 +32,7 @@ export default class FirestoreUserHandler {
                 this.logger.error('newUserDocumentHandler: ', error);
             }
 
-        } else if (snapshot.data().role == 'medicalpractitioner') {
+        } else if (snapshot.data().designation == 'doctor') {
             try {
                 this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
@@ -62,6 +62,12 @@ export default class FirestoreUserHandler {
                     peerreviews: snapshot.data().peerreviews
 
                 });
+                //premium profile
+                this.db.doc(`users/${snapshot.data().uid}/premium_profile/${snapshot.data().uid}`).set({
+                    userId: snapshot.data().uid,
+
+
+                });
             } catch (error) {
                 this.logger.error('newUserDocumentHandler: ', error);
             }
@@ -84,7 +90,7 @@ export default class FirestoreUserHandler {
                 this.db.doc(`users/${snapshot.data().uid}/private_profile/${snapshot.data().uid}`).set({
                     firstName: snapshot.data().firstName,
                     age: snapshot.data().age ?? "",
-                    sex: snapshot.data().sex,
+                    sex: snapshot.data().sex
 
                 });
             } catch (error) {
