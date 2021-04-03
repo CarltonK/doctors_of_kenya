@@ -11,13 +11,21 @@ export default class FirestoreUserHandler {
     }
 
     public async newUserDocumentHandler(snapshot: firestore.QueryDocumentSnapshot, context: functions.EventContext) {
-        if (snapshot.data().designation == 'user') {
+        // Identifiers
+        const uid: string = snapshot.id;
+        // const baseUserDocRef = this.db.doc(`users/${uid}`);
+        const publicProfileDocRef = this.db.doc(`users/${uid}/public_profile/${uid}`);
+        const privateProfileDocRef = this.db.doc(`users/${uid}/private_profile/${uid}`);
+        const premiumProfileDocRef = this.db.doc(`users/${uid}/public_profile/${uid}`);
+
+        this.logger.info('The new user is identified by: ', uid);
+
+        if (snapshot.data().designation === 'user') {
             try {
-                this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
-                this.db.doc(`users/${snapshot.data().uid}/public_profile/${snapshot.data().uid}`).set({
-                    firstfirstName: snapshot.data().firstfirstName,
-                    lastfirstName: snapshot.data().lastfirstName,
+                publicProfileDocRef.set({
+                    firstName: snapshot.data().firstName,
+                    lastName: snapshot.data().lastName,
                     age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex,
                     designation: snapshot.data().designation,
@@ -25,20 +33,18 @@ export default class FirestoreUserHandler {
                     medications: snapshot.data().medications ?? [],
                     primaryDoctor: snapshot.data().primaryDoctor ?? null,
                     otherDoctors: snapshot.data().otherDoctors ?? null,
-
                 });
                 //does not have a private profile
             } catch (error) {
                 this.logger.error('newUserDocumentHandler: ', error);
             }
 
-        } else if (snapshot.data().designation == 'doctor') {
+        } else if (snapshot.data().designation === 'doctor') {
             try {
-                this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public profile
-                this.db.doc(`users/${snapshot.data().uid}/public_profile/${snapshot.data().uid}`).set({
-                    firstfirstName: snapshot.data().firstfirstName,
-                    lastfirstName: snapshot.data().lastfirstName,
+                publicProfileDocRef.set({
+                    firstName: snapshot.data().firstName,
+                    lastName: snapshot.data().lastName,
                     age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex ?? "",
                     mpdbRegNumber: snapshot.data().mpdbRegNumber ?? null,
@@ -51,7 +57,7 @@ export default class FirestoreUserHandler {
 
                 });
                 //private profile
-                this.db.doc(`users/${snapshot.data().uid}/private_profile/${snapshot.data().uid}`).set({
+                privateProfileDocRef.set({
                     firstName: snapshot.data().firstName,
                     lastName: snapshot.data().lastName,
                     Age: snapshot.data().age ?? "",
@@ -63,10 +69,8 @@ export default class FirestoreUserHandler {
 
                 });
                 //premium profile
-                this.db.doc(`users/${snapshot.data().uid}/premium_profile/${snapshot.data().uid}`).set({
+                premiumProfileDocRef.set({
                     userId: snapshot.data().uid,
-
-
                 });
             } catch (error) {
                 this.logger.error('newUserDocumentHandler: ', error);
@@ -74,9 +78,8 @@ export default class FirestoreUserHandler {
         }
         else {
             try {
-                this.logger.info('The new user is identified by: ', snapshot.data().uid);
                 //set public Liason profile
-                this.db.doc(`users/${snapshot.data().uid}/public_profile/${snapshot.data().uid}`).set({
+                publicProfileDocRef.set({
                     firstName: snapshot.data().firstName,
                     age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex ?? "",
@@ -87,7 +90,7 @@ export default class FirestoreUserHandler {
 
                 });
                 //private Liason profile
-                this.db.doc(`users/${snapshot.data().uid}/private_profile/${snapshot.data().uid}`).set({
+                privateProfileDocRef.set({
                     firstName: snapshot.data().firstName,
                     age: snapshot.data().age ?? "",
                     sex: snapshot.data().sex
