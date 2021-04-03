@@ -6,9 +6,6 @@ export default class FirestoreUserHandler {
     private logger: Logger = new Logger('FirestoreUserHandler');
     private db: firestore.Firestore = firestore();
     private uid: string | null = null;
-    private publicProfileDocRef = this.db.doc(`users/${this.uid}/public_profile/${this.uid}`);
-    private privateProfileDocRef = this.db.doc(`users/${this.uid}/private_profile/${this.uid}`);
-    // private baseUserDocRef = this.db.doc(`users/${this.uid}`);
 
     constructor() {
         this.logger.setLogLevel('debug');
@@ -17,45 +14,49 @@ export default class FirestoreUserHandler {
     public async newUserDocumentHandler(snapshot: firestore.QueryDocumentSnapshot, context: functions.EventContext) {
         // Identifiers
         this.uid = snapshot.id;
+        const publicProfileDocRef = this.db.doc(`users/${this.uid}/public_profile/${this.uid}`);
+        const privateProfileDocRef = this.db.doc(`users/${this.uid}/private_profile/${this.uid}`);
 
         this.logger.info('The new user is identified by: ', this.uid);
 
-        if (snapshot.data().designation === 'user') {
-            try {
-                // public profile
-                await this.writeToPublicDoc(snapshot.data());
-                // does not have a private profile
-            } catch (error) {
-                this.logger.error('newUserDocumentHandler: ', error);
+        if (snapshot.data().designation) {
+            if (snapshot.data().designation === 'user') {
+                try {
+                    // public profile
+                    await this.writeToPublicDoc(publicProfileDocRef, snapshot.data());
+                    // does not have a private profile
+                } catch (error) {
+                    this.logger.error('newUserDocumentHandler: ', error);
+                }
+            } else if (snapshot.data().designation === 'doctor') {
+                try {
+                    // public profile
+                    await this.writeToPublicDoc(publicProfileDocRef, snapshot.data());
+                    // private profile
+                    await this.writeToPrivateDoc(privateProfileDocRef, snapshot.data());
+                } catch (error) {
+                    this.logger.error('newUserDocumentHandler: ', error);
+                }
             }
-        } else if (snapshot.data().designation === 'doctor') {
-            try {
-                // public profile
-                await this.writeToPublicDoc(snapshot.data());
-                // private profile
-                await this.writeToPrivateDoc(snapshot.data());
-            } catch (error) {
-                this.logger.error('newUserDocumentHandler: ', error);
-            }
-        }
-        else {
-            try {
-                // public Liason profile
-                await this.writeToPublicDoc(snapshot.data());
-                // private Liason profile
-                await this.writeToPrivateDoc(snapshot.data());
-            } catch (error) {
-                this.logger.error('newUserDocumentHandler: ', error);
+            else {
+                try {
+                    // public Liason profile
+                    await this.writeToPublicDoc(publicProfileDocRef, snapshot.data());
+                    // private Liason profile
+                    await this.writeToPrivateDoc(privateProfileDocRef, snapshot.data());
+                } catch (error) {
+                    this.logger.error('newUserDocumentHandler: ', error);
+                }
             }
         }
         return;
     }
 
-    private async writeToPublicDoc(data: firestore.DocumentData): Promise<firestore.WriteResult> {
-        return this.publicProfileDocRef.set({ ...data });
+    private async writeToPublicDoc(docRef: firestore.DocumentReference, data: firestore.DocumentData): Promise<firestore.WriteResult> {
+        return docRef.set({ ...data });
     }
 
-    private async writeToPrivateDoc(data: firestore.DocumentData): Promise<firestore.WriteResult> {
-        return this.privateProfileDocRef.set({ ...data });
+    private async writeToPrivateDoc(docRef: firestore.DocumentReference, data: firestore.DocumentData): Promise<firestore.WriteResult> {
+        return docRef.set({ ...data });
     }
 }
