@@ -44,12 +44,12 @@ jobs:
         groups: admin
         file: build/app/outputs/apk/release/app-release.apk
 
-    # - name: Deploy to Firebase Hosting
-    #   uses: FirebaseExtended/action-hosting-deploy@v0
-    #   with:
-    #     repoToken: '${{ secrets.GITHUB_TOKEN }}'
-    #     firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCTORS_OF_KENYA }}'
-    #     channelId: live
-    #     projectId: '${{ secrets.PROJECT_ID }}'
-    #   env:
-    #     FIREBASE_CLI_PREVIEWS: hostingchannels
+    - name: Deploy to Firebase Hosting
+      uses: FirebaseExtended/action-hosting-deploy@v0
+      with:
+        repoToken: '${{ secrets.GITHUB_TOKEN }}'
+        firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOCTORS_OF_KENYA }}'
+        channelId: live
+        projectId: '${{ secrets.PROJECT_ID }}'
+      env:
+        FIREBASE_CLI_PREVIEWS: hostingchannels
