@@ -174,7 +174,6 @@ class UserForm extends StatefulWidget {
 }
 
 class _UserFormState extends State<UserForm> {
-  
   //list of designations
   final List<String> designations = ['user', 'doctor'];
   //select sex
@@ -183,8 +182,8 @@ class _UserFormState extends State<UserForm> {
   String _currentDesignation = 'user';
   String _selectedSex = 'male';
   //Controllers
-  TextEditingController passwordController =TextEditingController();
-  TextEditingController confirmpasswordController =TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmpasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     switch (widget.activeStep) {
@@ -221,6 +220,7 @@ class _UserFormState extends State<UserForm> {
               Container(
                 padding: const EdgeInsets.all(6),
                 child: TextField(
+                  controller: passwordController,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     prefixIcon: const Icon(Icons.vpn_key),
@@ -231,6 +231,7 @@ class _UserFormState extends State<UserForm> {
               Container(
                 padding: const EdgeInsets.all(6),
                 child: TextField(
+                  controller: confirmpasswordController,
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
                     prefixIcon: const Icon(Icons.vpn_key),
@@ -289,41 +290,47 @@ class _UserFormState extends State<UserForm> {
                               ),
                             ),
                             const SizedBox(height: 16),
-                              Container(
-                padding: const EdgeInsets.all(6),
-                child: DropdownButtonFormField(
-                  value: _selectedSex ?? 'male',
-                  decoration: InputDecoration(
-                      labelText: 'Sex',
-                      prefixIcon: const Icon(Icons.person_outline)),
-                  items: sexes.map((sex) {
-                    return DropdownMenuItem(
-                      value: sex,
-                      child: Text('$sex'),
-                    );
-                  }).toList(),
-                  onChanged: (val) => setState(() => _selectedSex = val),
-                ),
-              ),
-                            const SizedBox(height: 16),
                             Container(
                               padding: const EdgeInsets.all(6),
-                              child: TextField(
+                              child: DropdownButtonFormField(
+                                value: _selectedSex ?? 'male',
                                 decoration: InputDecoration(
-                                  labelText: 'First Name',
-                                  prefixIcon: const Icon(Icons.email),
-                                ),
+                                    labelText: 'Sex',
+                                    prefixIcon:
+                                        const Icon(Icons.person_outline)),
+                                items: sexes.map((sex) {
+                                  return DropdownMenuItem(
+                                    value: sex,
+                                    child: Text('$sex'),
+                                  );
+                                }).toList(),
+                                onChanged: (val) =>
+                                    setState(() => _selectedSex = val),
                               ),
                             ),
-                            const SizedBox(height: 16),
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  labelText: 'Last Name',
-                                  prefixIcon: const Icon(Icons.email),
+                            Row(
+                              children: [
+                                const SizedBox(height: 16),
+                                Container(
+                                  padding: const EdgeInsets.all(6),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      labelText: 'First Name',
+                                      prefixIcon: const Icon(Icons.email),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                const SizedBox(height: 16),
+                                Container(
+                                  padding: const EdgeInsets.all(6),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      labelText: 'Last Name',
+                                      prefixIcon: const Icon(Icons.email),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                             const SizedBox(height: 16),
                           ],
@@ -340,35 +347,46 @@ class _UserFormState extends State<UserForm> {
                               ),
                             ),
                             const SizedBox(height: 16),
-                            Container(
+                               Container(
                               padding: const EdgeInsets.all(6),
-                              child: TextField(
+                              child: DropdownButtonFormField(
+                                value: _selectedSex ?? 'male',
                                 decoration: InputDecoration(
-                                  labelText: 'sex',
-                                  prefixIcon: const Icon(Icons.email),
-                                ),
+                                    labelText: 'Sex',
+                                    prefixIcon:
+                                        const Icon(Icons.person_outline)),
+                                items: sexes.map((sex) {
+                                  return DropdownMenuItem(
+                                    value: sex,
+                                    child: Text('$sex'),
+                                  );
+                                }).toList(),
+                                onChanged: (val) =>
+                                    setState(() => _selectedSex = val),
                               ),
                             ),
                             const SizedBox(height: 16),
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  labelText: 'First Name',
-                                  prefixIcon: const Icon(Icons.email),
+                            Row(children: [
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    labelText: 'First Name',
+                                    prefixIcon: const Icon(Icons.email),
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 16),
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  labelText: 'Last Name',
-                                  prefixIcon: const Icon(Icons.email),
+                              const SizedBox(height: 16),
+                              Container(
+                                padding: const EdgeInsets.all(6),
+                                child: TextField(
+                                  decoration: InputDecoration(
+                                    labelText: 'Last Name',
+                                    prefixIcon: const Icon(Icons.email),
+                                  ),
                                 ),
                               ),
-                            ),
+                            ]),
                             const SizedBox(height: 16),
                             Container(
                               padding: const EdgeInsets.all(6),
@@ -537,7 +555,7 @@ class _UserFormState extends State<UserForm> {
               Container(
                 padding: const EdgeInsets.all(6),
                 child: TextField(
-                  controller: passwordController ,
+                  controller: passwordController,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     prefixIcon: const Icon(Icons.vpn_key),
