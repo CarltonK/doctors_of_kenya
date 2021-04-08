@@ -88,7 +88,7 @@ class LoginBody extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 16),
-                      FlatButton(
+                      TextButton(
                         onPressed: () => Navigator.of(context).push(
                           SlideLeftTransition(
                             page: ResetPasswordScreen(),

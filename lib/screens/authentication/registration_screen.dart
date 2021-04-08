@@ -33,7 +33,7 @@ class RegistrationBody extends StatelessWidget {
         physics: AlwaysScrollableScrollPhysics(),
         padding: layoutPadding(context),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 100),
+          padding: const EdgeInsets.symmetric(vertical: 100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -119,7 +119,7 @@ class _StepperFormState extends State<StepperForm> {
         borderRadius: BorderRadius.circular(30),
       ),
       color: Colors.orange,
-      padding: EdgeInsets.all(12),
+      padding: const EdgeInsets.all(12),
       onPressed: () {
         // Increment activeStep, when the next button is tapped.
         if (activeStep < upperBound) {
@@ -146,8 +146,8 @@ class _StepperFormState extends State<StepperForm> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
       ),
-      color: Colors.orange,
-      padding: EdgeInsets.all(12),
+      color: Theme.of(context).primaryColor,
+      padding: const EdgeInsets.all(12),
       child: Center(
         child: Text(
           'Prev',
@@ -174,10 +174,17 @@ class UserForm extends StatefulWidget {
 }
 
 class _UserFormState extends State<UserForm> {
+  
   //list of designations
   final List<String> designations = ['user', 'doctor'];
+  //select sex
+  final List<String> sexes = ['male', 'female'];
   //selected designation
   String _currentDesignation = 'user';
+  String _selectedSex = 'male';
+  //Controllers
+  TextEditingController passwordController =TextEditingController();
+  TextEditingController confirmpasswordController =TextEditingController();
   @override
   Widget build(BuildContext context) {
     switch (widget.activeStep) {
@@ -282,15 +289,22 @@ class _UserFormState extends State<UserForm> {
                               ),
                             ),
                             const SizedBox(height: 16),
-                            Container(
-                              padding: const EdgeInsets.all(6),
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  labelText: 'sex',
-                                  prefixIcon: const Icon(Icons.email),
-                                ),
-                              ),
-                            ),
+                              Container(
+                padding: const EdgeInsets.all(6),
+                child: DropdownButtonFormField(
+                  value: _selectedSex ?? 'male',
+                  decoration: InputDecoration(
+                      labelText: 'Sex',
+                      prefixIcon: const Icon(Icons.person_outline)),
+                  items: sexes.map((sex) {
+                    return DropdownMenuItem(
+                      value: sex,
+                      child: Text('$sex'),
+                    );
+                  }).toList(),
+                  onChanged: (val) => setState(() => _selectedSex = val),
+                ),
+              ),
                             const SizedBox(height: 16),
                             Container(
                               padding: const EdgeInsets.all(6),
@@ -523,6 +537,7 @@ class _UserFormState extends State<UserForm> {
               Container(
                 padding: const EdgeInsets.all(6),
                 child: TextField(
+                  controller: passwordController ,
                   decoration: InputDecoration(
                     labelText: 'Password',
                     prefixIcon: const Icon(Icons.vpn_key),
@@ -533,6 +548,7 @@ class _UserFormState extends State<UserForm> {
               Container(
                 padding: const EdgeInsets.all(6),
                 child: TextField(
+                  controller: confirmpasswordController,
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
                     prefixIcon: const Icon(Icons.vpn_key),
