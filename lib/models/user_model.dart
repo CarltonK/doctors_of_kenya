@@ -63,4 +63,11 @@ class UserModel {
         'designation': designation,
         'token': token,
       };
+      //private_profile   
+      Map <String, dynamic>toPrivateFirestoreDoc()=>{
+        'chronicConditions':chronicConditions,
+        'medications ':medications ,
+        'primaryDoctor':primaryDoctor
+
+      };
 }
