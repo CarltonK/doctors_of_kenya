@@ -1,5 +1,6 @@
 import 'package:doctors_of_kenya/constants/constants.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
+import 'package:doctors_of_kenya/widgets/global_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
@@ -84,7 +85,19 @@ class ResetPasswordBody extends StatelessWidget {
                             style: Theme.of(context).textTheme.button,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          //show global
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return GlobalDialog(
+                                  title: "Reset Password",
+                                  descriptions:
+                                      "Your current password will be reset.Proceed",
+                                  text: "Yes",
+                                );
+                              });
+                        },
                       ),
                     ],
                   ),
