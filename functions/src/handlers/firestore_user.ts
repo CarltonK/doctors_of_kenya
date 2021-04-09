@@ -6,7 +6,7 @@ export default class FirestoreUserHandler {
   private logger: Logger = new Logger("FirestoreUserHandler");
   private db: firestore.Firestore = firestore();
   private uid: string | null = null;
-  //private batch = this.db.batch();
+  private batch = this.db.batch();
 
   constructor() {
     this.logger.setLogLevel("debug");
@@ -63,32 +63,16 @@ export default class FirestoreUserHandler {
     docRef: firestore.DocumentReference,
     data: firestore.DocumentData
   ) {
-    //return this.batch.set(docRef, data);
-      return this.db.runTransaction((transaction: firestore.Transaction) => {
-        return transaction.get(docRef).then((doc) => {
-          if (!doc.exists) {
-            throw "User does not exist!";
-          }
-          transaction.set(docRef, data);
-          return data;
-        });
-      });
+    return this.batch.set(docRef, data);
+      
   }
 
   private async writeToPrivateDoc(
     docRef: firestore.DocumentReference,
     data: firestore.DocumentData
   ) {
-    // return this.batch.set({ docRef, data });
+     return this.batch.set(docRef, data);
 
-    return this.db.runTransaction((transaction: firestore.Transaction) => {
-      return transaction.get(docRef).then((doc) => {
-        if (!doc.exists) {
-          throw "User does not exist!";
-        }
-        transaction.set(docRef, data);
-        return data;
-      });
-    });
+  
   }
 }

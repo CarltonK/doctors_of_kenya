@@ -28,7 +28,7 @@ class NavigationHelper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: onTap,
       child: RichText(
         text: TextSpan(
