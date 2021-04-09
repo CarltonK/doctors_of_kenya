@@ -1,6 +1,6 @@
 name: doctors_of_kenya
 description: Doctors of Kenya.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.2+1
 
 environment:
@@ -27,8 +27,9 @@ dependencies:
   firebase_performance: ^0.5.0+1
   # Provider
   provider: ^4.3.3
+  # stepper forms
+  im_stepper: ^0.1.2+8
 
-  
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
