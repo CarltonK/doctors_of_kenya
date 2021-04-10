@@ -21,17 +21,21 @@ export default class FirestoreUserHandler {
 
     this.logger.info("The new user is identified by: ", this.uid);
 
-    if (!snapshot.data().designation) throw this.logger.error("newUserDocumentHandler: ", "No designation provided");
+    const { designation } = snapshot.data();
+
+    if (!designation) throw this.logger.error("newUserDocumentHandler: ", "No designation provided");
 
       try {
-        if (snapshot.data().designation === "user") {
+        if (designation === "user") {
           this.writeToPublicDoc(publicProfileDocRef, snapshot.data());
         }
-        if (snapshot.data().designation === "doctor") {
+
+        if (designation === "doctor") {
           this.writeToPublicDoc(publicProfileDocRef, snapshot.data());
           this.writeToPrivateDoc(privateProfileDocRef, snapshot.data());
         } 
-        if (snapshot.data().designation === "liaison") {
+        
+        if (designation === "liaison") {
           this.writeToPublicDoc(publicProfileDocRef, snapshot.data());
           this.writeToPrivateDoc(privateProfileDocRef, snapshot.data());
         }
