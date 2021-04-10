@@ -60,6 +60,7 @@ module.exports = {
     "no-var": "warn",
     "no-void": "error",
     "prefer-const": "warn",
+    quotes: ["error", "single"],
   },
   settings: {
     jsdoc: {
