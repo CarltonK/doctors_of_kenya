@@ -11,3 +11,4 @@ export 'practitioner_card.dart';
 export 'store_item.dart';
 export 'responsive.dart';
 export 'global_loader.dart';
+export 'global_dialog.dart';

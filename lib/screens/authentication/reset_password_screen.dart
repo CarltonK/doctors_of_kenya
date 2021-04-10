@@ -1,6 +1,5 @@
 import 'package:doctors_of_kenya/constants/constants.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
-import 'package:doctors_of_kenya/widgets/global_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
@@ -32,7 +31,7 @@ class ResetPasswordBody extends StatelessWidget {
         physics: AlwaysScrollableScrollPhysics(),
         padding: layoutPadding(context),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 100),
+          padding: const EdgeInsets.symmetric(vertical: 100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -78,25 +77,15 @@ class ResetPasswordBody extends StatelessWidget {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         color: Colors.orange,
-                        padding: EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(12),
                         child: Center(
                           child: Text(
                             'Send Email',
                             style: Theme.of(context).textTheme.button,
                           ),
                         ),
-                        onPressed: () {
-                          //show global
-                          showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return GlobalDialog(
-                                  title: "Reset Password",
-                                  descriptions:
-                                      "Your current password will be reset.Proceed",
-                                  text: "Yes",
-                                );
-                              });
+                        onPressed: () async {
+                          await showInfoDialog(context, "");
                         },
                       ),
                     ],

@@ -13,7 +13,7 @@ class AuthProvider with ChangeNotifier {
   Status get status => _status;
   User get user => currentUser;
 
-  DatabaseProvider database = DatabaseProvider();
+  DatabaseProvider database = DatabaseProvider.empty();
 
   AuthProvider.instance() : auth = FirebaseAuth.instance {
     auth.authStateChanges().listen(_onAuthStateChanged);
@@ -43,10 +43,10 @@ class AuthProvider with ChangeNotifier {
       currentUser = result.user;
 
       return Future.value(currentUser);
-    } catch (e) {
+    } on FirebaseAuthException catch (error) {
       _status = Status.Unauthenticated;
       notifyListeners();
-      return null;
+      return error.message;
     }
   }
 
@@ -70,20 +70,10 @@ class AuthProvider with ChangeNotifier {
       await database.saveUser(user, uid);
 
       return Future.value(currentUser);
-    } catch (e) {
+    } on FirebaseAuthException catch (error) {
       _status = Status.Unauthenticated;
       notifyListeners();
-      var response;
-      if (e.toString().contains("ERROR_WEAK_PASSWORD")) {
-        response = 'Your password is weak. Please choose another.';
-      }
-      if (e.toString().contains("ERROR_INVALID_EMAIL")) {
-        response = 'The email format entered is invalid.';
-      }
-      if (e.toString().contains("ERROR_EMAIL_ALREADY_IN_USE")) {
-        response = 'An account with the same email exists.';
-      }
-      return response;
+      return error.message;
     }
   }
 
@@ -101,26 +91,26 @@ class AuthProvider with ChangeNotifier {
       currentUser = result.user;
 
       return Future.value(currentUser);
-    } catch (e) {
+    } on FirebaseAuthException catch (error) {
       _status = Status.Unauthenticated;
       notifyListeners();
-      var response;
-      if (e.toString().contains("ERROR_WRONG_PASSWORD")) {
-        response = 'Invalid credentials. Please try again.';
+      return error.message;
+    }
+  }
+
+  /*
+  USER PASSWORD RESET
+  */
+  Future resetPassword(String email) async {
+    try {
+      // Check if email exists
+      List<String> signInMethods = await auth.fetchSignInMethodsForEmail(email);
+      if (signInMethods.length > 0) {
+        // Send password reset email
+        await auth.sendPasswordResetEmail(email: email);
       }
-      if (e.toString().contains("ERROR_INVALID_EMAIL")) {
-        response = 'The email format entered is invalid.';
-      }
-      if (e.toString().contains("ERROR_USER_NOT_FOUND")) {
-        response = 'Please register first.';
-      }
-      if (e.toString().contains("ERROR_USER_DISABLED")) {
-        response = 'Your account has been disabled.';
-      }
-      if (e.toString().contains("ERROR_TOO_MANY_REQUESTS")) {
-        response = 'Too many requests. Please try again in 2 minutes.';
-      }
-      return response;
+    } on FirebaseAuthException catch (error) {
+      return error.message;
     }
   }
 
