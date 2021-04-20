@@ -5,10 +5,9 @@ Future showInfoDialog(BuildContext context, String message) {
   return showDialog(
     context: context,
     builder: (BuildContext context) {
-      return GlobalDialog(
-        title: "Reset Password",
-        descriptions: "Your current password will be reset.Proceed",
-        text: "Yes",
+      return InfoDialog(
+        detail: "Your current password will be reset.Proceed",
+        buttonPressed: () => print("Button pressed"),
       );
     },
   );

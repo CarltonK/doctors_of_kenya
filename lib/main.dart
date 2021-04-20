@@ -69,10 +69,8 @@ class MyApp extends StatelessWidget {
         future: _initialization,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Container(
-              alignment: Alignment.center,
-              color: Colors.white,
-              child: Text('Error -> ${snapshot.error.toString()}'),
+            return GlobalErrorContained(
+              errorMessage: '${snapshot.error.toString()}',
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
