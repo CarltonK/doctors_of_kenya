@@ -64,4 +64,11 @@ steps:
 
         firebase deploy --only firestore:rules --project=${_PROJECT_ID} --token=${_FIREBASE_TOKEN}
 
+        echo
+        echo "**************************************"
+        echo "* Deploy Storage Rules *"
+        echo "**************************************"
+        echo
+        firebase deploy --only storage:rules --project=${_PROJECT_ID} --token=${_FIREBASE_TOKEN}
+
         
