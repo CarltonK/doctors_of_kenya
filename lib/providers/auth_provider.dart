@@ -105,9 +105,11 @@ class AuthProvider with ChangeNotifier {
     try {
       // Check if email exists
       List<String> signInMethods = await auth.fetchSignInMethodsForEmail(email);
-      if (signInMethods.length > 0) {
+      if (signInMethods.isNotEmpty) {
         // Send password reset email
         await auth.sendPasswordResetEmail(email: email);
+      } else {
+        return 'The user could not be found';
       }
     } on FirebaseAuthException catch (error) {
       return error.message;
