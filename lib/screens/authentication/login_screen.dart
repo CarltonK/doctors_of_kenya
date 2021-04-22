@@ -1,7 +1,8 @@
 import 'package:doctors_of_kenya/constants/constants.dart';
+import 'package:doctors_of_kenya/helpers/helpers.dart';
+import 'package:doctors_of_kenya/models/models.dart';
 import 'package:doctors_of_kenya/providers/providers.dart';
-import 'package:doctors_of_kenya/screens/authentication/authentication.dart';
-import 'package:doctors_of_kenya/screens/home/home.dart';
+import 'package:doctors_of_kenya/screens/screens.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,89 @@ class LoginScreen extends StatelessWidget {
 }
 
 class LoginBody extends StatelessWidget {
+  // Form
+  final _loginFormKey = GlobalKey<FormState>();
+
+  // Focus Nodes
+  final _focusPassword = FocusNode();
+
+  // Validation
+  static ValidationHelper _validationHelper = ValidationHelper.empty();
+
+  // Identifiers
+  static String _email;
+  static String _password;
+  static UserModel _userModel;
+
+  // ******Email Stuff*******
+  Widget _emailField(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      child: TextFormField(
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          labelText: 'Email',
+          prefixIcon: const Icon(Icons.email),
+        ),
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(_focusPassword);
+        },
+        validator: _validationHelper.validateEmailAddress,
+        onSaved: saveEmail,
+      ),
+    );
+  }
+
+  void saveEmail(String value) {
+    _email = value.trim();
+    // print('Email -> $_email');
+  }
+
+  // ******Password Stuff*******
+  Widget _passwordField(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      child: TextFormField(
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+          labelText: 'Password',
+          prefixIcon: const Icon(Icons.vpn_key),
+        ),
+        focusNode: _focusPassword,
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).unfocus();
+          _loginButtonPressed(context);
+        },
+        validator: _validationHelper.validatePassword,
+        onSaved: savePassword,
+      ),
+    );
+  }
+
+  void savePassword(String value) {
+    _password = value.trim();
+    // print('Password -> $_password');
+  }
+
+  _loginButtonPressed(BuildContext context) {
+    final FormState form = _loginFormKey.currentState;
+    if (form.validate()) {
+      form.save();
+
+      // Create a user instance
+      _userModel = UserModel(
+        email: _email,
+        password: _password,
+      );
+
+      // Navigator.of(context).push(
+      //   SlideLeftTransition(
+      //     page: HomeScreen(),
+      //   ),
+      // );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -54,71 +138,44 @@ class LoginBody extends StatelessWidget {
                     horizontal: 16,
                     vertical: 24,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Hello',
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
-                      const SizedBox(height: 3),
-                      Text(
-                        'Sign in to your Account',
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                      const SizedBox(height: 16),
-                      Container(
-                        padding: const EdgeInsets.all(6),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Email ID',
-                            prefixIcon: const Icon(Icons.email),
-                          ),
+                  child: Form(
+                    key: _loginFormKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Hello',
+                          style: Theme.of(context).textTheme.headline5,
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      Container(
-                        padding: const EdgeInsets.all(6),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            prefixIcon: const Icon(Icons.vpn_key),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      TextButton(
-                        onPressed: () => Navigator.of(context).push(
-                          SlideLeftTransition(
-                            page: ResetPasswordScreen(),
-                          ),
-                        ),
-                        child: Text(
-                          'Forgot Password?',
+                        const SizedBox(height: 3),
+                        Text(
+                          'Sign in to your Account',
                           style: Theme.of(context).textTheme.subtitle1,
                         ),
-                      ),
-                      const SizedBox(height: 16),
-                      MaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        color: Colors.orange,
-                        padding: const EdgeInsets.all(12),
-                        child: Center(
+                        const SizedBox(height: 16),
+                        _emailField(context),
+                        const SizedBox(height: 16),
+                        _passwordField(context),
+                        const SizedBox(height: 16),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).push(
+                            SlideLeftTransition(
+                              page: ResetPasswordScreen(),
+                            ),
+                          ),
                           child: Text(
-                            'Login',
-                            style: Theme.of(context).textTheme.button,
+                            'Forgot Password?',
+                            style: Theme.of(context).textTheme.subtitle1,
                           ),
                         ),
-                        onPressed: () => Navigator.of(context).push(
-                          SlideLeftTransition(
-                            page: HomeScreen(),
-                          ),
+                        const SizedBox(height: 16),
+                        GlobalActionButton(
+                          action: 'Login',
+                          onPressed: () => _loginButtonPressed(context),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
