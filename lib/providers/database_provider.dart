@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class DatabaseProvider {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -9,9 +8,6 @@ class DatabaseProvider {
 
   Future saveUser(UserModel user, String uid) async {
     try {
-      // Associate uid to crashlytics
-      FirebaseCrashlytics.instance.setUserIdentifier(uid);
-
       user.uid = uid;
 
       // Main Doc
