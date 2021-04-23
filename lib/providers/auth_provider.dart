@@ -65,7 +65,7 @@ class AuthProvider with ChangeNotifier {
       String uid = currentUser.uid;
 
       // Send an email verification
-      currentUser.sendEmailVerification();
+      await currentUser.sendEmailVerification();
       // Save the user to the database
       await database.saveUser(user, uid);
 

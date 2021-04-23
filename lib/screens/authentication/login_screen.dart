@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:doctors_of_kenya/constants/constants.dart';
 import 'package:doctors_of_kenya/helpers/helpers.dart';
 import 'package:doctors_of_kenya/models/models.dart';

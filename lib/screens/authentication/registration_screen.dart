@@ -1,14 +1,20 @@
+import 'dart:async';
 import 'package:doctors_of_kenya/constants/constants.dart';
 import 'package:doctors_of_kenya/helpers/helpers.dart';
 import 'package:doctors_of_kenya/models/models.dart';
+import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(
@@ -36,11 +42,16 @@ class RegistrationBody extends StatelessWidget {
   // Validation
   static ValidationHelper _validationHelper = ValidationHelper.empty();
 
+  // TextControllers
+  static TextEditingController passwordMain = TextEditingController();
+  static TextEditingController passwordSecondary = TextEditingController();
+
   // Identifiers
   static String _email;
   static String _password;
   static String _confirmPassword;
   static UserModel _userModel;
+  static dynamic _registrationResult;
 
   // ******Email Stuff*******
   Widget _emailField(BuildContext context) {
@@ -71,6 +82,7 @@ class RegistrationBody extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(6),
       child: TextFormField(
+        controller: passwordMain,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           labelText: 'Password',
@@ -96,6 +108,7 @@ class RegistrationBody extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(6),
       child: TextFormField(
+        controller: passwordSecondary,
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           labelText: 'Password',
@@ -104,7 +117,7 @@ class RegistrationBody extends StatelessWidget {
         focusNode: _focusConfirmPassword,
         onFieldSubmitted: (String value) {
           FocusScope.of(context).unfocus();
-          _registrationButtonPressed();
+          _registrationButtonPressed(context);
         },
         onSaved: saveConfirmPassword,
       ),
@@ -116,7 +129,19 @@ class RegistrationBody extends StatelessWidget {
     // print('Password (2) -> $_confirmPassword');
   }
 
-  _registrationButtonPressed() {
+  Future<bool> _regHandler(BuildContext context, UserModel user) async {
+    _registrationResult = await Provider.of<AuthProvider>(
+      context,
+      listen: false,
+    ).createUser(user);
+
+    if (_registrationResult.runtimeType == String) {
+      return false;
+    }
+    return true;
+  }
+
+  _registrationButtonPressed(BuildContext context) {
     final FormState form = _registrationFormKey.currentState;
     if (form.validate()) {
       form.save();
@@ -126,6 +151,18 @@ class RegistrationBody extends StatelessWidget {
         email: _email,
         password: _password,
       );
+
+      _regHandler(context, _userModel).then((value) {
+        if (!value) {
+          print('Login Result: $_registrationResult');
+          Timer(Duration(milliseconds: 500), () async {
+            await showInfoDialog(
+              _scaffoldKey.currentContext,
+              _registrationResult,
+            );
+          });
+        }
+      });
     }
   }
 
@@ -178,7 +215,7 @@ class RegistrationBody extends StatelessWidget {
                         const SizedBox(height: 16),
                         GlobalActionButton(
                           action: 'Register',
-                          onPressed: () => _registrationButtonPressed(),
+                          onPressed: () => _registrationButtonPressed(context),
                         ),
                       ],
                     ),
