@@ -123,7 +123,6 @@ class LoginBody extends StatelessWidget {
 
       _loginHandler(context, _userModel).then((value) {
         if (!value) {
-          print('Login Result: $_loginResult');
           Timer(Duration(milliseconds: 500), () async {
             await showInfoDialog(
               _scaffoldKey.currentContext,
@@ -131,6 +130,13 @@ class LoginBody extends StatelessWidget {
             );
           });
         }
+      }).catchError((error) {
+        Timer(Duration(milliseconds: 500), () async {
+          await showInfoDialog(
+            _scaffoldKey.currentContext,
+            error.toString(),
+          );
+        });
       });
     }
   }

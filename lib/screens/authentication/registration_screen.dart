@@ -114,6 +114,12 @@ class RegistrationBody extends StatelessWidget {
           labelText: 'Password',
           prefixIcon: const Icon(Icons.vpn_key),
         ),
+        validator: (value) {
+          if (passwordMain.text != value) {
+            return 'Passwords do not match';
+          }
+          return null;
+        },
         focusNode: _focusConfirmPassword,
         onFieldSubmitted: (String value) {
           FocusScope.of(context).unfocus();
@@ -149,19 +155,27 @@ class RegistrationBody extends StatelessWidget {
       // Create a user instance
       _userModel = UserModel(
         email: _email,
-        password: _password,
+        password: _password == _confirmPassword ? _confirmPassword : null,
       );
 
       _regHandler(context, _userModel).then((value) {
         if (!value) {
-          print('Login Result: $_registrationResult');
           Timer(Duration(milliseconds: 500), () async {
             await showInfoDialog(
               _scaffoldKey.currentContext,
               _registrationResult,
             );
           });
+        } else {
+          Navigator.of(context).pop();
         }
+      }).catchError((error) {
+        Timer(Duration(milliseconds: 500), () async {
+          await showInfoDialog(
+            _scaffoldKey.currentContext,
+            error.toString(),
+          );
+        });
       });
     }
   }

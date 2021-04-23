@@ -108,6 +108,7 @@ class AuthProvider with ChangeNotifier {
       if (signInMethods.isNotEmpty) {
         // Send password reset email
         await auth.sendPasswordResetEmail(email: email);
+        return Future.value(null);
       } else {
         return 'The user could not be found';
       }

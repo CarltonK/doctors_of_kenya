@@ -1,14 +1,19 @@
 import 'package:doctors_of_kenya/constants/constants.dart';
 import 'package:doctors_of_kenya/helpers/helpers.dart';
-import 'package:doctors_of_kenya/models/models.dart';
+import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'dart:async';
+
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
 class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(
@@ -34,7 +39,7 @@ class ResetPasswordBody extends StatelessWidget {
 
   // Identifiers
   static String _email;
-  static UserModel _userModel;
+  static dynamic _resetResult;
 
   // ******Email Stuff*******
   Widget _emailField(BuildContext context) {
@@ -48,7 +53,7 @@ class ResetPasswordBody extends StatelessWidget {
         ),
         onFieldSubmitted: (String value) {
           FocusScope.of(context).unfocus();
-          _resetButtonPressed();
+          _resetButtonPressed(context);
         },
         validator: _validationHelper.validateEmailAddress,
         onSaved: saveEmail,
@@ -61,15 +66,47 @@ class ResetPasswordBody extends StatelessWidget {
     // print('Email -> $_email');
   }
 
-  _resetButtonPressed() {
+  Future<bool> _resetHandler(BuildContext context) async {
+    _resetResult = await Provider.of<AuthProvider>(
+      context,
+      listen: false,
+    ).resetPassword(_email);
+
+    if (_resetResult.runtimeType == String) {
+      return false;
+    }
+    return true;
+  }
+
+  _resetButtonPressed(BuildContext context) {
     final FormState form = _passwordResetFormKey.currentState;
     if (form.validate()) {
       form.save();
 
-      // Create a user instance
-      _userModel = UserModel(
-        email: _email,
-      );
+      _resetHandler(context).then((value) {
+        if (!value) {
+          Timer(Duration(milliseconds: 500), () async {
+            await showInfoDialog(
+              _scaffoldKey.currentContext,
+              _resetResult,
+            );
+          });
+        } else {
+          Timer(Duration(milliseconds: 500), () async {
+            await showInfoDialog(
+              _scaffoldKey.currentContext,
+              "An password reset email has been sent to you at $_email",
+            );
+          });
+        }
+      }).catchError((error) {
+        Timer(Duration(milliseconds: 500), () async {
+          await showInfoDialog(
+            _scaffoldKey.currentContext,
+            error.toString(),
+          );
+        });
+      });
     }
   }
 
@@ -118,7 +155,7 @@ class ResetPasswordBody extends StatelessWidget {
                         const SizedBox(height: 16),
                         GlobalActionButton(
                           action: 'Send Email',
-                          onPressed: () => _resetButtonPressed(),
+                          onPressed: () => _resetButtonPressed(context),
                         ),
                       ],
                     ),
