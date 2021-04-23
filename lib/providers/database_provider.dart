@@ -1,25 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class DatabaseProvider {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  DatabaseProvider() {
-    print('Firestore has been initialized.');
-  }
+  DatabaseProvider.empty();
 
   Future saveUser(UserModel user, String uid) async {
-    // Associate uid to crashlytics
-    FirebaseCrashlytics.instance.setUserIdentifier(uid);
+    try {
+      user.uid = uid;
 
-    user.uid = uid;
+      // Main Doc
+      DocumentReference mainDocRef = _db.collection("users").doc(uid);
 
-    // Main Doc
-    DocumentReference mainDocRef = _db.collection("users").doc(uid);
-
-    // Save the email to the main document
-    await mainDocRef.set(user.toMainFirestoreDoc());
-    // Create a public document
+      // Save data
+      await mainDocRef.set(user.toMainFirestoreDoc());
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
   }
 }

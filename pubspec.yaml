@@ -28,7 +28,7 @@ dependencies:
   # Provider
   provider: ^4.3.3
   # stepper forms
-  im_stepper: ^0.1.2+8
+  # im_stepper: ^0.1.2+8
 
   cupertino_icons: ^1.0.0
 

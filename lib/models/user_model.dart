@@ -50,7 +50,6 @@ class UserModel {
   Map<String, dynamic> toMainFirestoreDoc() => {
         'email': email,
         'uid': uid,
-        'token': token,
       };
 
   Map<String, dynamic> toPublicFirestoreDoc() => {
@@ -63,11 +62,10 @@ class UserModel {
         'designation': designation,
         'token': token,
       };
-      //private_profile   
-      Map <String, dynamic>toPrivateFirestoreDoc()=>{
-        'chronicConditions':chronicConditions,
-        'medications ':medications ,
-        'primaryDoctor':primaryDoctor
-
+  //private_profile
+  Map<String, dynamic> toPrivateFirestoreDoc() => {
+        'chronicConditions': chronicConditions,
+        'medications ': medications,
+        'primaryDoctor': primaryDoctor
       };
 }

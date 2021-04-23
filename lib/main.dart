@@ -18,7 +18,7 @@ void main() {
       create: (context) => AuthProvider.instance(),
     ),
     Provider(
-      create: (context) => DatabaseProvider(),
+      create: (context) => DatabaseProvider.empty(),
     ),
   ];
 
@@ -39,8 +39,9 @@ class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   static FirebaseAnalytics analytics = FirebaseAnalytics();
-  static FirebaseAnalyticsObserver observer =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(
+    analytics: analytics,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +69,8 @@ class MyApp extends StatelessWidget {
         future: _initialization,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Container(
-              alignment: Alignment.center,
-              color: Colors.white,
-              child: Text('Error -> ${snapshot.error.toString()}'),
+            return GlobalErrorContained(
+              errorMessage: '${snapshot.error.toString()}',
             );
           }
           if (snapshot.connectionState == ConnectionState.done) {
