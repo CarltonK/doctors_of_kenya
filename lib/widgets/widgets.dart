@@ -9,10 +9,10 @@ export 'job_post_card.dart';
 export 'practitioner_card.dart';
 export 'store_item.dart';
 export 'responsive.dart';
-export 'info_dialog.dart';
 
 // Global
 export 'global/global_loader.dart';
 export 'global/global_circle_button.dart';
 export 'global/global_error_contained.dart';
 export 'global/global_action_button.dart';
+export 'global/global_info_dialog.dart';

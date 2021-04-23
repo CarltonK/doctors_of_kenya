@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:doctors_of_kenya/constants/constants.dart';
 import 'package:doctors_of_kenya/helpers/helpers.dart';
 import 'package:doctors_of_kenya/models/models.dart';
@@ -8,10 +10,13 @@ import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(
@@ -42,6 +47,7 @@ class LoginBody extends StatelessWidget {
   static String _email;
   static String _password;
   static UserModel _userModel;
+  static dynamic _loginResult;
 
   // ******Email Stuff*******
   Widget _emailField(BuildContext context) {
@@ -93,6 +99,18 @@ class LoginBody extends StatelessWidget {
     // print('Password -> $_password');
   }
 
+  Future<bool> _loginHandler(BuildContext context, UserModel user) async {
+    _loginResult = await Provider.of<AuthProvider>(
+      context,
+      listen: false,
+    ).signInEmailPass(user);
+
+    if (_loginResult.runtimeType == String) {
+      return false;
+    }
+    return true;
+  }
+
   _loginButtonPressed(BuildContext context) {
     final FormState form = _loginFormKey.currentState;
     if (form.validate()) {
@@ -104,11 +122,17 @@ class LoginBody extends StatelessWidget {
         password: _password,
       );
 
-      // Navigator.of(context).push(
-      //   SlideLeftTransition(
-      //     page: HomeScreen(),
-      //   ),
-      // );
+      _loginHandler(context, _userModel).then((value) {
+        if (!value) {
+          print('Login Result: $_loginResult');
+          Timer(Duration(milliseconds: 500), () async {
+            await showInfoDialog(
+              _scaffoldKey.currentContext,
+              _loginResult,
+            );
+          });
+        }
+      });
     }
   }
 

@@ -13,11 +13,8 @@ class GlobalErrorContained extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         color: Colors.white,
-        child: InfoDialog(
-          buttonPressed: () {},
-          buttonText: '',
-          status: 'Error',
-          detail: errorMessage,
+        child: GlobalInfoDialog(
+          message: errorMessage,
         ),
       ),
     );
