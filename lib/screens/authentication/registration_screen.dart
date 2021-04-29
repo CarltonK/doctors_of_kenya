@@ -45,6 +45,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   String _confirmPassword;
   UserModel _userModel;
   dynamic _registrationResult;
+  String _currentDesignation = 'General';
+  List<String> _designations = ['Doctor', 'Liaison', 'General'];
 
   // Focus Nodes
   final FocusNode _focusPassword = FocusNode();
@@ -198,6 +200,39 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     }
   }
 
+  // ******Designation Stuff*******
+  _designationSelector() {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      margin: const EdgeInsets.only(top: 15),
+      decoration: Constants.kBoxDecorationStyle,
+      child: DropdownButton<String>(
+        value: _currentDesignation,
+        style: Theme.of(context).textTheme.subtitle1,
+        onChanged: _designationChanged,
+        icon: Icon(Icons.arrow_downward, color: Theme.of(context).accentColor),
+        hint: Text('Choose', style: Theme.of(context).textTheme.subtitle1),
+        items: _designations
+            .map(
+              (e) => DropdownMenuItem<String>(
+                value: e,
+                child: Text(e, style: Theme.of(context).textTheme.subtitle1),
+              ),
+            )
+            .toList(),
+        isExpanded: true,
+        isDense: false,
+        underline: Container(color: Colors.transparent),
+      ),
+    );
+  }
+
+  _designationChanged(String value) {
+    setState(() {
+      _currentDesignation = value;
+    });
+  }
+
   @override
   void initState() {
     passwordMain = TextEditingController();
@@ -234,7 +269,13 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                     Step(
                       title: Text(
                         'Account',
-                        style: Theme.of(context).textTheme.headline4,
+                        style: Constants.headlineStyle.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'Required',
+                        style: Constants.subheadlineStyle,
                       ),
                       content: Column(
                         children: [
@@ -250,14 +291,14 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                     ),
                     Step(
                       title: Text(
-                        'Account',
-                        style: Theme.of(context).textTheme.headline4,
+                        'Designation',
+                        style: Constants.headlineStyle.copyWith(
+                          color: Colors.black,
+                        ),
                       ),
                       content: Column(
                         children: [
-                          _emailField(),
-                          _passwordField(),
-                          _passwordConfirmField(),
+                          _designationSelector(),
                         ],
                       ),
                       isActive: _currentStep >= 0,
