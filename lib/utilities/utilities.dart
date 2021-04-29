@@ -3,3 +3,4 @@ export 'transitions.dart';
 export 'profile_card_painter.dart';
 export 'dialogs.dart';
 export 'constants.dart';
+export 'pageStyles.dart';

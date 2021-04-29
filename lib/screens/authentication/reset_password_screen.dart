@@ -1,4 +1,3 @@
-import 'package:doctors_of_kenya/constants/constants.dart';
 import 'package:doctors_of_kenya/helpers/helpers.dart';
 import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
