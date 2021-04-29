@@ -7,7 +7,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-import 'package:doctors_of_kenya/constants/constants.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -53,16 +53,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         accentColor: Colors.orange[600],
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: TextTheme(
-          headline5: headlineStyle,
-          headline4: miniheadlineStyle,
-          headline3: subHeadlineWhite,
-          headline2: headlineWhite,
-          subtitle1: subheadlineStyle,
-          subtitle2: drawerItemStyle,
-          bodyText1: normalWhite,
-          bodyText2: subtitleWhite,
-          button: buttonStyle,
+        textTheme: GoogleFonts.latoTextTheme(
+          Theme.of(context).textTheme,
         ),
       ),
       home: FutureBuilder<FirebaseApp>(
