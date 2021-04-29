@@ -68,7 +68,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
 
   continued() {
     // ignore: unnecessary_statements
-    _currentStep < 2 ? setState(() => _currentStep += 1) : null;
+    _currentStep < 1 ? setState(() => _currentStep += 1) : null;
   }
 
   cancel() {
