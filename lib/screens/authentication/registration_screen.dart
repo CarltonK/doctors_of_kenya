@@ -53,7 +53,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   final FocusNode _focusConfirmPassword = FocusNode();
 
   // Form
-  final _registrationFormKey = GlobalKey<FormState>();
+  final _accountFormKey = GlobalKey<FormState>();
 
   // TextControllers
   TextEditingController passwordMain;
@@ -68,12 +68,15 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
 
   continued() {
     // ignore: unnecessary_statements
-    _currentStep < 1 ? setState(() => _currentStep += 1) : null;
+    // _currentStep < 1 ? setState(() => _currentStep += 1) : null;
+    if (_currentStep == 0) {
+      _registrationButtonPressed();
+    }
   }
 
   cancel() {
     // ignore: unnecessary_statements
-    _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
+    _currentStep > 1 ? setState(() => _currentStep -= 1) : null;
   }
 
   // ******Email Stuff*******
@@ -105,6 +108,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
       child: TextFormField(
         controller: passwordMain,
         textInputAction: TextInputAction.next,
+        obscureText: true,
         decoration: InputDecoration(
           labelText: 'Password',
           prefixIcon: const Icon(Icons.vpn_key),
@@ -130,6 +134,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
       child: TextFormField(
         controller: passwordSecondary,
         textInputAction: TextInputAction.done,
+        obscureText: true,
         decoration: InputDecoration(
           labelText: 'Confirm password',
           prefixIcon: const Icon(Icons.vpn_key),
@@ -168,7 +173,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   }
 
   _registrationButtonPressed() {
-    final FormState form = _registrationFormKey.currentState;
+    final FormState form = _accountFormKey.currentState;
     if (form.validate()) {
       form.save();
 
@@ -187,7 +192,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
             );
           });
         } else {
-          Navigator.of(context).pop();
+          // Navigator.of(context).pop();
+          setState(() => _currentStep += 1);
         }
       }).catchError((error) {
         Timer(Duration(milliseconds: 500), () async {
@@ -277,12 +283,15 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                         'Required',
                         style: Constants.subheadlineStyle,
                       ),
-                      content: Column(
-                        children: [
-                          _emailField(),
-                          _passwordField(),
-                          _passwordConfirmField(),
-                        ],
+                      content: Form(
+                        key: _accountFormKey,
+                        child: Column(
+                          children: [
+                            _emailField(),
+                            _passwordField(),
+                            _passwordConfirmField(),
+                          ],
+                        ),
                       ),
                       isActive: _currentStep >= 0,
                       state: _currentStep >= 1

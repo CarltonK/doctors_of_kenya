@@ -1,3 +1,4 @@
+import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
 class GlobalInfoDialog extends StatelessWidget {
@@ -21,7 +22,7 @@ class GlobalInfoDialog extends StatelessWidget {
           const SizedBox(height: 5),
           Text(
             message ?? 'The error message is not specified',
-            style: Theme.of(context).textTheme.headline4,
+            style: Constants.miniheadlineStyle,
             textAlign: TextAlign.center,
           ),
         ],
