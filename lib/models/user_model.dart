@@ -4,11 +4,12 @@ class UserModel {
   String email;
   String password;
   String uid;
-  String age;
-  String sex;
+  DateTime dob;
+  String gender;
   String firstName;
   String lastName;
   String designation;
+  DateTime registeredOn;
 
   // Optional
   String token;
@@ -30,8 +31,8 @@ class UserModel {
     this.email,
     this.password,
     this.uid,
-    this.age,
-    this.sex,
+    this.dob,
+    this.gender,
     this.firstName,
     this.lastName,
     this.designation = 'General',
@@ -45,13 +46,14 @@ class UserModel {
     this.userContact,
     this.professionalQualifications,
     this.token,
+    this.registeredOn,
   });
 
   Map<String, dynamic> toMainFirestoreDoc() => {
         'email': email,
         'uid': uid,
-        'age': age,
-        'sex': sex,
+        'dob': dob,
+        'gender': gender,
         'firstName': firstName,
         'lastName': lastName,
         'designation': designation,
@@ -64,5 +66,6 @@ class UserModel {
         'userAddress': userAddress.toJson(),
         'userContact': userContact.toJson(),
         'professionalQualifications': professionalQualifications.toJson(),
+        'registeredOn': registeredOn,
       };
 }
