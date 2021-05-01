@@ -20,4 +20,15 @@ class QualificationsModel {
     this.specialInterests = const <String>[],
     this.affiliatedInstitutions = const <InstitutionModel>[],
   });
+
+  Map<String, dynamic> toJson() => {
+        'undergraduateDegree': undergraduateDegree,
+        'internshipCentre': internshipCentre,
+        'postGraduateDegree': postGraduateDegree,
+        'fellowship': fellowship,
+        'specializations': specializations,
+        'shortCourses': shortCourses,
+        'specialInterests': specialInterests,
+        'affiliatedInstitutions': affiliatedInstitutions,
+      };
 }

@@ -4,11 +4,12 @@ class UserModel {
   String email;
   String password;
   String uid;
-  String age;
-  String sex;
+  DateTime dob;
+  String gender;
   String firstName;
   String lastName;
   String designation;
+  DateTime registeredOn;
 
   // Optional
   String token;
@@ -24,17 +25,17 @@ class UserModel {
   DateTime mpdbRegDate;
   AddressModel userAddress;
   ContactModel userContact;
-  QualificationsModel professionalQualifications;
+  QualificationsModel qualifications;
 
   UserModel({
     this.email,
     this.password,
     this.uid,
-    this.age,
-    this.sex,
+    this.dob,
+    this.gender,
     this.firstName,
     this.lastName,
-    this.designation = 'public',
+    this.designation = 'General',
     this.chronicConditions = const <String>[],
     this.medications = const <String>[],
     this.primaryDoctor,
@@ -43,29 +44,29 @@ class UserModel {
     this.mpdbRegDate,
     this.userAddress,
     this.userContact,
-    this.professionalQualifications,
+    this.qualifications,
     this.token,
+    this.registeredOn,
   });
 
   Map<String, dynamic> toMainFirestoreDoc() => {
         'email': email,
         'uid': uid,
-      };
-
-  Map<String, dynamic> toPublicFirestoreDoc() => {
-        'email': email,
-        'uid': uid,
-        'age': age,
-        'sex': sex,
+        'dob': dob,
+        'gender': gender,
         'firstName': firstName,
         'lastName': lastName,
         'designation': designation,
-        'token': token,
-      };
-  //private_profile
-  Map<String, dynamic> toPrivateFirestoreDoc() => {
         'chronicConditions': chronicConditions,
-        'medications ': medications,
-        'primaryDoctor': primaryDoctor
+        'medications': medications,
+        'primaryDoctor': primaryDoctor,
+        'otherDoctors': otherDoctors,
+        'mpdbRegNumber': mpdbRegNumber,
+        'mpdbRegDate': mpdbRegDate,
+        'userAddress': userAddress != null ? userAddress.toJson() : null,
+        'userContact': userContact != null ? userContact.toJson() : null,
+        'qualifications':
+            qualifications != null ? qualifications.toJson() : null,
+        'registeredOn': registeredOn,
       };
 }
