@@ -34,7 +34,7 @@ class UserModel {
     this.sex,
     this.firstName,
     this.lastName,
-    this.designation = 'public',
+    this.designation = 'General',
     this.chronicConditions = const <String>[],
     this.medications = const <String>[],
     this.primaryDoctor,
@@ -50,22 +50,19 @@ class UserModel {
   Map<String, dynamic> toMainFirestoreDoc() => {
         'email': email,
         'uid': uid,
-      };
-
-  Map<String, dynamic> toPublicFirestoreDoc() => {
-        'email': email,
-        'uid': uid,
         'age': age,
         'sex': sex,
         'firstName': firstName,
         'lastName': lastName,
         'designation': designation,
-        'token': token,
-      };
-  //private_profile
-  Map<String, dynamic> toPrivateFirestoreDoc() => {
         'chronicConditions': chronicConditions,
-        'medications ': medications,
-        'primaryDoctor': primaryDoctor
+        'medications': medications,
+        'primaryDoctor': primaryDoctor,
+        'otherDoctors': otherDoctors,
+        'mpdbRegNumber': mpdbRegNumber,
+        'mpdbRegDate': mpdbRegDate,
+        'userAddress': userAddress.toJson(),
+        'userContact': userContact.toJson(),
+        'professionalQualifications': professionalQualifications.toJson(),
       };
 }

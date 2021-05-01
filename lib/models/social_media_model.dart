@@ -8,4 +8,10 @@ class SocialMediaModel {
     this.facebookHandle,
     this.youtubeHandle,
   });
+
+  Map<String, dynamic> toJson() => {
+        'twitterHandle': twitterHandle,
+        'facebookHandle': facebookHandle,
+        'youtubeHandle': youtubeHandle,
+      };
 }
