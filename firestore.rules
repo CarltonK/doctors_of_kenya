@@ -1,8 +1,23 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // Global Functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // Rules
     match /{document=**} {
       allow read, write: if false;
+    }
+
+    match /users/{user} {
+      allow create: if isSignedIn() && isOwner(user);
     }
   }
 }

@@ -54,7 +54,7 @@ steps:
         echo "**********************************************"
         echo
 
-        firebase deploy --only functions --project=${_PROJECT_ID} --token=${_FIREBASE_TOKEN}
+        firebase deploy --only functions --project=${_PROJECT_ID} --token=${_FIREBASE_TOKEN} -f
 
         echo
         echo "**********************************************"

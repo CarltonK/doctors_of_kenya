@@ -16,4 +16,13 @@ class ContactModel {
     this.emergency,
     this.otherNumbers = const <String>[],
   });
+
+  Map<String, dynamic> toJson() => {
+        'personalNumber': personalNumber,
+        'officeNumber': officeNumber,
+        'email': email,
+        'socialMediaModel': socialMediaModel.toJson(),
+        'emergency': emergency,
+        'otherNumbers': otherNumbers,
+      };
 }
