@@ -25,7 +25,7 @@ class UserModel {
   DateTime mpdbRegDate;
   AddressModel userAddress;
   ContactModel userContact;
-  QualificationsModel professionalQualifications;
+  QualificationsModel qualifications;
 
   UserModel({
     this.email,
@@ -44,7 +44,7 @@ class UserModel {
     this.mpdbRegDate,
     this.userAddress,
     this.userContact,
-    this.professionalQualifications,
+    this.qualifications,
     this.token,
     this.registeredOn,
   });
@@ -63,9 +63,10 @@ class UserModel {
         'otherDoctors': otherDoctors,
         'mpdbRegNumber': mpdbRegNumber,
         'mpdbRegDate': mpdbRegDate,
-        'userAddress': userAddress.toJson(),
-        'userContact': userContact.toJson(),
-        'professionalQualifications': professionalQualifications.toJson(),
+        'userAddress': userAddress != null ? userAddress.toJson() : null,
+        'userContact': userContact != null ? userContact.toJson() : null,
+        'qualifications':
+            qualifications != null ? qualifications.toJson() : null,
         'registeredOn': registeredOn,
       };
 }
