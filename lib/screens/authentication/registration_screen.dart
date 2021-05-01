@@ -5,6 +5,7 @@ import 'package:doctors_of_kenya/models/models.dart';
 import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,6 +41,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   // Identifiers
   int _currentStep = 0;
   StepperType _stepperType = StepperType.vertical;
+  String _firstName, _lastName;
   String _email;
   String _password;
   String _confirmPassword;
@@ -47,8 +49,14 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   dynamic _registrationResult;
   String _currentDesignation = 'General';
   List<String> _designations = ['Doctor', 'Liaison', 'General'];
+  String _selectedGender;
+  List<String> _genders = ['Male', 'Female', 'Do not wish to disclose'];
+  final int _eighteenYearsInDays = 6570;
+  DateTime _dob;
 
   // Focus Nodes
+  final FocusNode _focusLastName = FocusNode();
+  final FocusNode _focusEmail = FocusNode();
   final FocusNode _focusPassword = FocusNode();
   final FocusNode _focusConfirmPassword = FocusNode();
 
@@ -68,15 +76,67 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
 
   continued() {
     // ignore: unnecessary_statements
-    // _currentStep < 1 ? setState(() => _currentStep += 1) : null;
-    if (_currentStep == 0) {
-      _registrationButtonPressed();
+    _currentStep <= 1 ? setState(() => _currentStep += 1) : null;
+    // if (_currentStep == 0) {
+    //   // _registrationButtonPressed();
+    //   setState(() => _currentStep += 1);
+    // }
+    // if (_currentStep == 1) {
+    //   setState(() => _currentStep += 1);
+    // }
+    if (_currentStep == 2) {
+      // print('Ola');
+      // _registrationButtonPressed();
     }
   }
 
   cancel() {
     // ignore: unnecessary_statements
-    _currentStep > 1 ? setState(() => _currentStep -= 1) : null;
+    _currentStep >= 1 ? setState(() => _currentStep -= 1) : null;
+  }
+
+  // ******Name Stuff*******
+  Widget _firstNameField() {
+    return Container(
+      child: TextFormField(
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          labelText: 'First Name',
+          prefixIcon: const Icon(Icons.person),
+        ),
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(_focusLastName);
+        },
+        validator: _validationHelper.validateNames,
+        onSaved: saveFirstName,
+      ),
+    );
+  }
+
+  Widget _lastNameField() {
+    return Container(
+      child: TextFormField(
+        textInputAction: TextInputAction.next,
+        focusNode: _focusLastName,
+        decoration: InputDecoration(
+          labelText: 'Last Name',
+          prefixIcon: const Icon(Icons.person),
+        ),
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(_focusEmail);
+        },
+        validator: _validationHelper.validateNames,
+        onSaved: saveLastName,
+      ),
+    );
+  }
+
+  void saveFirstName(String value) {
+    _firstName = value.trim();
+  }
+
+  void saveLastName(String value) {
+    _lastName = value.trim();
   }
 
   // ******Email Stuff*******
@@ -84,6 +144,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     return Container(
       child: TextFormField(
         textInputAction: TextInputAction.next,
+        focusNode: _focusEmail,
         decoration: InputDecoration(
           labelText: 'Email',
           prefixIcon: const Icon(Icons.email),
@@ -99,7 +160,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
 
   void saveEmail(String value) {
     _email = value.trim();
-    // print('Email -> $_email');
   }
 
   // ******Password Stuff*******
@@ -125,7 +185,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
 
   void savePassword(String value) {
     _password = value.trim();
-    // print('Password -> $_password');
   }
 
   // ******Password Confirm Stuff*******
@@ -148,7 +207,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
         focusNode: _focusConfirmPassword,
         onFieldSubmitted: (String value) {
           FocusScope.of(context).unfocus();
-          _registrationButtonPressed();
         },
         onSaved: saveConfirmPassword,
       ),
@@ -157,7 +215,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
 
   void saveConfirmPassword(String value) {
     _confirmPassword = value.trim();
-    // print('Password (2) -> $_confirmPassword');
   }
 
   Future<bool> _regHandler(UserModel user) async {
@@ -169,40 +226,64 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     if (_registrationResult.runtimeType == String) {
       return false;
     }
+    _userModel.uid = _registrationResult.uid;
     return true;
   }
 
   _registrationButtonPressed() {
     final FormState form = _accountFormKey.currentState;
-    if (form.validate()) {
-      form.save();
 
-      // Create a user instance
-      _userModel = UserModel(
-        email: _email,
-        password: _password == _confirmPassword ? _confirmPassword : null,
+    if (_selectedGender == null) {
+      showInfoDialog(
+        _scaffoldKey.currentContext,
+        'Please select your gender',
       );
+    } else if (_dob == null) {
+      showInfoDialog(
+        _scaffoldKey.currentContext,
+        'Please select your date of birth',
+      );
+    } else {
+      if (form.validate()) {
+        form.save();
 
-      _regHandler(_userModel).then((value) {
-        if (!value) {
-          Timer(Duration(milliseconds: 500), () async {
-            await showInfoDialog(
-              _scaffoldKey.currentContext,
-              _registrationResult,
-            );
-          });
-        } else {
-          // Navigator.of(context).pop();
-          setState(() => _currentStep += 1);
-        }
-      }).catchError((error) {
-        Timer(Duration(milliseconds: 500), () async {
-          await showInfoDialog(
-            _scaffoldKey.currentContext,
-            error.toString(),
-          );
-        });
-      });
+        // Create a user instance
+        _userModel = UserModel(
+          firstName: _firstName,
+          lastName: _lastName,
+          email: _email,
+          designation: _currentDesignation,
+          dob: _dob,
+          gender: _selectedGender,
+          password: _password == _confirmPassword ? _confirmPassword : null,
+          registeredOn: DateTime.now(),
+        );
+
+        print(_userModel.toMainFirestoreDoc());
+
+        // setState(() => _currentStep += 1);
+
+        // _regHandler(_userModel).then((value) {
+        //   if (!value) {
+        //     Timer(Duration(milliseconds: 500), () async {
+        //       await showInfoDialog(
+        //         _scaffoldKey.currentContext,
+        //         _registrationResult,
+        //       );
+        //     });
+        //   } else {
+        //     // Navigator.of(context).pop();
+        //     setState(() => _currentStep += 1);
+        //   }
+        // }).catchError((error) {
+        //   Timer(Duration(milliseconds: 500), () async {
+        //     await showInfoDialog(
+        //       _scaffoldKey.currentContext,
+        //       error.toString(),
+        //     );
+        //   });
+        // });
+      }
     }
   }
 
@@ -236,7 +317,69 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   _designationChanged(String value) {
     setState(() {
       _currentDesignation = value;
+      _userModel.designation = _currentDesignation;
     });
+  }
+
+  // ******Gender Stuff*******
+  _genderSelector() {
+    return Container(
+      padding: const EdgeInsets.all(6),
+      margin: const EdgeInsets.only(top: 15),
+      decoration: Constants.kBoxDecorationStyle,
+      child: DropdownButton<String>(
+        value: _selectedGender,
+        style: Theme.of(context).textTheme.subtitle1,
+        onChanged: _genderChanged,
+        icon: Icon(Icons.arrow_downward, color: Theme.of(context).accentColor),
+        hint: Text('Gender', style: Theme.of(context).textTheme.subtitle1),
+        items: _genders
+            .map(
+              (e) => DropdownMenuItem<String>(
+                value: e,
+                child: Text(e, style: Theme.of(context).textTheme.subtitle1),
+              ),
+            )
+            .toList(),
+        isExpanded: true,
+        isDense: false,
+        underline: Container(color: Colors.transparent),
+      ),
+    );
+  }
+
+  _genderChanged(String value) {
+    setState(() {
+      _selectedGender = value;
+    });
+  }
+
+  // ******Date Selector Stuff*******
+  Widget _dateSelector() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Date of Birth',
+            style: Constants.subheadlineStyle,
+          ),
+          Container(
+            height: 200,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              initialDateTime: DateTime.now().subtract(
+                Duration(days: _eighteenYearsInDays),
+              ),
+              onDateTimeChanged: (DateTime newDateTime) {
+                _dob = newDateTime;
+              },
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -257,14 +400,14 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: double.infinity,
+      // height: double.infinity,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 100, top: 100),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Card(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Card(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4),
@@ -274,7 +417,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                   steps: <Step>[
                     Step(
                       title: Text(
-                        'Account',
+                        'Personal Information (1/2)',
                         style: Constants.headlineStyle.copyWith(
                           color: Colors.black,
                         ),
@@ -287,6 +430,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                         key: _accountFormKey,
                         child: Column(
                           children: [
+                            _firstNameField(),
+                            _lastNameField(),
                             _emailField(),
                             _passwordField(),
                             _passwordConfirmField(),
@@ -295,6 +440,28 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                       ),
                       isActive: _currentStep >= 0,
                       state: _currentStep >= 1
+                          ? StepState.complete
+                          : StepState.disabled,
+                    ),
+                    Step(
+                      title: Text(
+                        'Personal Information (2/2)',
+                        style: Constants.headlineStyle.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'Required',
+                        style: Constants.subheadlineStyle,
+                      ),
+                      content: Column(
+                        children: [
+                          _genderSelector(),
+                          _dateSelector(),
+                        ],
+                      ),
+                      isActive: _currentStep >= 0,
+                      state: _currentStep >= 2
                           ? StepState.complete
                           : StepState.disabled,
                     ),
@@ -311,7 +478,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                         ],
                       ),
                       isActive: _currentStep >= 0,
-                      state: _currentStep >= 1
+                      state: _currentStep >= 3
                           ? StepState.complete
                           : StepState.disabled,
                     ),
@@ -323,87 +490,16 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                   onStepCancel: cancel,
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            NavigationHelper(
-              leading: "Already have an account?",
-              action: "Login",
-              onTap: () => Navigator.of(context).pop(),
-            ),
-          ],
+              const SizedBox(height: 16),
+              NavigationHelper(
+                leading: "Already have an account?",
+                action: "Login",
+                onTap: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
-
-// class RegistrationBody extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: double.infinity,
-//       child: SingleChildScrollView(
-//         physics: AlwaysScrollableScrollPhysics(),
-//         padding: layoutPadding(context),
-//         child: Padding(
-//           padding: EdgeInsets.symmetric(vertical: 100),
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               FlutterLogo(size: 100),
-//               const SizedBox(height: 16),
-//               Card(
-//                 margin: const EdgeInsets.symmetric(horizontal: 16),
-//                 shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(4),
-//                 ),
-//                 elevation: 3,
-//                 child: Container(
-//                   padding: const EdgeInsets.symmetric(
-//                     horizontal: 16,
-//                     vertical: 24,
-//                   ),
-//                   child: Form(
-//                     key: _registrationFormKey,
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.center,
-//                       mainAxisSize: MainAxisSize.min,
-//                       children: [
-//                         Text(
-//                           'Welcome',
-//                           style: Theme.of(context).textTheme.headline5,
-//                         ),
-//                         const SizedBox(height: 3),
-//                         Text(
-//                           'Create an Account',
-//                           style: Theme.of(context).textTheme.subtitle1,
-//                         ),
-//                         const SizedBox(height: 16),
-//                         _emailField(context),
-//                         const SizedBox(height: 16),
-//                         _passwordField(context),
-//                         const SizedBox(height: 16),
-//                         _passwordConfirmField(context),
-//                         const SizedBox(height: 16),
-//                         GlobalActionButton(
-//                           action: 'Register',
-//                           onPressed: () => _registrationButtonPressed(context),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(height: 16),
-//               NavigationHelper(
-//                 leading: "Already have an account?",
-//                 action: "Login",
-//                 onTap: () => Navigator.of(context).pop(),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
