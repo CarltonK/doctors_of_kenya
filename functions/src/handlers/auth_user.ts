@@ -1,24 +1,26 @@
-import { auth, firestore } from 'firebase-admin';
+import { auth } from 'firebase-admin';
 import { Logger } from '@firebase/logger';
 import * as functions from 'firebase-functions';
 
 export default class AuthenticationUserHandler {
     private logger: Logger = new Logger('AuthenticationUserHandler');
-    private db: firestore.Firestore = firestore();
 
     constructor() {
         this.logger.setLogLevel('debug');
     }
 
     public async newUserHandler(user: auth.UserRecord, context: functions.EventContext) {
-        // Main Doc Reference
-        const userRef = this.db.doc(`users/${user.uid}`);
 
         try {
-            await userRef.set({
-                uid: user.uid,
-                email: user.email ?? null,
-            });
+            // Check sign in method
+            const providers: auth.UserInfo[] = user.providerData;
+
+            if (providers.length === 0) {
+                // Assign claims
+                const uid: string = user.uid;
+                await auth().setCustomUserClaims(uid, { role: 'public' });
+            }
+            
         } catch (error) {
             this.logger.error('newUserHandler: ', error);
         }

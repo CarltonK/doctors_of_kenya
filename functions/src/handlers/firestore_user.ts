@@ -1,5 +1,5 @@
 import { Logger } from '@firebase/logger';
-import { firestore } from 'firebase-admin';
+import { firestore, auth } from 'firebase-admin';
 
 export default class FirestoreUserHandler {
   private logger: Logger = new Logger('FirestoreUserHandler');
@@ -18,26 +18,50 @@ export default class FirestoreUserHandler {
     const mainDocRef = this.db.doc(`users/${this.uid}`);
     const publicProfileDocRef = this.db.doc(`users/${this.uid}/public_profile/${this.uid}`);
     const privateProfileDocRef = this.db.doc(`users/${this.uid}/private_profile/${this.uid}`);
+    const premiumProfileDocRef = this.db.doc(`users/${this.uid}/premium_profile/${this.uid}`);
 
     this.logger.info('The new user is identified by: ', this.uid);
 
     const { designation } = snapshot.data();
+    // General
+    const { email, firstName, lastName, registeredOn } = snapshot.data();
+    // Private - General
+    const { chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender } = snapshot.data();
+    // Doctor
+    const { mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications } = snapshot.data();
 
     if (!designation) throw this.logger.error('newUserDocumentHandler: ', 'No designation provided');
 
       try {
-        if (designation === 'user') {
-          this.writeToPublicDoc(publicProfileDocRef, snapshot.data());
+        if (designation === 'General') {
+
+          // Assign claims
+          await auth().setCustomUserClaims(this.uid, { role: 'general' });
+          
+          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation });
+
+          this.writeToPrivateDoc(privateProfileDocRef,{ chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, designation });
+
         }
 
-        if (designation === 'doctor') {
-          this.writeToPublicDoc(publicProfileDocRef, snapshot.data());
-          this.writeToPrivateDoc(privateProfileDocRef, snapshot.data());
+        if (designation === 'Doctor') {
+
+          // Assign claims
+          await auth().setCustomUserClaims(this.uid, { role: 'premium' });
+
+
+          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation });
+
+          this.writeToPrivateDoc(premiumProfileDocRef,{ mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, designation });
         } 
         
-        if (designation === 'liaison') {
-          this.writeToPublicDoc(publicProfileDocRef, snapshot.data());
-          this.writeToPrivateDoc(privateProfileDocRef, snapshot.data());
+        if (designation === 'Liaison') {
+
+          // Assign claims
+          await auth().setCustomUserClaims(this.uid, { role: 'liaison' });
+
+          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation });
+
         }
       } catch (error) {
         this.logger.error('newUserDocumentHandler: ', error);
