@@ -5,6 +5,7 @@
     "build": "tsc",
     "serve": "npm run build && firebase emulators:start --only functions",
     "serve:dev": "npm run lint && npm run build && firebase emulators:start --import=../data",
+    "serve:local": "npm run lint && npm run build && firebase emulators:start",
     "local:export": "firebase emulators:export ../data",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
