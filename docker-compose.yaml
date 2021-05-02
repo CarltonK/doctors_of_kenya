@@ -1,7 +1,7 @@
 version: '3.3' # Requires Docker engine 18.02.0+\
 
 services:
-  naqua:
+  dok:
     container_name: dok
     build:
       context: .
@@ -10,13 +10,8 @@ services:
       - type: bind
         source: .
         target: /app/
-    ports:
-      - 5001:5001
-      - 8080:8080
-      - 8085:8085
-      - 4001:4001
-      - 4000:4000
     # attach terminal
     tty: true
+    network_mode: "host"
     environment: 
       NODE_ENV: "local"

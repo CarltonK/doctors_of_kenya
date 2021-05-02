@@ -65,7 +65,7 @@ class Constants {
 
   static const headlineWhite = TextStyle(
     color: Colors.white,
-    fontSize: 27,
+    fontSize: 30,
     fontWeight: FontWeight.bold,
   );
 

@@ -109,6 +109,18 @@ class LoginBody extends StatelessWidget {
     return true;
   }
 
+  Future<bool> _anonLoginHandler(BuildContext context) async {
+    _loginResult = await Provider.of<AuthProvider>(
+      context,
+      listen: false,
+    ).anonymousSignIn();
+
+    if (_loginResult.runtimeType == String) {
+      return false;
+    }
+    return true;
+  }
+
   _loginButtonPressed(BuildContext context) {
     final FormState form = _loginFormKey.currentState;
     if (form.validate()) {
@@ -221,8 +233,25 @@ class LoginBody extends StatelessWidget {
               NavigationHelper(
                 leading: "Only want to have a look around?",
                 action: "Sign In",
-                onTap: () => Provider.of<AuthProvider>(context, listen: false)
-                    .anonymousSignIn(),
+                onTap: () async {
+                  _anonLoginHandler(context).then((value) {
+                    if (!value) {
+                      Timer(Duration(milliseconds: 500), () async {
+                        await showInfoDialog(
+                          _scaffoldKey.currentContext,
+                          _loginResult,
+                        );
+                      });
+                    }
+                  }).catchError((error) {
+                    Timer(Duration(milliseconds: 500), () async {
+                      await showInfoDialog(
+                        _scaffoldKey.currentContext,
+                        error.toString(),
+                      );
+                    });
+                  });
+                },
               ),
             ],
           ),

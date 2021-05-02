@@ -55,16 +55,13 @@ class PractitionerCard extends StatelessWidget {
       children: [
         Text(
           'Dr. Wayne Rooney',
-          style: Theme.of(context).textTheme.headline2,
+          style: Constants.subHeadlineWhite,
           overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(
           height: 5,
         ),
-        Text(
-          'Opthalmologist',
-          style: Theme.of(context).textTheme.bodyText2,
-        ),
+        Text('Opthalmologist', style: Constants.subtitleWhite),
         const SizedBox(
           height: 5,
         ),
