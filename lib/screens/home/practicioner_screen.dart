@@ -31,12 +31,12 @@ class PracticionerScreen extends StatelessWidget {
             children: <Widget>[
               Text(
                 'Wayne Rooney',
-                style: Theme.of(context).textTheme.headline2,
+                style: Constants.headlineWhite,
               ),
               const SizedBox(height: 5),
               Text(
                 'Clinical Surgeon',
-                style: Theme.of(context).textTheme.bodyText2,
+                style: Constants.subtitleWhite,
               ),
             ],
           ),

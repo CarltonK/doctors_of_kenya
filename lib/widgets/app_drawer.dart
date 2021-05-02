@@ -30,12 +30,12 @@ class AppDrawer extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         'Wayne Rooney',
-                        style: Theme.of(context).textTheme.headline3,
+                        style: Constants.headlineWhite,
                       ),
                       const SizedBox(height: 5),
                       Text(
                         'Clinical Surgeon',
-                        style: Theme.of(context).textTheme.bodyText2,
+                        style: Constants.subtitleWhite,
                       ),
                     ],
                   ),
@@ -152,7 +152,7 @@ class ListItem extends StatelessWidget {
         ListTile(
           title: Text(
             title ?? '',
-            style: Theme.of(context).textTheme.subtitle2,
+            style: Constants.miniheadlineStyle,
           ),
           onTap: () {
             // Pop the drawer before pushing a route

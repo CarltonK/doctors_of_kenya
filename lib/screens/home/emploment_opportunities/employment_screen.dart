@@ -1,4 +1,5 @@
 import 'package:doctors_of_kenya/screens/home/home.dart';
+import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class EmploymentScreen extends StatelessWidget {
           backgroundColor: Theme.of(context).accentColor,
           title: Text(
             'Employment Opportunities',
-            style: Theme.of(context).textTheme.headline3,
+            style: Constants.headlineWhite,
           ),
           bottom: _tabHeaders(),
         ),
