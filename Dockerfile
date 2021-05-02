@@ -40,4 +40,4 @@ RUN cd functions
 
 RUN npm install
 
-ENTRYPOINT [ "make", "run" ]
+ENTRYPOINT [ "make", "serve-dev" ]
