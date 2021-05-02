@@ -18,7 +18,7 @@ void main() {
       create: (context) => AuthProvider.instance(),
     ),
     Provider(
-      create: (context) => DatabaseProvider.empty(),
+      create: (context) => DatabaseProvider(),
     ),
   ];
 
