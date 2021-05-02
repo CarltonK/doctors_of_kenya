@@ -47,7 +47,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   String _confirmPassword;
   UserModel _userModel;
   dynamic _registrationResult;
-  String _currentDesignation = 'General';
+  String _currentDesignation;
   List<String> _designations = ['Doctor', 'Liaison', 'General'];
   String _selectedGender;
   List<String> _genders = ['Male', 'Female', 'Do not wish to disclose'];
@@ -76,17 +76,9 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
 
   continued() {
     // ignore: unnecessary_statements
-    _currentStep <= 1 ? setState(() => _currentStep += 1) : null;
-    // if (_currentStep == 0) {
-    //   // _registrationButtonPressed();
-    //   setState(() => _currentStep += 1);
-    // }
-    // if (_currentStep == 1) {
-    //   setState(() => _currentStep += 1);
-    // }
+    _currentStep < 2 ? setState(() => _currentStep += 1) : null;
     if (_currentStep == 2) {
-      // print('Ola');
-      // _registrationButtonPressed();
+      _registrationButtonPressed();
     }
   }
 
@@ -207,6 +199,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
         focusNode: _focusConfirmPassword,
         onFieldSubmitted: (String value) {
           FocusScope.of(context).unfocus();
+          // setState(() => _currentStep += 1);
         },
         onSaved: saveConfirmPassword,
       ),
@@ -243,6 +236,11 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
         _scaffoldKey.currentContext,
         'Please select your date of birth',
       );
+    } else if (_currentDesignation == null) {
+      showInfoDialog(
+        _scaffoldKey.currentContext,
+        'Please select your designation',
+      );
     } else {
       if (form.validate()) {
         form.save();
@@ -252,37 +250,32 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
           firstName: _firstName,
           lastName: _lastName,
           email: _email,
-          designation: _currentDesignation,
-          dob: _dob,
-          gender: _selectedGender,
           password: _password == _confirmPassword ? _confirmPassword : null,
+          gender: _selectedGender,
+          dob: _dob,
+          designation: _currentDesignation,
           registeredOn: DateTime.now(),
         );
 
-        print(_userModel.toMainFirestoreDoc());
-
-        // setState(() => _currentStep += 1);
-
-        // _regHandler(_userModel).then((value) {
-        //   if (!value) {
-        //     Timer(Duration(milliseconds: 500), () async {
-        //       await showInfoDialog(
-        //         _scaffoldKey.currentContext,
-        //         _registrationResult,
-        //       );
-        //     });
-        //   } else {
-        //     // Navigator.of(context).pop();
-        //     setState(() => _currentStep += 1);
-        //   }
-        // }).catchError((error) {
-        //   Timer(Duration(milliseconds: 500), () async {
-        //     await showInfoDialog(
-        //       _scaffoldKey.currentContext,
-        //       error.toString(),
-        //     );
-        //   });
-        // });
+        _regHandler(_userModel).then((value) {
+          if (!value) {
+            Timer(Duration(milliseconds: 500), () async {
+              await showInfoDialog(
+                _scaffoldKey.currentContext,
+                _registrationResult,
+              );
+            });
+          } else {
+            Navigator.of(context).pop();
+          }
+        }).catchError((error) {
+          Timer(Duration(milliseconds: 500), () async {
+            await showInfoDialog(
+              _scaffoldKey.currentContext,
+              error.toString(),
+            );
+          });
+        });
       }
     }
   }
@@ -317,7 +310,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   _designationChanged(String value) {
     setState(() {
       _currentDesignation = value;
-      _userModel.designation = _currentDesignation;
     });
   }
 
@@ -369,8 +361,11 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
             height: 200,
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
-              initialDateTime: DateTime.now().subtract(
+              maximumDate: DateTime.now().subtract(
                 Duration(days: _eighteenYearsInDays),
+              ),
+              initialDateTime: DateTime.now().subtract(
+                Duration(days: _eighteenYearsInDays + 1),
               ),
               onDateTimeChanged: (DateTime newDateTime) {
                 _dob = newDateTime;
@@ -439,7 +434,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                         ),
                       ),
                       isActive: _currentStep >= 0,
-                      state: _currentStep >= 1
+                      state: _currentStep >= 0
                           ? StepState.complete
                           : StepState.disabled,
                     ),
@@ -461,7 +456,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                         ],
                       ),
                       isActive: _currentStep >= 0,
-                      state: _currentStep >= 2
+                      state: _currentStep >= 1
                           ? StepState.complete
                           : StepState.disabled,
                     ),
@@ -478,7 +473,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                         ],
                       ),
                       isActive: _currentStep >= 0,
-                      state: _currentStep >= 3
+                      state: _currentStep >= 2
                           ? StepState.complete
                           : StepState.disabled,
                     ),
