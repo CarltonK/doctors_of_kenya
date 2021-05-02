@@ -1,10 +1,18 @@
+// import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
 class DatabaseProvider {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  DatabaseProvider.empty();
+  DatabaseProvider() {
+    // Comment this line for production
+    // String host = Platform.isAndroid ? '192.168.2.111:8080' : 'localhost:8080';
+    // _db.settings = Settings(
+    //   host: host,
+    //   sslEnabled: false,
+    // );
+  }
 
   Future saveUser(UserModel user, String uid) async {
     try {

@@ -13,9 +13,11 @@ class AuthProvider with ChangeNotifier {
   Status get status => _status;
   User get user => currentUser;
 
-  DatabaseProvider database = DatabaseProvider.empty();
+  DatabaseProvider database = DatabaseProvider();
 
   AuthProvider.instance() : auth = FirebaseAuth.instance {
+    // Comment this line for production
+    // auth.useEmulator("http://192.168.2.111:9099");
     auth.authStateChanges().listen(_onAuthStateChanged);
   }
 
@@ -39,7 +41,7 @@ class AuthProvider with ChangeNotifier {
     _status = Status.Authenticating;
     notifyListeners();
     try {
-      UserCredential result = await FirebaseAuth.instance.signInAnonymously();
+      UserCredential result = await auth.signInAnonymously();
       currentUser = result.user;
 
       return Future.value(currentUser);
