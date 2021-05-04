@@ -11,13 +11,39 @@ service cloud.firestore {
       return request.auth.uid == userId;
     }
 
+    function isRolePremium() {
+      return request.auth.token.role == 'premium';
+    }
+
+    function isRoleLiaison() {
+      return request.auth.token.role == 'liaison';
+    }
+
+    function isRoleAdmin() {
+      return request.auth.token.role == 'admin';
+    }
+
     // Rules
     match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if isSignedIn() && isRoleAdmin();
     }
 
     match /users/{user} {
       allow create: if isSignedIn() && isOwner(user);
+    }
+
+    match /{path=**}/public_profile/{user} {
+      allow read: if isSignedIn();
+    }
+
+    match /{path=**}/private_profile/{user} {
+      allow read: if isSignedIn() && (isRolePremium() || isOwner(user));
+      allow update: if isOwner(user);
+    }
+
+    match /{path=**}/premium_profile/{user} {
+      allow read: if isSignedIn() && isRolePremium();
+      allow update: if isOwner(user);
     }
   }
 }
