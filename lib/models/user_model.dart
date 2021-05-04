@@ -20,7 +20,7 @@ class UserModel {
   String primaryDoctor;
   List<String> otherDoctors;
 
-  // Medical Practitioners
+  // Required for Medical Practitioners
   String mpdbRegNumber;
   DateTime mpdbRegDate;
   AddressModel userAddress;
