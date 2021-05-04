@@ -53,12 +53,22 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   List<String> _genders = ['Male', 'Female', 'Do not wish to disclose'];
   final int _eighteenYearsInDays = 6570;
   DateTime _dob;
+  List<String> _chronicConditions = [];
+  List<String> _currentMedications = [];
+  String _primaryDoctor;
+  List<String> _otherDoctors = [];
+  String _mpdbNumber;
+  DateTime _mpdbRegistrationDate;
+  bool _formComplete = false;
 
   // Focus Nodes
   final FocusNode _focusLastName = FocusNode();
   final FocusNode _focusEmail = FocusNode();
   final FocusNode _focusPassword = FocusNode();
   final FocusNode _focusConfirmPassword = FocusNode();
+  final FocusNode _focusOtherDoctors = FocusNode();
+  final FocusNode _focusMedications = FocusNode();
+  final FocusNode _focusConditions = FocusNode();
 
   // Form
   final _accountFormKey = GlobalKey<FormState>();
@@ -76,8 +86,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
 
   continued() {
     // ignore: unnecessary_statements
-    _currentStep < 2 ? setState(() => _currentStep += 1) : null;
-    if (_currentStep == 2) {
+    _currentStep < 3 ? setState(() => _currentStep += 1) : null;
+    if (_currentStep == 3 && _formComplete) {
       _registrationButtonPressed();
     }
   }
@@ -223,63 +233,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     return true;
   }
 
-  _registrationButtonPressed() {
-    final FormState form = _accountFormKey.currentState;
-
-    if (_selectedGender == null) {
-      showInfoDialog(
-        _scaffoldKey.currentContext,
-        'Please select your gender',
-      );
-    } else if (_dob == null) {
-      showInfoDialog(
-        _scaffoldKey.currentContext,
-        'Please select your date of birth',
-      );
-    } else if (_currentDesignation == null) {
-      showInfoDialog(
-        _scaffoldKey.currentContext,
-        'Please select your designation',
-      );
-    } else {
-      if (form.validate()) {
-        form.save();
-
-        // Create a user instance
-        _userModel = UserModel(
-          firstName: _firstName,
-          lastName: _lastName,
-          email: _email,
-          password: _password == _confirmPassword ? _confirmPassword : null,
-          gender: _selectedGender,
-          dob: _dob,
-          designation: _currentDesignation,
-          registeredOn: DateTime.now(),
-        );
-
-        _regHandler(_userModel).then((value) {
-          if (!value) {
-            Timer(Duration(milliseconds: 500), () async {
-              await showInfoDialog(
-                _scaffoldKey.currentContext,
-                _registrationResult,
-              );
-            });
-          } else {
-            Navigator.of(context).pop();
-          }
-        }).catchError((error) {
-          Timer(Duration(milliseconds: 500), () async {
-            await showInfoDialog(
-              _scaffoldKey.currentContext,
-              error.toString(),
-            );
-          });
-        });
-      }
-    }
-  }
-
   // ******Designation Stuff*******
   _designationSelector() {
     return Container(
@@ -310,6 +263,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   _designationChanged(String value) {
     setState(() {
       _currentDesignation = value;
+      if (_currentDesignation == 'Liasion') _formComplete = true;
     });
   }
 
@@ -377,6 +331,229 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
+  // ******Practitioners Stuff*******
+  // ******Mpdb number Stuff*******
+  Widget _mpdbField() {
+    return Container(
+      child: TextFormField(
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+          labelText: 'MPDB Registration Number',
+          prefixIcon: const Icon(Icons.app_registration),
+        ),
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).unfocus();
+        },
+        validator: _validationHelper.validateMpdbNumber,
+        onSaved: saveMpdbNumber,
+      ),
+    );
+  }
+
+  void saveMpdbNumber(String value) {
+    _mpdbNumber = value.trim();
+  }
+
+  // ******Mpdb registration date Stuff*******
+  Widget _mpdbRegDateSelector() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'MPDB Registration Date',
+            style: Constants.subheadlineStyle,
+          ),
+          Container(
+            height: 200,
+            child: CupertinoDatePicker(
+              mode: CupertinoDatePickerMode.date,
+              initialDateTime: DateTime.now(),
+              onDateTimeChanged: (DateTime newDateTime) {
+                _mpdbRegistrationDate = newDateTime;
+                setState(() {
+                  _formComplete = true;
+                });
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ******Non-practitioners Stuff*******
+  // ******Primary Doctor Stuff*******
+  Widget _primaryDoctorField() {
+    return Container(
+      child: TextFormField(
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          labelText: 'Primary doctor',
+          helperText: 'There is no need to add `Dr.` before the name',
+          prefixIcon: const Icon(Icons.person),
+        ),
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(_focusOtherDoctors);
+        },
+        onSaved: savePrimaryDoctor,
+      ),
+    );
+  }
+
+  void savePrimaryDoctor(String value) {
+    _primaryDoctor = value.trim();
+  }
+
+  // ******Other Doctors Stuff*******
+  Widget _otherDoctorsField() {
+    return Container(
+      child: TextFormField(
+        textInputAction: TextInputAction.next,
+        focusNode: _focusOtherDoctors,
+        decoration: InputDecoration(
+          labelText: 'Other doctors',
+          helperText: 'Please enter the names separated by a comma (,)',
+          prefixIcon: const Icon(Icons.people),
+        ),
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(_focusConditions);
+        },
+        onSaved: saveOtherDoctors,
+      ),
+    );
+  }
+
+  void saveOtherDoctors(String value) {
+    if (value.contains(',')) {
+      _otherDoctors = [...value.split(',')];
+    } else {
+      _otherDoctors.add(value);
+    }
+  }
+
+  // ******Conditions Stuff*******
+  Widget _conditionsField() {
+    return Container(
+      child: TextFormField(
+        textInputAction: TextInputAction.next,
+        focusNode: _focusConditions,
+        decoration: InputDecoration(
+          labelText: 'Current conditions',
+          helperText: 'Please enter your conditions separated by a comma (,)',
+          prefixIcon: const Icon(Icons.sick),
+        ),
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).requestFocus(_focusMedications);
+        },
+        onSaved: saveConditions,
+      ),
+    );
+  }
+
+  void saveConditions(String value) {
+    if (value.contains(',')) {
+      _chronicConditions = [...value.split(',')];
+    } else {
+      _chronicConditions.add(value);
+    }
+  }
+
+  // ******Medications Stuff*******
+  Widget _medicationsField() {
+    return Container(
+      child: TextFormField(
+        textInputAction: TextInputAction.done,
+        focusNode: _focusMedications,
+        decoration: InputDecoration(
+          labelText: 'Medications',
+          helperText: 'Please enter your medications separated by a comma (,)',
+          prefixIcon: const Icon(Icons.local_pharmacy),
+        ),
+        onFieldSubmitted: (String value) {
+          FocusScope.of(context).unfocus();
+          setState(() {
+            _formComplete = true;
+          });
+        },
+        onSaved: saveMedications,
+      ),
+    );
+  }
+
+  void saveMedications(String value) {
+    print(value);
+    if (value.contains(',')) {
+      _currentMedications = [...value.split(',')];
+    } else {
+      _currentMedications.add(value);
+    }
+  }
+
+  _registrationButtonPressed() {
+    final FormState form = _accountFormKey.currentState;
+
+    if (_selectedGender == null) {
+      showInfoDialog(
+        _scaffoldKey.currentContext,
+        'Please select your gender',
+      );
+    } else if (_dob == null) {
+      showInfoDialog(
+        _scaffoldKey.currentContext,
+        'Please select your date of birth',
+      );
+    } else if (_currentDesignation == null) {
+      showInfoDialog(
+        _scaffoldKey.currentContext,
+        'Please select your designation',
+      );
+    } else {
+      if (form.validate()) {
+        form.save();
+
+        // Create a user instance
+        _userModel = UserModel(
+          firstName: _firstName,
+          lastName: _lastName,
+          email: _email,
+          password: _password == _confirmPassword ? _confirmPassword : null,
+          gender: _selectedGender,
+          dob: _dob,
+          designation: _currentDesignation,
+          primaryDoctor: _primaryDoctor,
+          otherDoctors: _otherDoctors,
+          chronicConditions: _chronicConditions,
+          medications: _currentMedications,
+          mpdbRegNumber: _mpdbNumber,
+          mpdbRegDate: _mpdbRegistrationDate,
+          registeredOn: DateTime.now(),
+        );
+
+        _regHandler(_userModel).then((value) {
+          if (!value) {
+            Timer(Duration(milliseconds: 500), () async {
+              await showInfoDialog(
+                _scaffoldKey.currentContext,
+                _registrationResult,
+              );
+            });
+          } else {
+            Navigator.of(context).pop();
+          }
+        }).catchError((error) {
+          Timer(Duration(milliseconds: 500), () async {
+            await showInfoDialog(
+              _scaffoldKey.currentContext,
+              error.toString(),
+            );
+          });
+        });
+      }
+    }
+  }
+
   @override
   void initState() {
     passwordMain = TextEditingController();
@@ -399,31 +576,31 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 100, top: 100),
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Card(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                elevation: 3,
-                child: Stepper(
-                  steps: <Step>[
-                    Step(
-                      title: Text(
-                        'Personal Information (1/2)',
-                        style: Constants.headlineStyle.copyWith(
-                          color: Colors.black,
+          child: Form(
+            key: _accountFormKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Card(
+                  margin: const EdgeInsets.symmetric(horizontal: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  elevation: 3,
+                  child: Stepper(
+                    steps: <Step>[
+                      Step(
+                        title: Text(
+                          'Personal Information (1/2)',
+                          style: Constants.headlineStyle.copyWith(
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                      subtitle: Text(
-                        'Required',
-                        style: Constants.subheadlineStyle,
-                      ),
-                      content: Form(
-                        key: _accountFormKey,
-                        child: Column(
+                        subtitle: Text(
+                          'Required',
+                          style: Constants.subheadlineStyle,
+                        ),
+                        content: Column(
                           children: [
                             _firstNameField(),
                             _lastNameField(),
@@ -432,66 +609,129 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                             _passwordConfirmField(),
                           ],
                         ),
+                        isActive: _currentStep >= 0,
+                        state: _currentStep >= 0
+                            ? StepState.complete
+                            : StepState.disabled,
                       ),
-                      isActive: _currentStep >= 0,
-                      state: _currentStep >= 0
-                          ? StepState.complete
-                          : StepState.disabled,
-                    ),
-                    Step(
-                      title: Text(
-                        'Personal Information (2/2)',
-                        style: Constants.headlineStyle.copyWith(
-                          color: Colors.black,
+                      Step(
+                        title: Text(
+                          'Personal Information (2/2)',
+                          style: Constants.headlineStyle.copyWith(
+                            color: Colors.black,
+                          ),
                         ),
-                      ),
-                      subtitle: Text(
-                        'Required',
-                        style: Constants.subheadlineStyle,
-                      ),
-                      content: Column(
-                        children: [
-                          _genderSelector(),
-                          _dateSelector(),
-                        ],
-                      ),
-                      isActive: _currentStep >= 0,
-                      state: _currentStep >= 1
-                          ? StepState.complete
-                          : StepState.disabled,
-                    ),
-                    Step(
-                      title: Text(
-                        'Designation',
-                        style: Constants.headlineStyle.copyWith(
-                          color: Colors.black,
+                        subtitle: Text(
+                          'Required',
+                          style: Constants.subheadlineStyle,
                         ),
+                        content: Column(
+                          children: [
+                            _genderSelector(),
+                            _dateSelector(),
+                          ],
+                        ),
+                        isActive: _currentStep >= 0,
+                        state: _currentStep >= 1
+                            ? StepState.complete
+                            : StepState.disabled,
                       ),
-                      content: Column(
-                        children: [
-                          _designationSelector(),
-                        ],
+                      Step(
+                        title: Text(
+                          'Designation',
+                          style: Constants.headlineStyle.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
+                        content: Column(
+                          children: [
+                            _designationSelector(),
+                          ],
+                        ),
+                        isActive: _currentStep >= 0,
+                        state: _currentStep >= 2
+                            ? StepState.complete
+                            : StepState.disabled,
                       ),
-                      isActive: _currentStep >= 0,
-                      state: _currentStep >= 2
-                          ? StepState.complete
-                          : StepState.disabled,
-                    ),
-                  ],
-                  type: _stepperType,
-                  currentStep: _currentStep,
-                  onStepTapped: (step) => tapped(step),
-                  onStepContinue: continued,
-                  onStepCancel: cancel,
+                      _currentDesignation == 'Doctor'
+                          ? Step(
+                              title: Text(
+                                'Practitioners',
+                                style: Constants.headlineStyle.copyWith(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              subtitle: Text(
+                                'Required',
+                                style: Constants.subheadlineStyle,
+                              ),
+                              content: Column(
+                                children: [
+                                  _mpdbField(),
+                                  _mpdbRegDateSelector(),
+                                ],
+                              ),
+                              isActive: _currentStep >= 0,
+                              state: _currentStep >= 3
+                                  ? StepState.complete
+                                  : StepState.disabled,
+                            )
+                          : _currentDesignation == 'General'
+                              ? Step(
+                                  title: Text(
+                                    'General',
+                                    style: Constants.headlineStyle.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    'Optional',
+                                    style: Constants.subheadlineStyle,
+                                  ),
+                                  content: Column(
+                                    children: [
+                                      _primaryDoctorField(),
+                                      _otherDoctorsField(),
+                                      _conditionsField(),
+                                      _medicationsField(),
+                                    ],
+                                  ),
+                                  isActive: _currentStep >= 0,
+                                  state: _currentStep >= 3
+                                      ? StepState.complete
+                                      : StepState.disabled,
+                                )
+                              : Step(
+                                  title: Text(
+                                    'Let\'s get started',
+                                    style: Constants.headlineStyle.copyWith(
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  content: Column(
+                                    children: [],
+                                  ),
+                                  isActive: _currentStep >= 0,
+                                  state: _currentStep >= 3
+                                      ? StepState.complete
+                                      : StepState.disabled,
+                                ),
+                    ],
+                    type: _stepperType,
+                    currentStep: _currentStep,
+                    onStepTapped: (step) => tapped(step),
+                    onStepContinue: continued,
+                    onStepCancel: cancel,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              NavigationHelper(
-                leading: "Already have an account?",
-                action: "Login",
-                onTap: () => Navigator.of(context).pop(),
-              ),
-            ],
+                const SizedBox(height: 16),
+                NavigationHelper(
+                  leading: "Already have an account?",
+                  action: "Login",
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+              ],
+            ),
           ),
         ),
       ),

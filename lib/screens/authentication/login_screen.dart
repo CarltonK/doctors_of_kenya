@@ -233,7 +233,7 @@ class LoginBody extends StatelessWidget {
               NavigationHelper(
                 leading: "Only want to have a look around?",
                 action: "Sign In",
-                onTap: () async {
+                onTap: () {
                   _anonLoginHandler(context).then((value) {
                     if (!value) {
                       Timer(Duration(milliseconds: 500), () async {

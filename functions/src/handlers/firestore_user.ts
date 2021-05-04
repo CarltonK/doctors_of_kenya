@@ -40,7 +40,7 @@ export default class FirestoreUserHandler {
           
           this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation });
 
-          this.writeToPrivateDoc(privateProfileDocRef,{ chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, designation });
+          this.writeToPrivateDoc(privateProfileDocRef,{ chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender });
 
         }
 
@@ -49,10 +49,9 @@ export default class FirestoreUserHandler {
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'premium' });
 
-
           this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation });
 
-          this.writeToPrivateDoc(premiumProfileDocRef,{ mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, designation });
+          this.writeToPrivateDoc(premiumProfileDocRef,{ mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender });
         } 
         
         if (designation === 'Liaison') {

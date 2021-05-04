@@ -24,4 +24,11 @@ class ValidationHelper {
     }
     return null;
   }
+
+  String validateMpdbNumber(String value) {
+    if (value.isEmpty) {
+      return 'Please enter your MPDB registration number';
+    }
+    return null;
+  }
 }
