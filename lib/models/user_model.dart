@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
 class UserModel {
@@ -48,6 +49,18 @@ class UserModel {
     this.token,
     this.registeredOn,
   });
+
+  factory UserModel.fromPublicDocument(DocumentSnapshot doc) {
+    Map data = doc.data();
+    return UserModel(
+      firstName: data['firstName'] ?? '',
+      lastName: data['lastName'] ?? '',
+      email: data['email'] ?? null,
+      registeredOn: data['registeredOn'],
+      designation: data['designation'] ?? null,
+      uid: doc.id,
+    );
+  }
 
   Map<String, dynamic> toMainFirestoreDoc() => {
         'email': email,
