@@ -33,14 +33,17 @@ export default class FirestoreUserHandler {
     if (!designation) throw this.logger.error('newUserDocumentHandler: ', 'No designation provided');
 
       try {
+        // Writable UID
+        const uid = this.uid;
+
         if (designation === 'General') {
 
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'general' });
           
-          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation });
+          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
 
-          this.writeToPrivateDoc(privateProfileDocRef,{ chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender });
+          this.writeToPrivateDoc(privateProfileDocRef,{ chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, uid });
 
         }
 
@@ -49,9 +52,9 @@ export default class FirestoreUserHandler {
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'premium' });
 
-          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation });
+          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
 
-          this.writeToPrivateDoc(premiumProfileDocRef,{ mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender });
+          this.writeToPrivateDoc(premiumProfileDocRef,{ mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid });
         } 
         
         if (designation === 'Liaison') {
@@ -59,7 +62,7 @@ export default class FirestoreUserHandler {
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'liaison' });
 
-          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation });
+          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
 
         }
       } catch (error) {
