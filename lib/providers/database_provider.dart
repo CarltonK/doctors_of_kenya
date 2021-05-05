@@ -17,12 +17,20 @@ class DatabaseProvider {
   Future saveUser(UserModel user, String uid) async {
     try {
       user.uid = uid;
-
       // Main Doc
       DocumentReference mainDocRef = _db.collection("users").doc(uid);
-
       // Save data
       await mainDocRef.set(user.toMainFirestoreDoc());
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  Future retrievePublicDocument(String uid) async {
+    try {
+      DocumentReference userDoc = _db.doc('users/$uid/public_profile/$uid');
+      DocumentSnapshot publicSnapshot = await userDoc.get();
+      return UserModel.fromPublicDocument(publicSnapshot);
     } on FirebaseException catch (error) {
       return error.message;
     }
