@@ -26,11 +26,32 @@ class DatabaseProvider {
     }
   }
 
-  Future retrievePublicDocument(String uid) async {
+  Future retrievePublicUserDocument(String uid) async {
     try {
       DocumentReference userDoc = _db.doc('users/$uid/public_profile/$uid');
       DocumentSnapshot publicSnapshot = await userDoc.get();
       return UserModel.fromPublicDocument(publicSnapshot);
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  /*
+   * Populate (Practitioners / Home) Page
+   * Retrieve practitioners by type
+   */
+  Future retrievePractitioners(String type) async {
+    Query baseQuery;
+    Query secondaryQuery;
+    QuerySnapshot querySnapshot;
+    try {
+      Query colGroup = _db.collectionGroup('public_profile');
+      baseQuery = colGroup.where('designation', isEqualTo: 'Practitioner');
+      secondaryQuery = baseQuery.where('practitionerType', isEqualTo: type);
+      querySnapshot = await secondaryQuery.get();
+      return querySnapshot.docs
+          .map((document) => UserModel.fromPublicDocument(document))
+          .toList();
     } on FirebaseException catch (error) {
       return error.message;
     }
