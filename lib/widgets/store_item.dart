@@ -1,3 +1,4 @@
+import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:flutter/material.dart';
 
 class StoreItem extends StatelessWidget {
@@ -25,14 +26,14 @@ class StoreItem extends StatelessWidget {
                 children: [
                   Text(
                     'Scapel',
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: Constants.subheadlineStyle,
                   ),
                   Divider(
                     color: Theme.of(context).accentColor,
                   ),
                   Text(
                     '500 KES',
-                    style: Theme.of(context).textTheme.headline4,
+                    style: Constants.miniheadlineStyle,
                   ),
                 ],
               ),
