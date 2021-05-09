@@ -15,9 +15,9 @@ service cloud.firestore {
       return request.auth.token.role == 'premium';
     }
 
-    function isRoleLiaison() {
-      return request.auth.token.role == 'liaison';
-    }
+    // function isRoleLiaison() {
+    //   return request.auth.token.role == 'liaison';
+    // }
 
     function isRoleAdmin() {
       return request.auth.token.role == 'admin';
@@ -44,6 +44,10 @@ service cloud.firestore {
     match /{path=**}/premium_profile/{user} {
       allow read: if isSignedIn() && isRolePremium();
       allow update: if isOwner(user);
+    }
+
+    match /facility_service/{doc} {
+      allow read: if isSignedIn();
     }
   }
 }
