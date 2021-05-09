@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
 
 class DoctorsScreen extends StatelessWidget {
-  final String type = 'Doctor';
+  final String type = 'doctor';
 
   @override
   Widget build(BuildContext context) {

@@ -38,14 +38,13 @@ class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
 
           case ConnectionState.done:
             if (snapshot.data.length == 0) {
-              String insertion = widget.type == 'Unspecified'
+              String insertion = widget.type == 'unspecified'
                   ? 'practitoner'
-                  : widget.type == 'Non-clinical'
+                  : widget.type == 'non-clinical'
                       ? 'practitoner'
                       : widget.type;
               return GlobalErrorContained(
-                errorMessage:
-                    'There are no ${insertion.toLowerCase()}s available',
+                errorMessage: 'There are no ${insertion}s available',
               );
             }
             return ListView.builder(
