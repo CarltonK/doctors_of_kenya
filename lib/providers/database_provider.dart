@@ -41,16 +41,33 @@ class DatabaseProvider {
    * Retrieve practitioners by type
    */
   Future retrievePractitioners(String type) async {
-    Query baseQuery;
-    Query secondaryQuery;
     QuerySnapshot querySnapshot;
     try {
-      Query colGroup = _db.collectionGroup('public_profile');
-      baseQuery = colGroup.where('designation', isEqualTo: 'Practitioner');
-      secondaryQuery = baseQuery.where('practitionerType', isEqualTo: type);
+      Query colGroupRef = _db.collectionGroup('public_profile');
+      Query baseQuery =
+          colGroupRef.where('designation', isEqualTo: 'Practitioner');
+      Query secondaryQuery =
+          baseQuery.where('practitionerType', isEqualTo: type);
       querySnapshot = await secondaryQuery.get();
       return querySnapshot.docs
           .map((document) => UserModel.fromPublicDocument(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  /*
+   * Populate Services Page
+   */
+  Future retrieveServices(String service) async {
+    QuerySnapshot querySnapshot;
+    try {
+      Query colRef = _db.collection('facility_service');
+      Query baseQuery = colRef.where('services', arrayContains: service);
+      querySnapshot = await baseQuery.get();
+      return querySnapshot.docs
+          .map((document) => ServiceModel.fromFirestore(document))
           .toList();
     } on FirebaseException catch (error) {
       return error.message;
