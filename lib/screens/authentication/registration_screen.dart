@@ -48,7 +48,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   UserModel _userModel;
   dynamic _registrationResult;
   String _currentDesignation;
-  List<String> _designations = ['Doctor', 'Liaison', 'General'];
+  List<String> _designations = ['Practitioner', 'Liaison', 'General'];
   String _selectedGender;
   List<String> _genders = ['Male', 'Female', 'Do not wish to disclose'];
   final int _eighteenYearsInDays = 6570;
@@ -653,7 +653,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                             ? StepState.complete
                             : StepState.disabled,
                       ),
-                      _currentDesignation == 'Doctor'
+                      _currentDesignation == 'Practitioner'
                           ? Step(
                               title: Text(
                                 'Practitioners',

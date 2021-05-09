@@ -1,8 +1,13 @@
+import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class NonClinicalScreen extends StatelessWidget {
+  final String type = 'non-clinical';
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: PractitionerRetrieval(type: type),
+    );
   }
 }

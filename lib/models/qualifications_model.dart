@@ -8,7 +8,7 @@ class QualificationsModel {
   List<String> specializations;
   List<String> shortCourses;
   List<String> specialInterests;
-  List<InstitutionModel> affiliatedInstitutions;
+  List<FacilityModel> affiliatedInstitutions;
 
   QualificationsModel({
     this.undergraduateDegree = const <String>[],
@@ -18,7 +18,7 @@ class QualificationsModel {
     this.specializations = const <String>[],
     this.shortCourses = const <String>[],
     this.specialInterests = const <String>[],
-    this.affiliatedInstitutions = const <InstitutionModel>[],
+    this.affiliatedInstitutions = const <FacilityModel>[],
   });
 
   Map<String, dynamic> toJson() => {

@@ -1,6 +1,6 @@
 import 'package:doctors_of_kenya/models/models.dart';
 
-class InstitutionModel {
+class FacilityModel {
   String name;
   String type;
   ContactModel contacts;
@@ -9,7 +9,7 @@ class InstitutionModel {
   List<String> practitioners;
   List<String> paymentModalities;
 
-  InstitutionModel({
+  FacilityModel({
     this.name,
     this.contacts,
     this.location,

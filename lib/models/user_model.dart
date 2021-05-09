@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
 class UserModel {
@@ -9,6 +10,7 @@ class UserModel {
   String firstName;
   String lastName;
   String designation;
+  String profilePicture;
   DateTime registeredOn;
 
   // Optional
@@ -22,6 +24,8 @@ class UserModel {
 
   // Required for Medical Practitioners
   String mpdbRegNumber;
+  String practitionerType;
+  String practitionerSpeciality;
   DateTime mpdbRegDate;
   AddressModel userAddress;
   ContactModel userContact;
@@ -35,6 +39,9 @@ class UserModel {
     this.gender,
     this.firstName,
     this.lastName,
+    this.practitionerType = 'unspecified',
+    this.practitionerSpeciality,
+    this.profilePicture,
     this.designation = 'General',
     this.chronicConditions = const <String>[],
     this.medications = const <String>[],
@@ -49,6 +56,21 @@ class UserModel {
     this.registeredOn,
   });
 
+  factory UserModel.fromPublicDocument(DocumentSnapshot doc) {
+    Map data = doc.data();
+    return UserModel(
+      firstName: data['firstName'] ?? '',
+      lastName: data['lastName'] ?? '',
+      email: data['email'] ?? null,
+      registeredOn: DateTime.fromMillisecondsSinceEpoch(
+          data['registeredOn'].millisecondsSinceEpoch),
+      designation: data['designation'] ?? null,
+      practitionerType: data['practitionerType'] ?? null,
+      practitionerSpeciality: data['practitionerSpeciality'] ?? null,
+      uid: doc.id,
+    );
+  }
+
   Map<String, dynamic> toMainFirestoreDoc() => {
         'email': email,
         'uid': uid,
@@ -62,6 +84,9 @@ class UserModel {
         'primaryDoctor': primaryDoctor,
         'otherDoctors': otherDoctors,
         'mpdbRegNumber': mpdbRegNumber,
+        'practitionerType': practitionerType,
+        'practitionerSpeciality': practitionerSpeciality,
+        'profilePicture': profilePicture,
         'mpdbRegDate': mpdbRegDate,
         'userAddress': userAddress != null ? userAddress.toJson() : null,
         'userContact': userContact != null ? userContact.toJson() : null,
