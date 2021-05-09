@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 class PractitionerRetrieval extends StatefulWidget {
   final String type;
   PractitionerRetrieval({Key key, @required this.type}) : super(key: key);
+
   @override
   _PractitionerRetrievalState createState() => _PractitionerRetrievalState();
 }
