@@ -3,8 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class ServiceModel {
   String facilityName;
   String facilityReference;
-  List<String> services;
-  List<String> facilityPaymentModalities;
+  List<dynamic> services;
+  List<dynamic> facilityPaymentModalities;
 
   ServiceModel({
     this.facilityName,
