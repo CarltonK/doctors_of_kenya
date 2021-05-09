@@ -9,6 +9,7 @@ export 'job_post_card.dart';
 export 'practitioner_card.dart';
 export 'store_item.dart';
 export 'responsive.dart';
+export 'practitioner_data_retrieval.dart';
 
 // Global
 export 'global/global_loader.dart';
