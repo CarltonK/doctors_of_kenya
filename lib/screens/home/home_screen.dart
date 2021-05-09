@@ -7,38 +7,6 @@ import 'package:doctors_of_kenya/screens/home/medical_practitioners/practitioner
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
-  // Widget _firstOption() {
-  //   return CustomScrollView(
-  //     controller: _trackingScrollController,
-  //     slivers: [
-  //       SliverPadding(
-  //         padding: const EdgeInsets.fromLTRB(16.0, 50.0, 8.0, 10.0),
-  //         sliver: SliverToBoxAdapter(
-  //           child: HomeAppBar(),
-  //         ),
-  //       ),
-  //       SliverPadding(
-  //         padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 10.0),
-  //         sliver: SliverToBoxAdapter(
-  //           child: SearchField(),
-  //         ),
-  //       ),
-  //       SliverPadding(
-  //         padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0.0),
-  //         sliver: SliverToBoxAdapter(
-  //           child: DoctorsList(),
-  //         ),
-  //       ),
-  //       SliverPadding(
-  //         padding: const EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0.0),
-  //         sliver: SliverToBoxAdapter(
-  //           child: InstitutionsList(),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
   Widget _tabHeaders() {
     return TabBar(
       tabs: [
