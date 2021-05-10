@@ -61,6 +61,7 @@ class UserModel {
     return UserModel(
       firstName: data['firstName'] ?? '',
       lastName: data['lastName'] ?? '',
+      profilePicture: data['profilePicture'] ?? null,
       email: data['email'] ?? null,
       registeredOn: DateTime.fromMillisecondsSinceEpoch(
           data['registeredOn'].millisecondsSinceEpoch),
