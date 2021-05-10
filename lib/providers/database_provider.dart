@@ -67,7 +67,7 @@ class DatabaseProvider {
       Query baseQuery = colRef.where('services', arrayContains: service);
       querySnapshot = await baseQuery.get();
       return querySnapshot.docs
-          .map((document) => ServiceModel.fromFirestore(document))
+          .map((document) => FacilityServiceModel.fromFirestore(document))
           .toList();
     } on FirebaseException catch (error) {
       return error.message;

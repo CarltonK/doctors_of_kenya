@@ -50,7 +50,7 @@ class _ServiceRetrievalState extends State<ServiceRetrieval> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
-                ServiceModel serviceModel = snapshot.data[index];
+                FacilityServiceModel serviceModel = snapshot.data[index];
                 String used = serviceModel.facilityPaymentModalities.join(', ');
                 return Container(
                   decoration: Constants.kBoxDecorationStyle,
