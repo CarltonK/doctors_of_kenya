@@ -14,4 +14,12 @@ class SocialMediaModel {
         'facebookHandle': facebookHandle,
         'youtubeHandle': youtubeHandle,
       };
+
+  factory SocialMediaModel.fromMap(Map<String, dynamic> data) {
+    return SocialMediaModel(
+      twitterHandle: data['twitterHandle'] ?? '',
+      facebookHandle: data['facebookHandle'] ?? '',
+      youtubeHandle: data['youtubeHandle'] ?? '',
+    );
+  }
 }

@@ -6,7 +6,7 @@ class ContactModel {
   String email;
   SocialMediaModel socialMediaModel;
   String emergency;
-  List<String> otherNumbers;
+  List<dynamic> otherNumbers;
 
   ContactModel({
     this.personalNumber,
@@ -21,8 +21,21 @@ class ContactModel {
         'personalNumber': personalNumber,
         'officeNumber': officeNumber,
         'email': email,
-        'socialMediaModel': socialMediaModel.toJson(),
+        'socialMediaModel':
+            socialMediaModel != null ? socialMediaModel.toJson() : null,
         'emergency': emergency,
         'otherNumbers': otherNumbers,
       };
+
+  factory ContactModel.fromMap(Map<String, dynamic> data) {
+    return ContactModel(
+      personalNumber: data['personalNumber'] ?? '',
+      officeNumber: data['officeNumber'] ?? '',
+      email: data['email'] ?? '',
+      emergency: data['emergency'] ?? '',
+      otherNumbers: data['otherNumbers'] ?? [],
+      socialMediaModel:
+          SocialMediaModel.fromMap(data['socialMediaModel']) ?? null,
+    );
+  }
 }
