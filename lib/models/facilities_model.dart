@@ -12,7 +12,7 @@ class FacilityModel {
     this.name,
     this.contacts,
     this.location,
-    this.paymentModalities,
+    this.paymentModalities = const <String>[],
     this.type,
   });
 
@@ -26,4 +26,12 @@ class FacilityModel {
       paymentModalities: data['paymentModalities'] ?? [],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'type': type,
+        'paymentModalities': paymentModalities,
+        'contacts': contacts != null ? contacts.toJson() : null,
+        'location': location != null ? location.toJson() : null,
+      };
 }

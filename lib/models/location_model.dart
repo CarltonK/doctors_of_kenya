@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class LocationModel {
   double latitude;
   double longitude;
@@ -21,4 +19,11 @@ class LocationModel {
       town: data['town'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'latitude': latitude,
+        'longitude': longitude,
+        'county': county,
+        'town': town,
+      };
 }
