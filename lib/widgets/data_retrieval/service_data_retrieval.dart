@@ -50,30 +50,41 @@ class _ServiceRetrievalState extends State<ServiceRetrieval> {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
-                ServiceModel serviceModel = snapshot.data[index];
-                String used = serviceModel.facilityPaymentModalities.join(', ');
-                return Container(
-                  decoration: Constants.kBoxDecorationStyle,
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.business_outlined,
-                      color: Theme.of(context).accentColor,
-                    ),
-                    title: Text(
-                      serviceModel.facilityName,
-                      style: Constants.miniheadlineStyle,
-                    ),
-                    subtitle: Text(
-                      'Payment methods accepted are $used',
-                      style: Constants.subheadlineStyle,
-                    ),
-                  ),
-                );
+                FacilityServiceModel serviceModel = snapshot.data[index];
+                return ServiceListItem(serviceModel: serviceModel);
               },
             );
         }
         return GlobalLoader();
       },
+    );
+  }
+}
+
+class ServiceListItem extends StatelessWidget {
+  final FacilityServiceModel serviceModel;
+  ServiceListItem({Key key, @required this.serviceModel}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String used = serviceModel.facilityPaymentModalities.join(', ');
+
+    return Container(
+      decoration: Constants.kBoxDecorationStyle,
+      child: ListTile(
+        leading: Icon(
+          Icons.medical_services,
+          color: Theme.of(context).accentColor,
+        ),
+        title: Text(
+          serviceModel.facilityName,
+          style: Constants.miniheadlineStyle,
+        ),
+        subtitle: Text(
+          'Payment methods accepted are $used',
+          style: Constants.subheadlineStyle,
+        ),
+      ),
     );
   }
 }

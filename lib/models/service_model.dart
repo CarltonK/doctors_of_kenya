@@ -1,21 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ServiceModel {
+class FacilityServiceModel {
   String facilityName;
   String facilityReference;
   List<dynamic> services;
   List<dynamic> facilityPaymentModalities;
 
-  ServiceModel({
+  FacilityServiceModel({
     this.facilityName,
     this.facilityReference,
     this.services,
     this.facilityPaymentModalities,
   });
 
-  factory ServiceModel.fromFirestore(DocumentSnapshot doc) {
+  factory FacilityServiceModel.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data();
-    return ServiceModel(
+    return FacilityServiceModel(
       facilityName: data['facilityName'] ?? '',
       facilityReference: data['facilityReference'],
       services: data['services'] ?? [],

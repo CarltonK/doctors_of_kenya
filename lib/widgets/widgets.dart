@@ -11,8 +11,9 @@ export 'store_item.dart';
 export 'responsive.dart';
 
 // Future Helpers
-export 'practitioner_data_retrieval.dart';
-export 'service_data_retrieval.dart';
+export 'data_retrieval/practitioner_data_retrieval.dart';
+export 'data_retrieval/service_data_retrieval.dart';
+export 'data_retrieval/facility_data_retrieval.dart';
 
 // Global
 export 'global/global_loader.dart';

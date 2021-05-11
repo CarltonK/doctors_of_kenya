@@ -63,13 +63,31 @@ class DatabaseProvider {
   Future retrieveServices(String service) async {
     QuerySnapshot querySnapshot;
     try {
-      Query colRef = _db.collection('facility_service');
+      CollectionReference colRef = _db.collection('facility_service');
       Query baseQuery = colRef.where('services', arrayContains: service);
       querySnapshot = await baseQuery.get();
       return querySnapshot.docs
-          .map((document) => ServiceModel.fromFirestore(document))
+          .map((document) => FacilityServiceModel.fromFirestore(document))
           .toList();
     } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  /*
+   * Populate Facilities Page
+   */
+  Future retrieveFacilities(String type) async {
+    QuerySnapshot querySnapshot;
+    try {
+      CollectionReference colRef = _db.collection('facilities');
+      Query baseQuery = colRef.where('type', isEqualTo: type);
+      querySnapshot = await baseQuery.get();
+      return querySnapshot.docs
+          .map((document) => FacilityModel.fromFirestore(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      print(error.message);
       return error.message;
     }
   }
