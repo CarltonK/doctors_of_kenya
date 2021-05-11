@@ -63,7 +63,7 @@ class DatabaseProvider {
   Future retrieveServices(String service) async {
     QuerySnapshot querySnapshot;
     try {
-      Query colRef = _db.collection('facility_service');
+      CollectionReference colRef = _db.collection('facility_service');
       Query baseQuery = colRef.where('services', arrayContains: service);
       querySnapshot = await baseQuery.get();
       return querySnapshot.docs
