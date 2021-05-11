@@ -73,4 +73,22 @@ class DatabaseProvider {
       return error.message;
     }
   }
+
+  /*
+   * Populate Facilities Page
+   */
+  Future retrieveFacilities(String type) async {
+    QuerySnapshot querySnapshot;
+    try {
+      CollectionReference colRef = _db.collection('facilities');
+      Query baseQuery = colRef.where('type', isEqualTo: type);
+      querySnapshot = await baseQuery.get();
+      return querySnapshot.docs
+          .map((document) => FacilityModel.fromFirestore(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      print(error.message);
+      return error.message;
+    }
+  }
 }
