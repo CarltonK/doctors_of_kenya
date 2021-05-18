@@ -26,38 +26,52 @@ class HomeScreen extends StatelessWidget {
     OthersScreen(),
   ];
 
+  _buildPopStack(BuildContext context) {
+    return dialogExitApp(context, () {
+      Provider.of<AuthProvider>(context, listen: false).signOut();
+    });
+  }
+
+  Future<bool> _onWillPop(BuildContext context) {
+    return _buildPopStack(context) ?? false;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).accentColor,
-          title: Text(
-            'Practitioners',
-            style: Constants.headlineWhite,
+    return WillPopScope(
+      onWillPop: () => _onWillPop(context),
+      child: DefaultTabController(
+        length: 4,
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).accentColor,
+            title: Text(
+              'Practitioners',
+              style: Constants.headlineWhite,
+            ),
+            bottom: _tabHeaders(),
+            actions: [
+              CircleButton(
+                icon: CupertinoIcons.search,
+                onPressed: () =>
+                    showSearch(context: context, delegate: Search()),
+                tooltip: 'Search',
+              ),
+              CircleButton(
+                icon: Icons.exit_to_app,
+                onPressed: () => dialogExitApp(context, () {
+                  Provider.of<AuthProvider>(context, listen: false).signOut();
+                }),
+                tooltip: 'Signout',
+              ),
+            ],
           ),
-          bottom: _tabHeaders(),
-          actions: [
-            CircleButton(
-              icon: CupertinoIcons.search,
-              onPressed: () => showSearch(context: context, delegate: Search()),
-              tooltip: 'Search',
-            ),
-            CircleButton(
-              icon: Icons.exit_to_app,
-              onPressed: () => dialogExitApp(context, () {
-                Provider.of<AuthProvider>(context, listen: false).signOut();
-              }),
-              tooltip: 'Signout',
-            ),
-          ],
-        ),
-        drawerEnableOpenDragGesture: false,
-        drawer: AppDrawer(),
-        body: TabBarView(
-          children: _pages,
+          drawerEnableOpenDragGesture: false,
+          drawer: AppDrawer(),
+          body: TabBarView(
+            children: _pages,
+          ),
         ),
       ),
     );
