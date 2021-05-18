@@ -47,8 +47,9 @@ class HomeScreen extends StatelessWidget {
             ),
             CircleButton(
               icon: Icons.exit_to_app,
-              onPressed: () =>
-                  Provider.of<AuthProvider>(context, listen: false).signOut(),
+              onPressed: () => dialogExitApp(context, () {
+                Provider.of<AuthProvider>(context, listen: false).signOut();
+              }),
               tooltip: 'Signout',
             ),
           ],

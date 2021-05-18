@@ -80,6 +80,18 @@ class Constants {
     fontSize: 15,
   );
 
+  static const kNegativeButtonStyle = TextStyle(
+    color: Colors.red,
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+  );
+
+  static const kPositiveButtonStyle = TextStyle(
+    color: Colors.green,
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+  );
+
   /*
   BORDERS
   */
