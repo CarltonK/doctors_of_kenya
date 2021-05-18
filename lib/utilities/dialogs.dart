@@ -13,3 +13,10 @@ Future showInfoDialog(BuildContext context, String message) {
     ),
   );
 }
+
+Future dialogExitApp(BuildContext context, Function yesClick) {
+  return showCupertinoModalPopup(
+    context: context,
+    builder: (context) => LogOutDialog(yesClick: yesClick),
+  );
+}
