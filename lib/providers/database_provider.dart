@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
@@ -7,11 +7,11 @@ class DatabaseProvider {
 
   DatabaseProvider() {
     // Comment this line for production
-    String host = Platform.isAndroid ? '192.168.100.4:8080' : 'localhost:8080';
-    _db.settings = Settings(
-      host: host,
-      sslEnabled: false,
-    );
+    // String host = Platform.isAndroid ? '192.168.100.5:8080' : 'localhost:8080';
+    // _db.settings = Settings(
+    //   host: host,
+    //   sslEnabled: false,
+    // );
   }
 
   Future saveUser(UserModel user, String uid) async {
