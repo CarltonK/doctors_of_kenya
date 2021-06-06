@@ -20,9 +20,8 @@ RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
 # via https://stackoverflow.com/a/59436618/10362582
 RUN apt-get update && apt-get install -y nodejs adoptopenjdk-8-hotspot
 
-# Install nodemon global
+# Install global modules
 RUN npm install -g nodemon
-RUN npm install -g typescript
 
 # download and install firebase CLI
 RUN wget -nv -O firebase https://firebase.tools/bin/linux/latest
@@ -36,8 +35,6 @@ COPY . /app/
 
 WORKDIR /app
 
-RUN cd functions
-
-RUN npm install
+RUN cd functions; npm i
 
 ENTRYPOINT [ "make", "serve-dev" ]
