@@ -41,24 +41,24 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   // Identifiers
   int _currentStep = 0;
   StepperType _stepperType = StepperType.vertical;
-  String _firstName, _lastName;
-  String _email;
-  String _password;
-  String _confirmPassword;
-  UserModel _userModel;
+  String? _firstName, _lastName;
+  String? _email;
+  String? _password;
+  String? _confirmPassword;
+  UserModel? _userModel;
   dynamic _registrationResult;
-  String _currentDesignation;
+  String? _currentDesignation;
   List<String> _designations = ['Practitioner', 'Liaison', 'General'];
-  String _selectedGender;
+  String? _selectedGender;
   List<String> _genders = ['Male', 'Female', 'Do not wish to disclose'];
   final int _eighteenYearsInDays = 6570;
-  DateTime _dob;
+  DateTime? _dob;
   List<String> _chronicConditions = [];
   List<String> _currentMedications = [];
-  String _primaryDoctor;
+  String? _primaryDoctor;
   List<String> _otherDoctors = [];
-  String _mpdbNumber;
-  DateTime _mpdbRegistrationDate;
+  String? _mpdbNumber;
+  DateTime? _mpdbRegistrationDate;
   bool _formComplete = false;
 
   // Focus Nodes
@@ -74,8 +74,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   final _accountFormKey = GlobalKey<FormState>();
 
   // TextControllers
-  TextEditingController passwordMain;
-  TextEditingController passwordSecondary;
+  TextEditingController? passwordMain;
+  TextEditingController? passwordSecondary;
 
   // Validation
   ValidationHelper _validationHelper = ValidationHelper.empty();
@@ -133,12 +133,12 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  void saveFirstName(String value) {
-    _firstName = value.trim();
+  void saveFirstName(String? value) {
+    _firstName = value!.trim();
   }
 
-  void saveLastName(String value) {
-    _lastName = value.trim();
+  void saveLastName(String? value) {
+    _lastName = value!.trim();
   }
 
   // ******Email Stuff*******
@@ -160,8 +160,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  void saveEmail(String value) {
-    _email = value.trim();
+  void saveEmail(String? value) {
+    _email = value!.trim();
   }
 
   // ******Password Stuff*******
@@ -185,8 +185,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  void savePassword(String value) {
-    _password = value.trim();
+  void savePassword(String? value) {
+    _password = value!.trim();
   }
 
   // ******Password Confirm Stuff*******
@@ -201,7 +201,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
           prefixIcon: const Icon(Icons.vpn_key),
         ),
         validator: (value) {
-          if (passwordMain.text != value) {
+          if (passwordMain!.text != value) {
             return 'Passwords do not match';
           }
           return null;
@@ -216,8 +216,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  void saveConfirmPassword(String value) {
-    _confirmPassword = value.trim();
+  void saveConfirmPassword(String? value) {
+    _confirmPassword = value!.trim();
   }
 
   Future<bool> _regHandler(UserModel user) async {
@@ -229,7 +229,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     if (_registrationResult.runtimeType == String) {
       return false;
     }
-    _userModel.uid = _registrationResult.uid;
+    _userModel!.uid = _registrationResult.uid;
     return true;
   }
 
@@ -260,7 +260,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  _designationChanged(String value) {
+  _designationChanged(String? value) {
     setState(() {
       _currentDesignation = value;
       if (_currentDesignation == 'Liasion') _formComplete = true;
@@ -294,7 +294,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  _genderChanged(String value) {
+  _genderChanged(String? value) {
     setState(() {
       _selectedGender = value;
     });
@@ -350,8 +350,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  void saveMpdbNumber(String value) {
-    _mpdbNumber = value.trim();
+  void saveMpdbNumber(String? value) {
+    _mpdbNumber = value!.trim();
   }
 
   // ******Mpdb registration date Stuff*******
@@ -402,8 +402,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  void savePrimaryDoctor(String value) {
-    _primaryDoctor = value.trim();
+  void savePrimaryDoctor(String? value) {
+    _primaryDoctor = value!.trim();
   }
 
   // ******Other Doctors Stuff*******
@@ -425,8 +425,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  void saveOtherDoctors(String value) {
-    if (value.contains(',')) {
+  void saveOtherDoctors(String? value) {
+    if (value!.contains(',')) {
       _otherDoctors = [...value.split(',')];
     } else {
       _otherDoctors.add(value);
@@ -452,8 +452,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  void saveConditions(String value) {
-    if (value.contains(',')) {
+  void saveConditions(String? value) {
+    if (value!.contains(',')) {
       _chronicConditions = [...value.split(',')];
     } else {
       _chronicConditions.add(value);
@@ -482,9 +482,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     );
   }
 
-  void saveMedications(String value) {
-    print(value);
-    if (value.contains(',')) {
+  void saveMedications(String? value) {
+    if (value!.contains(',')) {
       _currentMedications = [...value.split(',')];
     } else {
       _currentMedications.add(value);
@@ -492,21 +491,21 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   }
 
   _registrationButtonPressed() {
-    final FormState form = _accountFormKey.currentState;
+    final FormState form = _accountFormKey.currentState!;
 
     if (_selectedGender == null) {
       showInfoDialog(
-        _scaffoldKey.currentContext,
+        _scaffoldKey.currentContext!,
         'Please select your gender',
       );
     } else if (_dob == null) {
       showInfoDialog(
-        _scaffoldKey.currentContext,
+        _scaffoldKey.currentContext!,
         'Please select your date of birth',
       );
     } else if (_currentDesignation == null) {
       showInfoDialog(
-        _scaffoldKey.currentContext,
+        _scaffoldKey.currentContext!,
         'Please select your designation',
       );
     } else {
@@ -531,11 +530,11 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
           registeredOn: DateTime.now(),
         );
 
-        _regHandler(_userModel).then((value) {
+        _regHandler(_userModel!).then((value) {
           if (!value) {
             Timer(Duration(milliseconds: 500), () async {
               await showInfoDialog(
-                _scaffoldKey.currentContext,
+                _scaffoldKey.currentContext!,
                 _registrationResult,
               );
             });
@@ -545,7 +544,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
         }).catchError((error) {
           Timer(Duration(milliseconds: 500), () async {
             await showInfoDialog(
-              _scaffoldKey.currentContext,
+              _scaffoldKey.currentContext!,
               error.toString(),
             );
           });
@@ -565,8 +564,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   void dispose() {
     super.dispose();
 
-    passwordMain.dispose();
-    passwordSecondary.dispose();
+    passwordMain!.dispose();
+    passwordSecondary!.dispose();
   }
 
   @override

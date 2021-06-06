@@ -140,9 +140,9 @@ class ListItem extends StatelessWidget {
   final GestureTapCallback onTap;
 
   const ListItem({
-    Key key,
-    @required this.title,
-    @required this.onTap,
+    Key? key,
+    required this.title,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -151,7 +151,7 @@ class ListItem extends StatelessWidget {
       children: [
         ListTile(
           title: Text(
-            title ?? '',
+            title,
             style: Constants.miniheadlineStyle,
           ),
           onTap: () {

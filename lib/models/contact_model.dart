@@ -1,11 +1,11 @@
 import 'package:doctors_of_kenya/models/models.dart';
 
 class ContactModel {
-  String personalNumber;
-  String officeNumber;
-  String email;
-  SocialMediaModel socialMediaModel;
-  String emergency;
+  String? personalNumber;
+  String? officeNumber;
+  String? email;
+  SocialMediaModel? socialMediaModel;
+  String? emergency;
   List<dynamic> otherNumbers;
 
   ContactModel({
@@ -22,7 +22,7 @@ class ContactModel {
         'officeNumber': officeNumber,
         'email': email,
         'socialMediaModel':
-            socialMediaModel != null ? socialMediaModel.toJson() : null,
+            socialMediaModel != null ? socialMediaModel!.toJson() : null,
         'emergency': emergency,
         'otherNumbers': otherNumbers,
       };
@@ -34,8 +34,7 @@ class ContactModel {
       email: data['email'] ?? '',
       emergency: data['emergency'] ?? '',
       otherNumbers: data['otherNumbers'] ?? [],
-      socialMediaModel:
-          SocialMediaModel.fromMap(data['socialMediaModel']) ?? null,
+      socialMediaModel: SocialMediaModel.fromMap(data['socialMediaModel']),
     );
   }
 }

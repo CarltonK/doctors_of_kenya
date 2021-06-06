@@ -42,9 +42,9 @@ class LoginBody extends StatelessWidget {
   static ValidationHelper _validationHelper = ValidationHelper.empty();
 
   // Identifiers
-  static String _email;
-  static String _password;
-  static UserModel _userModel;
+  static String? _email;
+  static String? _password;
+  static UserModel? _userModel;
   static dynamic _loginResult;
 
   // ******Email Stuff*******
@@ -66,8 +66,8 @@ class LoginBody extends StatelessWidget {
     );
   }
 
-  void saveEmail(String value) {
-    _email = value.trim();
+  void saveEmail(String? value) {
+    _email = value!.trim();
     // print('Email -> $_email');
   }
 
@@ -92,8 +92,8 @@ class LoginBody extends StatelessWidget {
     );
   }
 
-  void savePassword(String value) {
-    _password = value.trim();
+  void savePassword(String? value) {
+    _password = value!.trim();
     // print('Password -> $_password');
   }
 
@@ -122,7 +122,7 @@ class LoginBody extends StatelessWidget {
   }
 
   _loginButtonPressed(BuildContext context) {
-    final FormState form = _loginFormKey.currentState;
+    final FormState form = _loginFormKey.currentState!;
     if (form.validate()) {
       form.save();
 
@@ -132,11 +132,11 @@ class LoginBody extends StatelessWidget {
         password: _password,
       );
 
-      _loginHandler(context, _userModel).then((value) {
+      _loginHandler(context, _userModel!).then((value) {
         if (!value) {
           Timer(Duration(milliseconds: 500), () async {
             await showInfoDialog(
-              _scaffoldKey.currentContext,
+              _scaffoldKey.currentContext!,
               _loginResult,
             );
           });
@@ -144,7 +144,7 @@ class LoginBody extends StatelessWidget {
       }).catchError((error) {
         Timer(Duration(milliseconds: 500), () async {
           await showInfoDialog(
-            _scaffoldKey.currentContext,
+            _scaffoldKey.currentContext!,
             error.toString(),
           );
         });
@@ -238,7 +238,7 @@ class LoginBody extends StatelessWidget {
                     if (!value) {
                       Timer(Duration(milliseconds: 500), () async {
                         await showInfoDialog(
-                          _scaffoldKey.currentContext,
+                          _scaffoldKey.currentContext!,
                           _loginResult,
                         );
                       });
@@ -246,7 +246,7 @@ class LoginBody extends StatelessWidget {
                   }).catchError((error) {
                     Timer(Duration(milliseconds: 500), () async {
                       await showInfoDialog(
-                        _scaffoldKey.currentContext,
+                        _scaffoldKey.currentContext!,
                         error.toString(),
                       );
                     });

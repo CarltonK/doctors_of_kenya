@@ -3,18 +3,18 @@ import 'dart:math';
 
 class ProfileCardPainter extends CustomPainter {
   final Color color;
-  final double avatarRadius;
+  final double? avatarRadius;
 
-  ProfileCardPainter({@required this.color, this.avatarRadius});
+  ProfileCardPainter({required this.color, this.avatarRadius});
 
   @override
   void paint(Canvas canvas, Size size) {
     // Background
     final shapeBounds =
-        Rect.fromLTWH(0, 0, size.width, size.height - avatarRadius);
+        Rect.fromLTWH(0, 0, size.width, size.height - avatarRadius!);
     final centerAvatar = Offset(shapeBounds.center.dx, shapeBounds.bottom);
     final avatarBounds =
-        Rect.fromCircle(center: centerAvatar, radius: avatarRadius).inflate(6);
+        Rect.fromCircle(center: centerAvatar, radius: avatarRadius!).inflate(6);
     _drawBackground(canvas, shapeBounds, avatarBounds);
   }
 

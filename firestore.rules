@@ -53,5 +53,9 @@ service cloud.firestore {
     match /facilities/{facility} {
       allow read: if isSignedIn();
     }
+
+    match /store/{doc} {
+      allow read: if isSignedIn();
+    }
   }
 }

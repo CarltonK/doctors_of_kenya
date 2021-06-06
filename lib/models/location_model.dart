@@ -1,8 +1,8 @@
 class LocationModel {
-  double latitude;
-  double longitude;
-  String county;
-  String town;
+  double? latitude;
+  double? longitude;
+  String? county;
+  String? town;
 
   LocationModel({
     this.latitude,

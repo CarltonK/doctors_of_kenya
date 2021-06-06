@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:doctors_of_kenya/screens/home/medical_concierge/concierge.dart';
 
 class ConciergeScreen extends StatelessWidget {
-  Widget _tabHeaders() {
+  _tabHeaders() {
     return TabBar(
       tabs: [
         TabWidget(title: 'Liasion'),

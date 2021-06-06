@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EmploymentScreen extends StatelessWidget {
-  Widget _tabHeaders() {
+  _tabHeaders() {
     return TabBar(
       tabs: [
         TabWidget(title: 'Permanent'),

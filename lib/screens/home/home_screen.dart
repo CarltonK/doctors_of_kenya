@@ -7,7 +7,7 @@ import 'package:doctors_of_kenya/screens/home/medical_practitioners/practitioner
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
-  Widget _tabHeaders() {
+  _tabHeaders() {
     return TabBar(
       tabs: [
         TabWidget(title: 'Doctors'),
@@ -103,7 +103,7 @@ class Search extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     return Container(
       child: Text(
-        query ?? '',
+        query,
         style: Theme.of(context).textTheme.subtitle1,
       ),
     );

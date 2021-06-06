@@ -6,7 +6,7 @@ class PracticionerScreen extends StatelessWidget {
   static const double avatarRadius = 85;
   static const double titleBottomMargin = (avatarRadius * 2) + 18;
 
-  Widget _appBar(BuildContext context) {
+  _appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).accentColor,
       elevation: 0,

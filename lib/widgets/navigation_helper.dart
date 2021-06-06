@@ -4,12 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 class NavigationHelper extends StatelessWidget {
   final String leading;
   final String action;
-  final Function onTap;
+  final VoidCallback? onTap;
 
   NavigationHelper({
-    Key key,
-    @required this.leading,
-    @required this.action,
+    Key? key,
+    required this.leading,
+    required this.action,
     this.onTap,
   }) : super(key: key);
 

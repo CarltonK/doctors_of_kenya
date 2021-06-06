@@ -5,14 +5,14 @@ import 'package:provider/provider.dart';
 
 class PractitionerRetrieval extends StatefulWidget {
   final String type;
-  PractitionerRetrieval({Key key, @required this.type}) : super(key: key);
+  PractitionerRetrieval({Key? key, required this.type}) : super(key: key);
 
   @override
   _PractitionerRetrievalState createState() => _PractitionerRetrievalState();
 }
 
 class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
-  Future retrievePractitioners;
+  Future? retrievePractitioners;
 
   @override
   void initState() {
@@ -25,7 +25,7 @@ class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: retrievePractitioners,
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return GlobalLoader();
@@ -54,7 +54,7 @@ class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
               itemBuilder: (context, index) => PractitionerCard(),
             );
         }
-        return GlobalLoader();
+        // return GlobalLoader();
       },
     );
   }

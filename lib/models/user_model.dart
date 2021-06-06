@@ -2,34 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
 class UserModel {
-  String email;
-  String password;
-  String uid;
-  DateTime dob;
-  String gender;
-  String firstName;
-  String lastName;
-  String designation;
-  String profilePicture;
-  DateTime registeredOn;
+  String? email;
+  String? password;
+  String? uid;
+  DateTime? dob;
+  String? gender;
+  String? firstName;
+  String? lastName;
+  String? designation;
+  String? profilePicture;
+  DateTime? registeredOn;
 
   // Optional
-  String token;
+  String? token;
 
   // Optional for non-practitioner
-  List<String> chronicConditions;
-  List<String> medications;
-  String primaryDoctor;
-  List<String> otherDoctors;
+  List<String>? chronicConditions;
+  List<String>? medications;
+  String? primaryDoctor;
+  List<String>? otherDoctors;
 
   // Required for Medical Practitioners
-  String mpdbRegNumber;
-  String practitionerType;
-  String practitionerSpeciality;
-  DateTime mpdbRegDate;
-  AddressModel userAddress;
-  ContactModel userContact;
-  QualificationsModel qualifications;
+  String? mpdbRegNumber;
+  String? practitionerType;
+  String? practitionerSpeciality;
+  DateTime? mpdbRegDate;
+  AddressModel? userAddress;
+  ContactModel? userContact;
+  QualificationsModel? qualifications;
 
   UserModel({
     this.email,
@@ -57,7 +57,7 @@ class UserModel {
   });
 
   factory UserModel.fromPublicDocument(DocumentSnapshot doc) {
-    Map data = doc.data();
+    dynamic data = doc.data();
     return UserModel(
       firstName: data['firstName'] ?? '',
       lastName: data['lastName'] ?? '',
@@ -89,10 +89,10 @@ class UserModel {
         'practitionerSpeciality': practitionerSpeciality,
         'profilePicture': profilePicture,
         'mpdbRegDate': mpdbRegDate,
-        'userAddress': userAddress != null ? userAddress.toJson() : null,
-        'userContact': userContact != null ? userContact.toJson() : null,
+        'userAddress': userAddress != null ? userAddress!.toJson() : null,
+        'userContact': userContact != null ? userContact!.toJson() : null,
         'qualifications':
-            qualifications != null ? qualifications.toJson() : null,
+            qualifications != null ? qualifications!.toJson() : null,
         'registeredOn': registeredOn,
       };
 }

@@ -7,14 +7,14 @@ import 'package:doctors_of_kenya/providers/providers.dart';
 
 class ServiceRetrieval extends StatefulWidget {
   final String type;
-  ServiceRetrieval({Key key, @required this.type}) : super(key: key);
+  ServiceRetrieval({Key? key, required this.type}) : super(key: key);
 
   @override
   _ServiceRetrievalState createState() => _ServiceRetrievalState();
 }
 
 class _ServiceRetrievalState extends State<ServiceRetrieval> {
-  Future retrieveServices;
+  Future? retrieveServices;
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _ServiceRetrievalState extends State<ServiceRetrieval> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: retrieveServices,
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return GlobalLoader();
@@ -55,7 +55,7 @@ class _ServiceRetrievalState extends State<ServiceRetrieval> {
               },
             );
         }
-        return GlobalLoader();
+        // return GlobalLoader();
       },
     );
   }
@@ -63,11 +63,11 @@ class _ServiceRetrievalState extends State<ServiceRetrieval> {
 
 class ServiceListItem extends StatelessWidget {
   final FacilityServiceModel serviceModel;
-  ServiceListItem({Key key, @required this.serviceModel}) : super(key: key);
+  ServiceListItem({Key? key, required this.serviceModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String used = serviceModel.facilityPaymentModalities.join(', ');
+    String used = serviceModel.facilityPaymentModalities!.join(', ');
 
     return Container(
       decoration: Constants.kBoxDecorationStyle,
@@ -77,7 +77,7 @@ class ServiceListItem extends StatelessWidget {
           color: Theme.of(context).accentColor,
         ),
         title: Text(
-          serviceModel.facilityName,
+          serviceModel.facilityName!,
           style: Constants.miniheadlineStyle,
         ),
         subtitle: Text(

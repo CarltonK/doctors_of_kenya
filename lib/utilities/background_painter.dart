@@ -5,7 +5,7 @@ class BackgroundPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Background
     final backgroundBounds = Rect.fromLTRB(0, 0, size.width, size.height);
-    final paintBackground = Paint()..color = Colors.grey[200];
+    final paintBackground = Paint()..color = Colors.grey[200]!;
     canvas.drawRect(backgroundBounds, paintBackground);
 
     // Foreground
@@ -20,7 +20,7 @@ class BackgroundPainter extends CustomPainter {
       ..close();
 
     final paintForeground = Paint()
-      ..color = Colors.orange[600]
+      ..color = Colors.orange[600]!
       ..style = PaintingStyle.fill;
 
     canvas.drawPath(pathBounds, paintForeground);

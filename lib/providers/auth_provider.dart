@@ -7,24 +7,24 @@ enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
 class AuthProvider with ChangeNotifier {
   final FirebaseAuth auth;
-  User currentUser;
+  User? currentUser;
   Status _status = Status.Uninitialized;
 
   Status get status => _status;
-  User get user => currentUser;
+  User get user => currentUser!;
 
   DatabaseProvider database = DatabaseProvider();
 
   AuthProvider.instance() : auth = FirebaseAuth.instance {
     // Comment this line for production
-    // auth.useEmulator("http://192.168.2.111:9099");
+    auth.useEmulator("http://192.168.100.4:9099");
     auth.authStateChanges().listen(_onAuthStateChanged);
   }
 
   /*
   AUTH LISTENER
   */
-  Future<void> _onAuthStateChanged(User firebaseUser) async {
+  Future<void> _onAuthStateChanged(User? firebaseUser) async {
     if (firebaseUser == null) {
       _status = Status.Unauthenticated;
     } else {
@@ -60,14 +60,14 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     try {
       UserCredential result = await auth.createUserWithEmailAndPassword(
-        email: user.email,
-        password: user.password,
+        email: user.email!,
+        password: user.password!,
       );
       currentUser = result.user;
-      String uid = currentUser.uid;
+      String uid = currentUser!.uid;
 
       // Send an email verification
-      await currentUser.sendEmailVerification();
+      await currentUser!.sendEmailVerification();
       // Save the user to the database
       await database.saveUser(user, uid);
 
@@ -87,8 +87,8 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
     try {
       UserCredential result = await auth.signInWithEmailAndPassword(
-        email: user.email,
-        password: user.password,
+        email: user.email!,
+        password: user.password!,
       );
       currentUser = result.user;
 

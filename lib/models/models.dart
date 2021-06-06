@@ -6,3 +6,4 @@ export 'facilities_model.dart';
 export 'social_media_model.dart';
 export 'location_model.dart';
 export 'service_model.dart';
+export 'store_model.dart';
