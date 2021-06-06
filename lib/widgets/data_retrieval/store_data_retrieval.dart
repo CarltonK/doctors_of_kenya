@@ -40,7 +40,7 @@ class _StoreRetrievalState extends State<StoreRetrieval> {
 
           case ConnectionState.done:
             if (snapshot.data.length == 0) {
-              String insertion = widget.type + ' items';
+              String insertion = widget.type + 's';
               return GlobalErrorContained(
                 errorMessage: 'There are no $insertion available',
               );
@@ -53,7 +53,6 @@ class _StoreRetrievalState extends State<StoreRetrieval> {
               },
             );
         }
-        // return GlobalLoader();
       },
     );
   }
@@ -66,15 +65,13 @@ class StoreItem extends StatelessWidget {
       child: Container(
         child: Column(
           children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(8),
-                    topRight: Radius.circular(8),
-                  ),
-                  color: Theme.of(context).accentColor.withOpacity(0.5),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
                 ),
+                color: Theme.of(context).accentColor.withOpacity(0.5),
               ),
             ),
             Container(
