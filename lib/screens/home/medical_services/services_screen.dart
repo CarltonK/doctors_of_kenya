@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ServicesScreen extends StatelessWidget {
-  Widget _tabHeaders() {
+  _tabHeaders() {
     return TabBar(
       isScrollable: true,
       tabs: [

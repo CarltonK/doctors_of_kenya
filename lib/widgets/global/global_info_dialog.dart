@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class GlobalInfoDialog extends StatelessWidget {
   final String message;
-  GlobalInfoDialog({@required this.message});
+  GlobalInfoDialog({required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class GlobalInfoDialog extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            message ?? 'The error message is not specified',
+            message,
             style: Constants.miniheadlineStyle,
             textAlign: TextAlign.center,
           ),

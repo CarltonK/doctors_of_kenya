@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SlideLeftTransition extends PageRouteBuilder {
   final Widget page;
-  SlideLeftTransition({@required this.page})
+  SlideLeftTransition({required this.page})
       : super(
           pageBuilder: (
             BuildContext context,

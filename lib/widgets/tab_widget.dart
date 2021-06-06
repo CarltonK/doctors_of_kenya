@@ -4,8 +4,8 @@ class TabWidget extends StatelessWidget {
   final String title;
 
   TabWidget({
-    Key key,
-    @required this.title,
+    Key? key,
+    required this.title,
   }) : super(key: key);
 
   @override

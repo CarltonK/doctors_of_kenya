@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class GlobalActionButton extends StatelessWidget {
   final String action;
-  final Function onPressed;
+  final VoidCallback onPressed;
 
   const GlobalActionButton({
-    Key key,
-    @required this.action,
-    @required this.onPressed,
+    Key? key,
+    required this.action,
+    required this.onPressed,
   }) : super(key: key);
 
   @override

@@ -1,7 +1,7 @@
 class AddressModel {
-  String location;
-  double latitude;
-  double longitude;
+  String? location;
+  double? latitude;
+  double? longitude;
   AddressModel({this.location, this.latitude, this.longitude});
 
   Map<String, dynamic> toJson() => {

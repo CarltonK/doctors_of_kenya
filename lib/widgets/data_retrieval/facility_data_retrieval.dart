@@ -7,14 +7,14 @@ import 'package:provider/provider.dart';
 
 class FacilityRetrieval extends StatefulWidget {
   final String type;
-  FacilityRetrieval({Key key, @required this.type}) : super(key: key);
+  FacilityRetrieval({Key? key, required this.type}) : super(key: key);
 
   @override
   _FacilityRetrievalState createState() => _FacilityRetrievalState();
 }
 
 class _FacilityRetrievalState extends State<FacilityRetrieval> {
-  Future retrieveFacilities;
+  Future? retrieveFacilities;
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _FacilityRetrievalState extends State<FacilityRetrieval> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: retrieveFacilities,
-      builder: (context, snapshot) {
+      builder: (context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
             return GlobalLoader();
@@ -55,16 +55,15 @@ class _FacilityRetrievalState extends State<FacilityRetrieval> {
               },
             );
         }
-        return GlobalLoader();
+        // return GlobalLoader();
       },
     );
-    ;
   }
 }
 
 class FacilityListItem extends StatelessWidget {
   final FacilityModel facilityModel;
-  FacilityListItem({Key key, @required this.facilityModel}) : super(key: key);
+  FacilityListItem({Key? key, required this.facilityModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +76,7 @@ class FacilityListItem extends StatelessWidget {
           Icons.business_outlined,
           color: Theme.of(context).accentColor,
         ),
-        title: Text(facilityModel.name, style: Constants.miniheadlineStyle),
+        title: Text(facilityModel.name!, style: Constants.miniheadlineStyle),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -87,7 +86,7 @@ class FacilityListItem extends StatelessWidget {
                 Icon(Icons.phone, color: Theme.of(context).accentColor),
                 const SizedBox(width: 10),
                 Text(
-                  facilityModel.contacts.officeNumber,
+                  facilityModel.contacts!.officeNumber!,
                   style: Constants.subheadlineStyle,
                 ),
               ],
@@ -98,7 +97,7 @@ class FacilityListItem extends StatelessWidget {
                 Icon(Icons.place, color: Theme.of(context).accentColor),
                 const SizedBox(width: 10),
                 Text(
-                  facilityModel.location.town,
+                  facilityModel.location!.town!,
                   style: Constants.subheadlineStyle,
                 ),
               ],

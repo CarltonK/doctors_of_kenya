@@ -1,22 +1,22 @@
 class ValidationHelper {
   ValidationHelper.empty();
 
-  String validateNames(String value) {
-    if (value.isEmpty) {
+  String? validateNames(String? value) {
+    if (value!.isEmpty) {
       return 'Please provide a name';
     }
     return null;
   }
 
-  String validateEmailAddress(String value) {
-    if (value.isEmpty) {
+  String? validateEmailAddress(String? value) {
+    if (value!.isEmpty) {
       return 'Please provide an email address';
     }
     return null;
   }
 
-  String validatePassword(String value) {
-    if (value.isEmpty) {
+  String? validatePassword(String? value) {
+    if (value!.isEmpty) {
       return 'Please provide a password';
     }
     if (value.length < 6) {
@@ -25,8 +25,8 @@ class ValidationHelper {
     return null;
   }
 
-  String validateMpdbNumber(String value) {
-    if (value.isEmpty) {
+  String? validateMpdbNumber(String? value) {
+    if (value!.isEmpty) {
       return 'Please enter your MPDB registration number';
     }
     return null;

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 class LogOutDialog extends StatelessWidget {
   final Function yesClick;
   const LogOutDialog({
-    Key key,
-    @required this.yesClick,
-  }) : assert(yesClick != null);
+    Key? key,
+    required this.yesClick,
+  });
 
   @override
   Widget build(BuildContext context) {

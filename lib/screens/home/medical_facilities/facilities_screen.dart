@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:doctors_of_kenya/screens/home/medical_facilities/facilities.dart';
 
 class FacilitiesScreen extends StatelessWidget {
-  Widget _tabHeaders() {
+  _tabHeaders() {
     return TabBar(
       isScrollable: true,
       tabs: [

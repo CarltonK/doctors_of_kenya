@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 class GlobalErrorContained extends StatelessWidget {
   final String errorMessage;
 
-  GlobalErrorContained({Key key, @required this.errorMessage})
-      : super(key: key);
+  GlobalErrorContained({
+    Key? key,
+    required this.errorMessage,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

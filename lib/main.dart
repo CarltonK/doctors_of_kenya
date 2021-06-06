@@ -75,7 +75,7 @@ class MyApp extends StatelessWidget {
                 if (value.status == Status.Authenticated) return HomeScreen();
                 if (value.status == Status.Authenticating)
                   return GlobalLoader();
-                return child;
+                return child!;
               },
               child: LoginScreen(),
             );

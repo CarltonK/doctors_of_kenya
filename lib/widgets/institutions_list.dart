@@ -106,9 +106,9 @@ class _CategorySelector extends StatelessWidget {
   final IconData icon;
 
   const _CategorySelector({
-    Key key,
-    @required this.name,
-    @required this.icon,
+    Key? key,
+    required this.name,
+    required this.icon,
   }) : super(key: key);
 
   @override

@@ -1,4 +1,4 @@
-// import 'dart:io';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
@@ -7,11 +7,11 @@ class DatabaseProvider {
 
   DatabaseProvider() {
     // Comment this line for production
-    // String host = Platform.isAndroid ? '192.168.2.111:8080' : 'localhost:8080';
-    // _db.settings = Settings(
-    //   host: host,
-    //   sslEnabled: false,
-    // );
+    String host = Platform.isAndroid ? '192.168.100.4:8080' : 'localhost:8080';
+    _db.settings = Settings(
+      host: host,
+      sslEnabled: false,
+    );
   }
 
   Future saveUser(UserModel user, String uid) async {
@@ -36,10 +36,9 @@ class DatabaseProvider {
     }
   }
 
-  /*
-   * Populate (Practitioners / Home) Page
-   * Retrieve practitioners by type
-   */
+  /// Populate (Practitioners / Home) Page
+  ///
+  /// Retrieve practitioners by type
   Future retrievePractitioners(String type) async {
     QuerySnapshot querySnapshot;
     try {
@@ -57,9 +56,7 @@ class DatabaseProvider {
     }
   }
 
-  /*
-   * Populate Services Page
-   */
+  /// Populate Services Page
   Future retrieveServices(String service) async {
     QuerySnapshot querySnapshot;
     try {
@@ -74,9 +71,7 @@ class DatabaseProvider {
     }
   }
 
-  /*
-   * Populate Facilities Page
-   */
+  /// Populate Facilities Page
   Future retrieveFacilities(String type) async {
     QuerySnapshot querySnapshot;
     try {
@@ -87,7 +82,21 @@ class DatabaseProvider {
           .map((document) => FacilityModel.fromFirestore(document))
           .toList();
     } on FirebaseException catch (error) {
-      print(error.message);
+      return error.message;
+    }
+  }
+
+  /// Populate Store Page
+  Future retrieveStore(String itemType) async {
+    QuerySnapshot querySnapshot;
+    try {
+      CollectionReference colRef = _db.collection('store');
+      Query baseQuery = colRef.where('type', isEqualTo: itemType);
+      querySnapshot = await baseQuery.get();
+      return querySnapshot.docs
+          .map((document) => StoreModel.fromFirestore(document))
+          .toList();
+    } on FirebaseException catch (error) {
       return error.message;
     }
   }

@@ -37,7 +37,7 @@ class ResetPasswordBody extends StatelessWidget {
   static ValidationHelper _validationHelper = ValidationHelper.empty();
 
   // Identifiers
-  static String _email;
+  static String? _email;
   static dynamic _resetResult;
 
   // ******Email Stuff*******
@@ -60,8 +60,8 @@ class ResetPasswordBody extends StatelessWidget {
     );
   }
 
-  void saveEmail(String value) {
-    _email = value.trim();
+  void saveEmail(String? value) {
+    _email = value!.trim();
     // print('Email -> $_email');
   }
 
@@ -69,7 +69,7 @@ class ResetPasswordBody extends StatelessWidget {
     _resetResult = await Provider.of<AuthProvider>(
       context,
       listen: false,
-    ).resetPassword(_email);
+    ).resetPassword(_email!);
 
     if (_resetResult.runtimeType == String) {
       return false;
@@ -78,7 +78,7 @@ class ResetPasswordBody extends StatelessWidget {
   }
 
   _resetButtonPressed(BuildContext context) {
-    final FormState form = _passwordResetFormKey.currentState;
+    final FormState form = _passwordResetFormKey.currentState!;
     if (form.validate()) {
       form.save();
 
@@ -86,14 +86,14 @@ class ResetPasswordBody extends StatelessWidget {
         if (!value) {
           Timer(Duration(milliseconds: 500), () async {
             await showInfoDialog(
-              _scaffoldKey.currentContext,
+              _scaffoldKey.currentContext!,
               _resetResult,
             );
           });
         } else {
           Timer(Duration(milliseconds: 500), () async {
             await showInfoDialog(
-              _scaffoldKey.currentContext,
+              _scaffoldKey.currentContext!,
               "An password reset email has been sent to you at $_email",
             );
           });
@@ -101,7 +101,7 @@ class ResetPasswordBody extends StatelessWidget {
       }).catchError((error) {
         Timer(Duration(milliseconds: 500), () async {
           await showInfoDialog(
-            _scaffoldKey.currentContext,
+            _scaffoldKey.currentContext!,
             error.toString(),
           );
         });
