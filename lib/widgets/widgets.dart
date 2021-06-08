@@ -14,6 +14,7 @@ export 'data_retrieval/practitioner_data_retrieval.dart';
 export 'data_retrieval/service_data_retrieval.dart';
 export 'data_retrieval/facility_data_retrieval.dart';
 export 'data_retrieval/store_data_retrieval.dart';
+export 'data_retrieval/concierge_data_retrieval.dart';
 
 // Global
 export 'global/global_loader.dart';

@@ -1,4 +1,4 @@
-// import 'dart:io';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
@@ -7,11 +7,11 @@ class DatabaseProvider {
 
   DatabaseProvider() {
     // Comment this line for production
-    // String host = Platform.isAndroid ? '192.168.100.5:8080' : 'localhost:8080';
-    // _db.settings = Settings(
-    //   host: host,
-    //   sslEnabled: false,
-    // );
+    String host = Platform.isAndroid ? '192.168.0.22:8080' : 'localhost:8080';
+    _db.settings = Settings(
+      host: host,
+      sslEnabled: false,
+    );
   }
 
   Future saveUser(UserModel user, String uid) async {
@@ -45,6 +45,23 @@ class DatabaseProvider {
       Query colGroupRef = _db.collectionGroup('public_profile');
       Query baseQuery =
           colGroupRef.where('designation', isEqualTo: 'Practitioner');
+      Query secondaryQuery =
+          baseQuery.where('practitionerType', isEqualTo: type);
+      querySnapshot = await secondaryQuery.get();
+      return querySnapshot.docs
+          .map((document) => UserModel.fromPublicDocument(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+  ///Populate Concierge Page
+  Future retrieveConcierge(String type) async {
+    QuerySnapshot querySnapshot;
+    try {
+      Query colGroupRef = _db.collectionGroup('public_profile');
+      Query baseQuery =
+          colGroupRef.where('designation', isEqualTo: 'Liason');
       Query secondaryQuery =
           baseQuery.where('practitionerType', isEqualTo: type);
       querySnapshot = await secondaryQuery.get();

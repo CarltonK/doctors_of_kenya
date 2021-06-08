@@ -17,7 +17,7 @@ class AuthProvider with ChangeNotifier {
 
   AuthProvider.instance() : auth = FirebaseAuth.instance {
     // Comment this line for production
-    // auth.useEmulator("http://192.168.100.5:9099");
+     auth.useEmulator("http://192.168.0.22:9099");
     auth.authStateChanges().listen(_onAuthStateChanged);
   }
 
