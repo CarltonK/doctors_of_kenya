@@ -1,20 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StoreModel {
-  String? type;
+  String? itemType;
 
   StoreModel({
-    this.type,
+    this.itemType,
   });
 
   factory StoreModel.fromFirestore(DocumentSnapshot doc) {
     dynamic data = doc.data();
     return StoreModel(
-      type: data['type'] ?? '',
+      itemType: data['itemType'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'type': type,
+        'itemType': itemType,
       };
 }

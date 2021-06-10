@@ -38,6 +38,11 @@ class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
             );
 
           case ConnectionState.done:
+            if (snapshot.data.toString().toLowerCase().contains('permission')) {
+              return GlobalErrorContained(
+                errorMessage: 'You do not have sufficient permissions',
+              );
+            }
             if (snapshot.data.length == 0) {
               String insertion = widget.type == 'unspecified'
                   ? 'practitoner'

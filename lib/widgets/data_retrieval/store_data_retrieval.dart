@@ -39,6 +39,11 @@ class _StoreRetrievalState extends State<StoreRetrieval> {
             );
 
           case ConnectionState.done:
+            if (snapshot.data.toString().toLowerCase().contains('permission')) {
+              return GlobalErrorContained(
+                errorMessage: 'You do not have sufficient permissions',
+              );
+            }
             if (snapshot.data.length == 0) {
               String insertion = widget.type + 's';
               return GlobalErrorContained(

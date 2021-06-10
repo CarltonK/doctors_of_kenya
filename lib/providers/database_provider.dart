@@ -1,18 +1,19 @@
-import 'dart:io';
+// import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
 class DatabaseProvider {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // DatabaseProvider() {
-  //   // Comment this line for production
-  //   String host = Platform.isAndroid ? '192.168.0.22:8080' : 'localhost:8080';
-  //   _db.settings = Settings(
-  //     host: host,
-  //     sslEnabled: false,
-  //   );
-  // }
+  DatabaseProvider() {
+    // Comment this line for production
+    // String host =
+    //     Platform.isAndroid ? 'http://192.168.100.11:8080' : 'localhost:8080';
+    // _db.settings = Settings(
+    //   host: host,
+    //   sslEnabled: false,
+    // );
+  }
 
   Future saveUser(UserModel user, String uid) async {
     try {
@@ -93,7 +94,7 @@ class DatabaseProvider {
     QuerySnapshot querySnapshot;
     try {
       CollectionReference colRef = _db.collection('facilities');
-      Query baseQuery = colRef.where('type', isEqualTo: type);
+      Query baseQuery = colRef.where('facilityType', isEqualTo: type);
       querySnapshot = await baseQuery.get();
       return querySnapshot.docs
           .map((document) => FacilityModel.fromFirestore(document))
@@ -108,7 +109,7 @@ class DatabaseProvider {
     QuerySnapshot querySnapshot;
     try {
       CollectionReference colRef = _db.collection('store');
-      Query baseQuery = colRef.where('type', isEqualTo: itemType);
+      Query baseQuery = colRef.where('itemType', isEqualTo: itemType);
       querySnapshot = await baseQuery.get();
       return querySnapshot.docs
           .map((document) => StoreModel.fromFirestore(document))
