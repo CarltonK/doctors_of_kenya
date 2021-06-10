@@ -55,13 +55,13 @@ class DatabaseProvider {
       return error.message;
     }
   }
+
   ///Populate Concierge Page
   Future retrieveConcierge(String type) async {
     QuerySnapshot querySnapshot;
     try {
       Query colGroupRef = _db.collectionGroup('public_profile');
-      Query baseQuery =
-          colGroupRef.where('designation', isEqualTo: 'Liason');
+      Query baseQuery = colGroupRef.where('designation', isEqualTo: 'Liason');
       Query secondaryQuery =
           baseQuery.where('practitionerType', isEqualTo: type);
       querySnapshot = await secondaryQuery.get();
@@ -118,7 +118,6 @@ class DatabaseProvider {
     }
   }
 
-
   /// Populate Resources
   Future retrieveResources(String itemType) async {
     QuerySnapshot querySnapshot;
@@ -128,6 +127,21 @@ class DatabaseProvider {
       querySnapshot = await baseQuery.get();
       return querySnapshot.docs
           .map((document) => ResourceModel.fromFirestore(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  ///Populate Opportunities
+  Future retrieveOpportunities(String itemType) async {
+    QuerySnapshot querySnapshot;
+    try {
+      CollectionReference colRef = _db.collection('opportunities');
+      Query baseQuery = colRef.where('employmentType', isEqualTo: itemType);
+      querySnapshot = await baseQuery.get();
+      return querySnapshot.docs
+          .map((document) => OpportunityModel.fromFirestore(document))
           .toList();
     } on FirebaseException catch (error) {
       return error.message;
