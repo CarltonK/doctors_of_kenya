@@ -37,6 +37,16 @@ class DatabaseProvider {
     }
   }
 
+  Future retrieveSignInUsersDocument(String uid) async {
+    try {
+      DocumentReference userDoc = _db.doc('users/$uid/private_profile/$uid');
+      DocumentSnapshot publicSnapshot = await userDoc.get();
+      return UserModel.fromPrivateDocument(publicSnapshot);
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
   /// Populate (Practitioners / Home) Page
   ///
   /// Retrieve practitioners by type
