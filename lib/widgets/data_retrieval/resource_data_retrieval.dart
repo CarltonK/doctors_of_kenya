@@ -3,28 +3,28 @@ import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PractitionerRetrieval extends StatefulWidget {
-  final String type;
-  PractitionerRetrieval({Key? key, required this.type}) : super(key: key);
+class ResourceRetrieval extends StatefulWidget {
+  final String resourceType;
+  ResourceRetrieval({Key? key, required this.resourceType}) : super(key: key);
 
   @override
-  _PractitionerRetrievalState createState() => _PractitionerRetrievalState();
+  _ResourceRetrievalState createState() => _ResourceRetrievalState();
 }
 
-class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
-  Future? retrievePractitioners;
+class _ResourceRetrievalState extends State<ResourceRetrieval> {
+  Future? retrieveResources;
 
   @override
   void initState() {
-    retrievePractitioners =
-        context.read<DatabaseProvider>().retrievePractitioners(widget.type);
+    retrieveResources =
+        context.read<DatabaseProvider>().retrieveResources(widget.resourceType);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: retrievePractitioners,
+      future: retrieveResources,
       builder: (context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -44,11 +44,11 @@ class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
               );
             }
             if (snapshot.data.length == 0) {
-              String insertion = widget.type == 'unspecified'
+              String insertion = widget.resourceType == 'unspecified'
                   ? 'practitoner'
-                  : widget.type == 'non-clinical'
+                  : widget.resourceType == 'non-clinical'
                       ? 'practitoner'
-                      : widget.type;
+                      : widget.resourceType;
               return GlobalErrorContained(
                 errorMessage: 'There are no ${insertion}s available',
               );
@@ -56,7 +56,7 @@ class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
             return ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
               itemCount: snapshot.data.length,
-              itemBuilder: (context, index) => PractitionerCard(),
+              itemBuilder: (context, index) => ResourceCard(),
             );
         }
         // return GlobalLoader();

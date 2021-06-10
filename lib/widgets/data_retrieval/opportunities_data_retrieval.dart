@@ -3,28 +3,30 @@ import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PractitionerRetrieval extends StatefulWidget {
-  final String type;
-  PractitionerRetrieval({Key? key, required this.type}) : super(key: key);
+class OpportunityRetrieval extends StatefulWidget {
+  final String employmentType;
+  OpportunityRetrieval({Key? key, required this.employmentType})
+      : super(key: key);
 
   @override
-  _PractitionerRetrievalState createState() => _PractitionerRetrievalState();
+  _OpportunityRetrievalState createState() => _OpportunityRetrievalState();
 }
 
-class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
-  Future? retrievePractitioners;
+class _OpportunityRetrievalState extends State<OpportunityRetrieval> {
+  Future? retrieveOpportunities;
 
   @override
   void initState() {
-    retrievePractitioners =
-        context.read<DatabaseProvider>().retrievePractitioners(widget.type);
+    retrieveOpportunities = context
+        .read<DatabaseProvider>()
+        .retrieveOpportunities(widget.employmentType);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: retrievePractitioners,
+      future: retrieveOpportunities,
       builder: (context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -44,19 +46,14 @@ class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
               );
             }
             if (snapshot.data.length == 0) {
-              String insertion = widget.type == 'unspecified'
-                  ? 'practitoner'
-                  : widget.type == 'non-clinical'
-                      ? 'practitoner'
-                      : widget.type;
               return GlobalErrorContained(
-                errorMessage: 'There are no ${insertion}s available',
+                errorMessage: 'There are no opportunities available',
               );
             }
             return ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
               itemCount: snapshot.data.length,
-              itemBuilder: (context, index) => PractitionerCard(),
+              itemBuilder: (context, index) => JobPostCard(),
             );
         }
         // return GlobalLoader();

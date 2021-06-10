@@ -1,30 +1,30 @@
 import 'package:doctors_of_kenya/providers/providers.dart';
-import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
-class PractitionerRetrieval extends StatefulWidget {
+class ConciergeRetrieval extends StatefulWidget {
   final String type;
-  PractitionerRetrieval({Key? key, required this.type}) : super(key: key);
+  ConciergeRetrieval({Key? key, required this.type}) : super(key: key);
 
   @override
-  _PractitionerRetrievalState createState() => _PractitionerRetrievalState();
+  _ConciergeRetrievalState createState() => _ConciergeRetrievalState();
 }
 
-class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
-  Future? retrievePractitioners;
+class _ConciergeRetrievalState extends State<ConciergeRetrieval> {
+  Future? retrieveConcierge;
 
   @override
   void initState() {
-    retrievePractitioners =
-        context.read<DatabaseProvider>().retrievePractitioners(widget.type);
+    retrieveConcierge =
+        context.read<DatabaseProvider>().retrieveConcierge(widget.type);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: retrievePractitioners,
+      future: retrieveConcierge,
       builder: (context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -45,9 +45,9 @@ class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
             }
             if (snapshot.data.length == 0) {
               String insertion = widget.type == 'unspecified'
-                  ? 'practitoner'
+                  ? 'liason'
                   : widget.type == 'non-clinical'
-                      ? 'practitoner'
+                      ? 'liason'
                       : widget.type;
               return GlobalErrorContained(
                 errorMessage: 'There are no ${insertion}s available',

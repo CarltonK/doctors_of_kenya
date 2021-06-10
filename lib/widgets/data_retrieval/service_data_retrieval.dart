@@ -40,6 +40,11 @@ class _ServiceRetrievalState extends State<ServiceRetrieval> {
             );
 
           case ConnectionState.done:
+            if (snapshot.data.toString().toLowerCase().contains('permission')) {
+              return GlobalErrorContained(
+                errorMessage: 'You do not have sufficient permissions',
+              );
+            }
             if (snapshot.data.length == 0) {
               String insertion = widget.type + ' services';
               return GlobalErrorContained(

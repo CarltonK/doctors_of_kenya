@@ -43,7 +43,7 @@ export default class FirestoreUserHandler {
           
           this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
 
-          this.writeToPrivateDoc(privateProfileDocRef,{ chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, uid, designation });
+          this.writeToPrivateDoc(privateProfileDocRef,{ email, firstName, lastName, registeredOn, chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, uid, designation });
 
         }
 
@@ -54,7 +54,7 @@ export default class FirestoreUserHandler {
 
           this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
 
-          this.writeToPrivateDoc(premiumProfileDocRef,{ mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation });
+          this.writeToPrivateDoc(premiumProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation });
         } 
         
         if (designation === 'Liaison') {

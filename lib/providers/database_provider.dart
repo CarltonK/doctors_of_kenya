@@ -7,7 +7,8 @@ class DatabaseProvider {
 
   DatabaseProvider() {
     // Comment this line for production
-    // String host = Platform.isAndroid ? '192.168.100.5:8080' : 'localhost:8080';
+    // String host =
+    //     Platform.isAndroid ? 'http://192.168.100.11:8080' : 'localhost:8080';
     // _db.settings = Settings(
     //   host: host,
     //   sslEnabled: false,
@@ -36,6 +37,16 @@ class DatabaseProvider {
     }
   }
 
+  Future retrieveSignInUsersDocument(String uid) async {
+    try {
+      DocumentReference userDoc = _db.doc('users/$uid/private_profile/$uid');
+      DocumentSnapshot publicSnapshot = await userDoc.get();
+      return UserModel.fromPrivateDocument(publicSnapshot);
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
   /// Populate (Practitioners / Home) Page
   ///
   /// Retrieve practitioners by type
@@ -45,6 +56,23 @@ class DatabaseProvider {
       Query colGroupRef = _db.collectionGroup('public_profile');
       Query baseQuery =
           colGroupRef.where('designation', isEqualTo: 'Practitioner');
+      Query secondaryQuery =
+          baseQuery.where('practitionerType', isEqualTo: type);
+      querySnapshot = await secondaryQuery.get();
+      return querySnapshot.docs
+          .map((document) => UserModel.fromPublicDocument(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  ///Populate Concierge Page
+  Future retrieveConcierge(String type) async {
+    QuerySnapshot querySnapshot;
+    try {
+      Query colGroupRef = _db.collectionGroup('public_profile');
+      Query baseQuery = colGroupRef.where('designation', isEqualTo: 'Liason');
       Query secondaryQuery =
           baseQuery.where('practitionerType', isEqualTo: type);
       querySnapshot = await secondaryQuery.get();
@@ -76,7 +104,7 @@ class DatabaseProvider {
     QuerySnapshot querySnapshot;
     try {
       CollectionReference colRef = _db.collection('facilities');
-      Query baseQuery = colRef.where('type', isEqualTo: type);
+      Query baseQuery = colRef.where('facilityType', isEqualTo: type);
       querySnapshot = await baseQuery.get();
       return querySnapshot.docs
           .map((document) => FacilityModel.fromFirestore(document))
@@ -91,10 +119,40 @@ class DatabaseProvider {
     QuerySnapshot querySnapshot;
     try {
       CollectionReference colRef = _db.collection('store');
-      Query baseQuery = colRef.where('type', isEqualTo: itemType);
+      Query baseQuery = colRef.where('itemType', isEqualTo: itemType);
       querySnapshot = await baseQuery.get();
       return querySnapshot.docs
           .map((document) => StoreModel.fromFirestore(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  /// Populate Resources
+  Future retrieveResources(String itemType) async {
+    QuerySnapshot querySnapshot;
+    try {
+      CollectionReference colRef = _db.collection('resources');
+      Query baseQuery = colRef.where('resourceType', isEqualTo: itemType);
+      querySnapshot = await baseQuery.get();
+      return querySnapshot.docs
+          .map((document) => ResourceModel.fromFirestore(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  ///Populate Opportunities
+  Future retrieveOpportunities(String itemType) async {
+    QuerySnapshot querySnapshot;
+    try {
+      CollectionReference colRef = _db.collection('opportunities');
+      Query baseQuery = colRef.where('employmentType', isEqualTo: itemType);
+      querySnapshot = await baseQuery.get();
+      return querySnapshot.docs
+          .map((document) => OpportunityModel.fromFirestore(document))
           .toList();
     } on FirebaseException catch (error) {
       return error.message;

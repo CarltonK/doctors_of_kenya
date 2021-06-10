@@ -40,19 +40,24 @@ class _FacilityRetrievalState extends State<FacilityRetrieval> {
             );
 
           case ConnectionState.done:
-            if (snapshot.data.length == 0) {
-              String insertion = widget.type + ' facilities';
-              return GlobalErrorContained(
-                errorMessage: 'There are no $insertion available',
+            if (snapshot.data != null) {
+              if (snapshot.data.length == 0) {
+                String insertion = widget.type + ' facilities';
+                return GlobalErrorContained(
+                  errorMessage: 'There are no $insertion available',
+                );
+              }
+              return ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  FacilityModel facilityModel = snapshot.data[index];
+                  return FacilityListItem(facilityModel: facilityModel);
+                },
               );
             }
-            return ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) {
-                FacilityModel facilityModel = snapshot.data[index];
-                return FacilityListItem(facilityModel: facilityModel);
-              },
+            return GlobalErrorContained(
+              errorMessage: '${snapshot.error.toString()}',
             );
         }
         // return GlobalLoader();

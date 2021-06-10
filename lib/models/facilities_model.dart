@@ -3,7 +3,7 @@ import 'package:doctors_of_kenya/models/models.dart';
 
 class FacilityModel {
   String? name;
-  String? type;
+  String? facilityType;
   ContactModel? contacts;
   LocationModel? location;
   List<dynamic> paymentModalities;
@@ -13,14 +13,14 @@ class FacilityModel {
     this.contacts,
     this.location,
     this.paymentModalities = const <String>[],
-    this.type,
+    this.facilityType,
   });
 
   factory FacilityModel.fromFirestore(DocumentSnapshot doc) {
     dynamic data = doc.data();
     return FacilityModel(
       name: data['name'] ?? '',
-      type: data['type'] ?? 'public',
+      facilityType: data['facilityType'] ?? 'public',
       contacts: ContactModel.fromMap(data['contacts']),
       location: LocationModel.fromMap(data['location']),
       paymentModalities: data['paymentModalities'] ?? [],
@@ -29,7 +29,7 @@ class FacilityModel {
 
   Map<String, dynamic> toJson() => {
         'name': name,
-        'type': type,
+        'facilityType': facilityType,
         'paymentModalities': paymentModalities,
         'contacts': contacts != null ? contacts!.toJson() : null,
         'location': location != null ? location!.toJson() : null,

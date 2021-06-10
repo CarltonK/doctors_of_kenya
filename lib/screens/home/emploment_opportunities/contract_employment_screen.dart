@@ -1,27 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 
 class ContractEmploymentScreen extends StatelessWidget {
+  final String type = 'contract';
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-      child: ListView(
-        children: [
-          JobPostCard(),
-          JobPostCard(),
-          JobPostCard(),
-          JobPostCard(),
-          JobPostCard(),
-          JobPostCard(),
-          JobPostCard(),
-          JobPostCard(),
-          JobPostCard(),
-          JobPostCard(),
-          JobPostCard(),
-          JobPostCard(),
-        ],
-      ),
+    return Container(
+      child: OpportunityRetrieval(employmentType: type),
     );
   }
 }

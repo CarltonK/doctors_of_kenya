@@ -1,10 +1,29 @@
+import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/screens/home/home.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
+import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   static const double avatarRadius = 85;
   static const double titleBottomMargin = (avatarRadius * 2) + 18;
+
+  @override
+  _AppDrawerState createState() => _AppDrawerState();
+}
+
+class _AppDrawerState extends State<AppDrawer> {
+  String? uid;
+  Future? myDocument;
+
+  @override
+  void initState() {
+    uid = context.read<AuthProvider>().currentUser!.uid;
+    myDocument =
+        context.read<DatabaseProvider>().retrieveSignInUsersDocument(uid!);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,43 +32,26 @@ class AppDrawer extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: Stack(
-              children: [
-                CustomPaint(
-                  size: Size.infinite,
-                  painter: ProfileCardPainter(
-                    color: Theme.of(context).accentColor,
-                    avatarRadius: avatarRadius,
-                  ),
-                ),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: titleBottomMargin,
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        'Wayne Rooney',
-                        style: Constants.headlineWhite,
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                        'Clinical Surgeon',
-                        style: Constants.subtitleWhite,
-                      ),
-                    ],
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: CircleAvatar(
-                    radius: avatarRadius,
-                    backgroundColor: Theme.of(context).accentColor,
-                    backgroundImage: AssetImage('assets/images/dok.jpg'),
-                  ),
-                ),
-              ],
-            ),
+            child: FutureBuilder(
+                future: myDocument,
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return GlobalLoader();
+                    case ConnectionState.active:
+                    case ConnectionState.none:
+                      return Center(
+                        child: GlobalErrorContained(errorMessage: 'Public'),
+                      );
+                    case ConnectionState.done:
+                      if (snapshot.data != null) {
+                        return DrawerHeader();
+                      }
+                      return Center(
+                        child: GlobalErrorContained(errorMessage: 'Public'),
+                      );
+                  }
+                }),
           ),
           Expanded(
             flex: 2,
@@ -77,16 +79,16 @@ class AppDrawer extends StatelessWidget {
                     );
                   },
                 ),
-                ListItem(
-                  title: 'Concierge',
-                  onTap: () {
-                    Navigator.of(context).push(
-                      SlideLeftTransition(
-                        page: ConciergeScreen(),
-                      ),
-                    );
-                  },
-                ),
+                // ListItem(
+                //   title: 'Concierge',
+                //   onTap: () {
+                //     Navigator.of(context).push(
+                //       SlideLeftTransition(
+                //         page: ConciergeScreen(),
+                //       ),
+                //     );
+                //   },
+                // ),
                 ListItem(
                   title: 'Store',
                   onTap: () {
@@ -131,6 +133,51 @@ class AppDrawer extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DrawerHeader extends StatelessWidget {
+  const DrawerHeader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        CustomPaint(
+          size: Size.infinite,
+          painter: ProfileCardPainter(
+            color: Theme.of(context).accentColor,
+            avatarRadius: AppDrawer.avatarRadius,
+          ),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: AppDrawer.titleBottomMargin,
+          child: Column(
+            children: <Widget>[
+              Text(
+                'Wayne Rooney',
+                style: Constants.headlineWhite,
+              ),
+              const SizedBox(height: 5),
+              Text(
+                'Clinical Surgeon',
+                style: Constants.subtitleWhite,
+              ),
+            ],
+          ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: CircleAvatar(
+            radius: AppDrawer.avatarRadius,
+            backgroundColor: Theme.of(context).accentColor,
+            backgroundImage: AssetImage('assets/images/dok.jpg'),
+          ),
+        ),
+      ],
     );
   }
 }

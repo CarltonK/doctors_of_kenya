@@ -21,7 +21,7 @@ RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
 RUN apt-get update && apt-get install -y nodejs adoptopenjdk-8-hotspot
 
 # Install global modules
-RUN npm install -g nodemon
+RUN npm install -g nodemon eslint eslint-plugin-import
 
 # download and install firebase CLI
 RUN wget -nv -O firebase https://firebase.tools/bin/linux/latest
