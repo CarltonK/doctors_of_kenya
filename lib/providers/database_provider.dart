@@ -5,14 +5,14 @@ import 'package:doctors_of_kenya/models/models.dart';
 class DatabaseProvider {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  DatabaseProvider() {
-    // Comment this line for production
-    String host = Platform.isAndroid ? '192.168.0.22:8080' : 'localhost:8080';
-    _db.settings = Settings(
-      host: host,
-      sslEnabled: false,
-    );
-  }
+  // DatabaseProvider() {
+  //   // Comment this line for production
+  //   String host = Platform.isAndroid ? '192.168.0.22:8080' : 'localhost:8080';
+  //   _db.settings = Settings(
+  //     host: host,
+  //     sslEnabled: false,
+  //   );
+  // }
 
   Future saveUser(UserModel user, String uid) async {
     try {
@@ -112,6 +112,22 @@ class DatabaseProvider {
       querySnapshot = await baseQuery.get();
       return querySnapshot.docs
           .map((document) => StoreModel.fromFirestore(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+
+  /// Populate Resources
+  Future retrieveResources(String itemType) async {
+    QuerySnapshot querySnapshot;
+    try {
+      CollectionReference colRef = _db.collection('resources');
+      Query baseQuery = colRef.where('resourceType', isEqualTo: itemType);
+      querySnapshot = await baseQuery.get();
+      return querySnapshot.docs
+          .map((document) => ResourceModel.fromFirestore(document))
           .toList();
     } on FirebaseException catch (error) {
       return error.message;

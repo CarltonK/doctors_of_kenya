@@ -1,30 +1,30 @@
 import 'package:doctors_of_kenya/providers/providers.dart';
-import 'package:flutter/material.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ConciergeRetrieval extends StatefulWidget {
-  final String type;
-  ConciergeRetrieval({Key? key, required this.type}) : super(key: key);
+class ResourceRetrieval extends StatefulWidget {
+  final String resourceType;
+  ResourceRetrieval({Key? key, required this.resourceType}) : super(key: key);
 
   @override
-  _ConciergeRetrievalState createState() => _ConciergeRetrievalState();
+  _ResourceRetrievalState createState() => _ResourceRetrievalState();
 }
 
-class _ConciergeRetrievalState extends State<ConciergeRetrieval> {
-  Future? retrieveConcierge;
+class _ResourceRetrievalState extends State<ResourceRetrieval> {
+  Future? retrieveResources;
 
   @override
   void initState() {
-    retrieveConcierge =
-        context.read<DatabaseProvider>().retrieveConcierge(widget.type);
+    retrieveResources =
+        context.read<DatabaseProvider>().retrieveResources(widget.resourceType);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: retrieveConcierge,
+      future: retrieveResources,
       builder: (context, AsyncSnapshot snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -39,11 +39,11 @@ class _ConciergeRetrievalState extends State<ConciergeRetrieval> {
 
           case ConnectionState.done:
             if (snapshot.data.length == 0) {
-              String insertion = widget.type == 'unspecified'
-                  ? 'liason'
-                  : widget.type == 'non-clinical'
-                      ? 'liason'
-                      : widget.type;
+              String insertion = widget.resourceType == 'unspecified'
+                  ? 'practitoner'
+                  : widget.resourceType == 'non-clinical'
+                      ? 'practitoner'
+                      : widget.resourceType;
               return GlobalErrorContained(
                 errorMessage: 'There are no ${insertion}s available',
               );
@@ -51,7 +51,7 @@ class _ConciergeRetrievalState extends State<ConciergeRetrieval> {
             return ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
               itemCount: snapshot.data.length,
-              itemBuilder: (context, index) => PractitionerCard(),
+              itemBuilder: (context, index) => ResourceCard(),
             );
         }
         // return GlobalLoader();

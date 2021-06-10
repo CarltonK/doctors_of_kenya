@@ -77,16 +77,16 @@ class AppDrawer extends StatelessWidget {
                     );
                   },
                 ),
-                ListItem(
-                  title: 'Concierge',
-                  onTap: () {
-                    Navigator.of(context).push(
-                      SlideLeftTransition(
-                        page: ConciergeScreen(),
-                      ),
-                    );
-                  },
-                ),
+                // ListItem(
+                //   title: 'Concierge',
+                //   onTap: () {
+                //     Navigator.of(context).push(
+                //       SlideLeftTransition(
+                //         page: ConciergeScreen(),
+                //       ),
+                //     );
+                //   },
+                // ),
                 ListItem(
                   title: 'Store',
                   onTap: () {

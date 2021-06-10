@@ -7,3 +7,4 @@ export 'patient_center_screen.dart';
 export 'emploment_opportunities/employment.dart';
 export 'medical_services/services.dart';
 export 'practicioner_screen.dart';
+export 'resource_screen.dart';
