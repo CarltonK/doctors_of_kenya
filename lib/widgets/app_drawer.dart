@@ -1,3 +1,4 @@
+import 'package:doctors_of_kenya/models/models.dart';
 import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/screens/home/home.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
@@ -23,6 +24,9 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    UserModel? dokUser =
+        context.select((AuthProvider value) => value.currentDokUser!);
+
     return Drawer(
       child: Column(
         children: [
@@ -105,6 +109,19 @@ class _AppDrawerState extends State<AppDrawer> {
                     );
                   },
                 ),
+
+                if (dokUser!.email == null) ...[
+                  ListItem(
+                    title: 'Admin',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: EmploymentScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ]
               ],
             ),
           ),
@@ -119,19 +136,20 @@ class DrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? fName = context
-        .select((AuthProvider value) => value.currentDokUser!.firstName!);
-    String? lName =
-        context.select((AuthProvider value) => value.currentDokUser!.lastName!);
+    String? userName, fName, lName, designation;
 
-    String? userName = '$fName  $lName';
+    UserModel? dokUser =
+        context.select((AuthProvider value) => value.currentDokUser!);
 
-    String? designation = context.select(
-                (AuthProvider value) => value.currentDokUser!.designation!) !=
-            'General'
-        ? context
-            .select((AuthProvider value) => value.currentDokUser!.designation!)
-        : '';
+    fName = dokUser != null ? dokUser.firstName : '';
+    lName = dokUser != null ? dokUser.lastName : '';
+    userName = fName == null && lName == null ? '' : '$fName  $lName';
+
+    designation = dokUser == null
+        ? 'Admin'
+        : dokUser.designation == 'General'
+            ? ''
+            : dokUser.designation;
 
     return Stack(
       children: [
