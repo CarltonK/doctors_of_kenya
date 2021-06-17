@@ -77,6 +77,7 @@ class LoginBody extends StatelessWidget {
       padding: const EdgeInsets.all(6),
       child: TextFormField(
         textInputAction: TextInputAction.done,
+        obscureText: true,
         decoration: InputDecoration(
           labelText: 'Password',
           prefixIcon: const Icon(Icons.vpn_key),

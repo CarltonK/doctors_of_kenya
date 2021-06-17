@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 
 enum Status { Uninitialized, Authenticated, Authenticating, Unauthenticated }
 
-class AuthProvider with ChangeNotifier {
+class AuthProvider extends DatabaseProvider with ChangeNotifier {
   final FirebaseAuth auth;
   User? currentUser;
   Status _status = Status.Uninitialized;
@@ -13,11 +13,12 @@ class AuthProvider with ChangeNotifier {
   Status get status => _status;
   User get user => currentUser!;
 
-  DatabaseProvider database = DatabaseProvider();
+  UserModel? currentDokUser;
+  UserModel get dokuser => currentDokUser!;
 
   AuthProvider.instance() : auth = FirebaseAuth.instance {
     // Comment this line for production
-    // auth.useEmulator("http://192.168.100.11:9099");
+    // auth.useEmulator("http://192.168.0.102:9099");
     auth.authStateChanges().listen(_onAuthStateChanged);
   }
 
@@ -30,6 +31,11 @@ class AuthProvider with ChangeNotifier {
     } else {
       currentUser = firebaseUser;
       _status = Status.Authenticated;
+      // Get User Document if user has document
+      dynamic docResult = await retrieveSignInUsersDocument(currentUser!.uid);
+      if (docResult.runtimeType == UserModel) {
+        currentDokUser = docResult;
+      }
     }
     notifyListeners();
   }
@@ -69,7 +75,7 @@ class AuthProvider with ChangeNotifier {
       // Send an email verification
       await currentUser!.sendEmailVerification();
       // Save the user to the database
-      await database.saveUser(user, uid);
+      await saveUser(user, uid);
 
       return Future.value(currentUser);
     } on FirebaseAuthException catch (error) {

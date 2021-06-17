@@ -8,7 +8,7 @@ class DatabaseProvider {
   DatabaseProvider() {
     // Comment this line for production
     // String host =
-    //     Platform.isAndroid ? 'http://192.168.100.11:8080' : 'localhost:8080';
+    //     Platform.isAndroid ? 'http://192.168.0.102:8080' : 'localhost:8080';
     // _db.settings = Settings(
     //   host: host,
     //   sslEnabled: false,

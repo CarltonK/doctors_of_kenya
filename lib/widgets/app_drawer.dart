@@ -1,7 +1,6 @@
 import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:doctors_of_kenya/screens/home/home.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
-import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,9 +18,6 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   void initState() {
-    uid = context.read<AuthProvider>().currentUser!.uid;
-    myDocument =
-        context.read<DatabaseProvider>().retrieveSignInUsersDocument(uid!);
     super.initState();
   }
 
@@ -32,26 +28,7 @@ class _AppDrawerState extends State<AppDrawer> {
         children: [
           Expanded(
             flex: 1,
-            child: FutureBuilder(
-                future: myDocument,
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return GlobalLoader();
-                    case ConnectionState.active:
-                    case ConnectionState.none:
-                      return Center(
-                        child: GlobalErrorContained(errorMessage: 'Public'),
-                      );
-                    case ConnectionState.done:
-                      if (snapshot.data != null) {
-                        return DrawerHeader();
-                      }
-                      return Center(
-                        child: GlobalErrorContained(errorMessage: 'Public'),
-                      );
-                  }
-                }),
+            child: DrawerHeader(),
           ),
           Expanded(
             flex: 2,
@@ -142,6 +119,20 @@ class DrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? fName = context
+        .select((AuthProvider value) => value.currentDokUser!.firstName!);
+    String? lName =
+        context.select((AuthProvider value) => value.currentDokUser!.lastName!);
+
+    String? userName = '$fName  $lName';
+
+    String? designation = context.select(
+                (AuthProvider value) => value.currentDokUser!.designation!) !=
+            'General'
+        ? context
+            .select((AuthProvider value) => value.currentDokUser!.designation!)
+        : '';
+
     return Stack(
       children: [
         CustomPaint(
@@ -158,12 +149,12 @@ class DrawerHeader extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                'Wayne Rooney',
+                '$userName',
                 style: Constants.headlineWhite,
               ),
               const SizedBox(height: 5),
               Text(
-                'Clinical Surgeon',
+                '$designation',
                 style: Constants.subtitleWhite,
               ),
             ],
