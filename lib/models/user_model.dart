@@ -57,19 +57,23 @@ class UserModel {
   });
 
   factory UserModel.fromPrivateDocument(DocumentSnapshot doc) {
-    dynamic data = doc.data();
-    return UserModel(
-      firstName: data['firstName'] ?? '',
-      lastName: data['lastName'] ?? '',
-      profilePicture: data['profilePicture'] ?? null,
-      email: data['email'] ?? null,
-      registeredOn: DateTime.fromMillisecondsSinceEpoch(
-          data['registeredOn'].millisecondsSinceEpoch),
-      designation: data['designation'] ?? null,
-      practitionerType: data['practitionerType'] ?? null,
-      practitionerSpeciality: data['practitionerSpeciality'] ?? null,
-      uid: doc.id,
-    );
+    if (doc.exists) {
+      dynamic data = doc.data();
+      return UserModel(
+        firstName: data['firstName'] ?? '',
+        lastName: data['lastName'] ?? '',
+        profilePicture: data['profilePicture'] ?? null,
+        email: data['email'] ?? null,
+        registeredOn: DateTime.fromMillisecondsSinceEpoch(
+            data['registeredOn'].millisecondsSinceEpoch),
+        designation: data['designation'] ?? null,
+        practitionerType: data['practitionerType'] ?? null,
+        practitionerSpeciality: data['practitionerSpeciality'] ?? null,
+        uid: doc.id,
+      );
+    } else {
+      return UserModel();
+    }
   }
 
   factory UserModel.fromPublicDocument(DocumentSnapshot doc) {
