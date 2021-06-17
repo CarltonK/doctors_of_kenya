@@ -119,10 +119,19 @@ class DrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? fName = context.read<AuthProvider>().currentDokUser!.firstName!;
-    String? lName = context.read<AuthProvider>().currentDokUser!.lastName!;
+    String? fName = context
+        .select((AuthProvider value) => value.currentDokUser!.firstName!);
+    String? lName =
+        context.select((AuthProvider value) => value.currentDokUser!.lastName!);
 
     String? userName = '$fName  $lName';
+
+    String? designation = context.select(
+                (AuthProvider value) => value.currentDokUser!.designation!) !=
+            'General'
+        ? context
+            .select((AuthProvider value) => value.currentDokUser!.designation!)
+        : '';
 
     return Stack(
       children: [
@@ -145,7 +154,7 @@ class DrawerHeader extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                'Clinical Surgeon',
+                '$designation',
                 style: Constants.subtitleWhite,
               ),
             ],
