@@ -10,7 +10,7 @@ export default class AuthenticationUserHandler {
         this.logger.setLogLevel('debug');
     }
 
-    public async newUserHandler(user: auth.UserRecord, context: functions.EventContext) {
+    async newUserHandler(user: auth.UserRecord, context: functions.EventContext) {
 
         try {
             const uid: string = user.uid;

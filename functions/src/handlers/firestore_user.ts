@@ -11,7 +11,7 @@ export default class FirestoreUserHandler {
     this.logger.setLogLevel('debug');
   }
 
-  public async newUserDocumentHandler(snapshot: firestore.QueryDocumentSnapshot) {
+  async newUserDocumentHandler(snapshot: firestore.QueryDocumentSnapshot) {
     // Identifiers
     this.uid = snapshot.id;
     this.batch = this.db.batch();
