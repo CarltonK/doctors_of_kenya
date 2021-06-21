@@ -47,7 +47,7 @@ export default class FirestoreUserHandler {
 
         }
 
-        if (designation === 'Doctor') {
+        if (designation === 'Practitioner') {
 
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'premium' });
