@@ -59,6 +59,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   List<String> _otherDoctors = [];
   String? _mpdbNumber;
   DateTime? _mpdbRegistrationDate;
+  // ignore: unused_field
   bool _formComplete = false;
 
   // Focus Nodes
@@ -87,7 +88,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   continued() {
     // ignore: unnecessary_statements
     _currentStep < 3 ? setState(() => _currentStep += 1) : null;
-    if (_currentStep == 3 && _formComplete) {
+    if (_currentStep == 3) {
       _registrationButtonPressed();
     }
   }
@@ -218,19 +219,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
 
   void saveConfirmPassword(String? value) {
     _confirmPassword = value!.trim();
-  }
-
-  Future<bool> _regHandler(UserModel user) async {
-    _registrationResult = await Provider.of<AuthProvider>(
-      context,
-      listen: false,
-    ).createUser(user);
-
-    if (_registrationResult.runtimeType == String) {
-      return false;
-    }
-    _userModel!.uid = _registrationResult.uid;
-    return true;
   }
 
   // ******Designation Stuff*******
@@ -490,6 +478,20 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     }
   }
 
+  Future<bool> _regHandler(UserModel user) async {
+    _registrationResult = await Provider.of<AuthProvider>(
+      context,
+      listen: false,
+    ).createUser(user);
+
+    if (_registrationResult.runtimeType == String) {
+      return false;
+    } else {
+      _userModel!.uid = _registrationResult.uid;
+      return true;
+    }
+  }
+
   _registrationButtonPressed() {
     final FormState form = _accountFormKey.currentState!;
 
@@ -593,6 +595,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                           'Personal Information (1/2)',
                           style: Constants.headlineStyle.copyWith(
                             color: Colors.black,
+                            fontSize: 20,
                           ),
                         ),
                         subtitle: Text(
@@ -618,6 +621,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                           'Personal Information (2/2)',
                           style: Constants.headlineStyle.copyWith(
                             color: Colors.black,
+                            fontSize: 20,
                           ),
                         ),
                         subtitle: Text(
@@ -640,6 +644,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                           'Designation',
                           style: Constants.headlineStyle.copyWith(
                             color: Colors.black,
+                            fontSize: 20,
                           ),
                         ),
                         content: Column(
@@ -658,6 +663,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                                 'Practitioners',
                                 style: Constants.headlineStyle.copyWith(
                                   color: Colors.black,
+                                  fontSize: 20,
                                 ),
                               ),
                               subtitle: Text(
@@ -681,6 +687,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                                     'General',
                                     style: Constants.headlineStyle.copyWith(
                                       color: Colors.black,
+                                      fontSize: 20,
                                     ),
                                   ),
                                   subtitle: Text(
@@ -705,6 +712,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                                     'Let\'s get started',
                                     style: Constants.headlineStyle.copyWith(
                                       color: Colors.black,
+                                      fontSize: 20,
                                     ),
                                   ),
                                   content: Column(
