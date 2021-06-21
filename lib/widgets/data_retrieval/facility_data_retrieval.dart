@@ -72,7 +72,6 @@ class FacilityListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(facilityModel.toJson());
     String used = facilityModel.paymentModalities.join(', ');
     return Container(
       decoration: Constants.kBoxDecorationStyle,
