@@ -18,3 +18,6 @@ kill:
 
 export:
 	firebase emulators:export ./data
+
+clean:
+	flutter clean

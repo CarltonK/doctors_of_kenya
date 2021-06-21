@@ -27,8 +27,8 @@ export default class FirestoreUserHandler {
     const { email, firstName, lastName, registeredOn } = snapshot.data();
     // Private - General
     const { chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender } = snapshot.data();
-    // Doctor
-    const { mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications } = snapshot.data();
+    // Practitioner
+    const { mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, practitionerType } = snapshot.data();
 
     if (!designation) throw this.logger.error('newUserDocumentHandler: ', 'No designation provided');
 
@@ -52,9 +52,9 @@ export default class FirestoreUserHandler {
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'premium' });
 
-          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
+          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, practitionerType });
 
-          this.writeToPrivateDoc(premiumProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation });
+          this.writeToPrivateDoc(premiumProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType });
         } 
         
         if (designation === 'Liaison') {
