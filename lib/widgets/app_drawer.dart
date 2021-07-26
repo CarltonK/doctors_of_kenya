@@ -110,18 +110,18 @@ class _AppDrawerState extends State<AppDrawer> {
                   },
                 ),
 
-                if (dokUser!.email == null) ...[
-                  ListItem(
-                    title: 'Admin',
-                    onTap: () {
-                      Navigator.of(context).push(
-                        SlideLeftTransition(
-                          page: EmploymentScreen(),
-                        ),
-                      );
-                    },
-                  ),
-                ]
+                // if (dokUser!.email == null) ...[
+                //   ListItem(
+                //     title: 'Admin',
+                //     onTap: () {
+                //       Navigator.of(context).push(
+                //         SlideLeftTransition(
+                //           page: EmploymentScreen(),
+                //         ),
+                //       );
+                //     },
+                //   ),
+                // ]
               ],
             ),
           ),
