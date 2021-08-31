@@ -24,12 +24,15 @@ class UserModel {
 
   // Required for Medical Practitioners
   String? mpdbRegNumber;
+  String? practitionerDiscipline;
   String? practitionerType;
   String? practitionerSpeciality;
+  String? practitionerSubSpeciality;
   DateTime? mpdbRegDate;
   AddressModel? userAddress;
   ContactModel? userContact;
-  QualificationsModel? qualifications;
+  String? qualifications;
+  String? userStatus;
 
   UserModel({
     this.email,
@@ -51,9 +54,12 @@ class UserModel {
     this.mpdbRegDate,
     this.userAddress,
     this.userContact,
+    this.practitionerDiscipline,
     this.qualifications,
     this.token,
     this.registeredOn,
+    this.practitionerSubSpeciality,
+    this.userStatus,
   });
 
   factory UserModel.fromPrivateDocument(DocumentSnapshot doc) {
@@ -69,6 +75,7 @@ class UserModel {
         designation: data['designation'] ?? null,
         practitionerType: data['practitionerType'] ?? null,
         practitionerSpeciality: data['practitionerSpeciality'] ?? null,
+        practitionerDiscipline: data['practitionerDiscipline'] ?? null,
         uid: doc.id,
       );
     } else {
@@ -80,6 +87,7 @@ class UserModel {
     dynamic data = doc.data();
     return UserModel(
       firstName: data['firstName'] ?? '',
+      userStatus: data['userStatus'],
       lastName: data['lastName'] ?? '',
       profilePicture: data['profilePicture'] ?? null,
       email: data['email'] ?? null,
@@ -88,6 +96,7 @@ class UserModel {
       designation: data['designation'] ?? null,
       practitionerType: data['practitionerType'] ?? null,
       practitionerSpeciality: data['practitionerSpeciality'] ?? null,
+      practitionerDiscipline: data['practitionerDiscipline'] ?? null,
       uid: doc.id,
     );
   }
@@ -107,12 +116,13 @@ class UserModel {
         'mpdbRegNumber': mpdbRegNumber,
         'practitionerType': practitionerType,
         'practitionerSpeciality': practitionerSpeciality,
+        'practitionerSubSpeciality': practitionerSubSpeciality,
+        'practitionerDiscipline': practitionerDiscipline,
         'profilePicture': profilePicture,
         'mpdbRegDate': mpdbRegDate,
         'userAddress': userAddress != null ? userAddress!.toJson() : null,
         'userContact': userContact != null ? userContact!.toJson() : null,
-        'qualifications':
-            qualifications != null ? qualifications!.toJson() : null,
+        'qualifications': qualifications,
         'registeredOn': registeredOn,
       };
 }
