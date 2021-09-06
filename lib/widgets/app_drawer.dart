@@ -1,5 +1,6 @@
 import 'package:doctors_of_kenya/models/models.dart';
 import 'package:doctors_of_kenya/providers/providers.dart';
+import 'package:doctors_of_kenya/screens/home/admin_tabs/admin_tabs.dart';
 import 'package:doctors_of_kenya/screens/home/home.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:flutter/material.dart';
@@ -110,18 +111,18 @@ class _AppDrawerState extends State<AppDrawer> {
                   },
                 ),
 
-                // if (dokUser!.email == null) ...[
-                //   ListItem(
-                //     title: 'Admin',
-                //     onTap: () {
-                //       Navigator.of(context).push(
-                //         SlideLeftTransition(
-                //           page: EmploymentScreen(),
-                //         ),
-                //       );
-                //     },
-                //   ),
-                // ]
+                if (dokUser!.email == null) ...[
+                  ListItem(
+                    title: 'Admin',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        SlideLeftTransition(
+                          page: AdminScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ]
               ],
             ),
           ),
