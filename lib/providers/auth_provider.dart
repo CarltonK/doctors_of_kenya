@@ -32,9 +32,11 @@ class AuthProvider extends DatabaseProvider with ChangeNotifier {
       currentUser = firebaseUser;
       _status = Status.Authenticated;
       // Get User Document if user has document
-      dynamic docResult = await retrieveSignInUsersDocument(currentUser!.uid);
-      if (docResult.runtimeType == UserModel) {
-        currentDokUser = docResult;
+      if (!firebaseUser.isAnonymous) {
+        dynamic docResult = await retrieveSignInUsersDocument(currentUser!.uid);
+        if (docResult.runtimeType == UserModel) {
+          currentDokUser = docResult;
+        }
       }
     }
     notifyListeners();
