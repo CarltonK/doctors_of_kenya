@@ -1,4 +1,4 @@
-version: '3.3' # Requires Docker engine 18.02.0+\
+version: '3.3'
 
 services:
   dok:
@@ -6,12 +6,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    volumes:   # Binds volume to enable working through docker locally
+    volumes:
       - type: bind
         source: .
         target: /app/
-    # attach terminal
     tty: true
     network_mode: "host"
     environment: 
-      NODE_ENV: "local"
+      NODE_ENV: local

@@ -7,12 +7,9 @@ class DatabaseProvider {
 
   DatabaseProvider() {
     // Comment this line for production
-    // String host =
-    //     Platform.isAndroid ? 'http://192.168.0.102:8080' : 'localhost:8080';
-    // _db.settings = Settings(
-    //   host: host,
-    //   sslEnabled: false,
-    // );
+    // bool isAndroid = Platform.isAndroid;
+    // String host = isAndroid ? '10.0.2.2:5002' : 'localhost:5002';
+    // _db.settings = Settings(host: host, sslEnabled: false);
   }
 
   Future saveUser(UserModel user, String uid) async {

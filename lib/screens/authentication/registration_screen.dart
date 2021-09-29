@@ -300,7 +300,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
             style: Constants.subheadlineStyle,
           ),
           Container(
-            height: 200,
+            height: 100,
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
               maximumDate: DateTime.now().subtract(
@@ -354,7 +354,7 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
             style: Constants.subheadlineStyle,
           ),
           Container(
-            height: 200,
+            height: 100,
             child: CupertinoDatePicker(
               mode: CupertinoDatePickerMode.date,
               initialDateTime: DateTime.now(),
@@ -573,172 +573,170 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // height: double.infinity,
+      height: double.infinity,
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 100, top: 100),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _accountFormKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Card(
-                  margin: const EdgeInsets.symmetric(horizontal: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  elevation: 3,
-                  child: Stepper(
-                    steps: <Step>[
-                      Step(
-                        title: Text(
-                          'Personal Information (1/2)',
-                          style: Constants.headlineStyle.copyWith(
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Required',
-                          style: Constants.subheadlineStyle,
-                        ),
-                        content: Column(
-                          children: [
-                            _firstNameField(),
-                            _lastNameField(),
-                            _emailField(),
-                            _passwordField(),
-                            _passwordConfirmField(),
-                          ],
-                        ),
-                        isActive: _currentStep >= 0,
-                        state: _currentStep >= 0
-                            ? StepState.complete
-                            : StepState.disabled,
-                      ),
-                      Step(
-                        title: Text(
-                          'Personal Information (2/2)',
-                          style: Constants.headlineStyle.copyWith(
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
-                        ),
-                        subtitle: Text(
-                          'Required',
-                          style: Constants.subheadlineStyle,
-                        ),
-                        content: Column(
-                          children: [
-                            _genderSelector(),
-                            _dateSelector(),
-                          ],
-                        ),
-                        isActive: _currentStep >= 0,
-                        state: _currentStep >= 1
-                            ? StepState.complete
-                            : StepState.disabled,
-                      ),
-                      Step(
-                        title: Text(
-                          'Designation',
-                          style: Constants.headlineStyle.copyWith(
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
-                        ),
-                        content: Column(
-                          children: [
-                            _designationSelector(),
-                          ],
-                        ),
-                        isActive: _currentStep >= 0,
-                        state: _currentStep >= 2
-                            ? StepState.complete
-                            : StepState.disabled,
-                      ),
-                      _currentDesignation == 'Practitioner'
-                          ? Step(
-                              title: Text(
-                                'Practitioners',
-                                style: Constants.headlineStyle.copyWith(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                ),
-                              ),
-                              subtitle: Text(
-                                'Required',
-                                style: Constants.subheadlineStyle,
-                              ),
-                              content: Column(
-                                children: [
-                                  _mpdbField(),
-                                  _mpdbRegDateSelector(),
-                                ],
-                              ),
-                              isActive: _currentStep >= 0,
-                              state: _currentStep >= 3
-                                  ? StepState.complete
-                                  : StepState.disabled,
-                            )
-                          : _currentDesignation == 'General'
-                              ? Step(
-                                  title: Text(
-                                    'General',
-                                    style: Constants.headlineStyle.copyWith(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  subtitle: Text(
-                                    'Optional',
-                                    style: Constants.subheadlineStyle,
-                                  ),
-                                  content: Column(
-                                    children: [
-                                      _primaryDoctorField(),
-                                      _otherDoctorsField(),
-                                      _conditionsField(),
-                                      _medicationsField(),
-                                    ],
-                                  ),
-                                  isActive: _currentStep >= 0,
-                                  state: _currentStep >= 3
-                                      ? StepState.complete
-                                      : StepState.disabled,
-                                )
-                              : Step(
-                                  title: Text(
-                                    'Let\'s get started',
-                                    style: Constants.headlineStyle.copyWith(
-                                      color: Colors.black,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  content: Column(
-                                    children: [],
-                                  ),
-                                  isActive: _currentStep >= 0,
-                                  state: _currentStep >= 3
-                                      ? StepState.complete
-                                      : StepState.disabled,
-                                ),
-                    ],
-                    type: _stepperType,
-                    currentStep: _currentStep,
-                    onStepTapped: (step) => tapped(step),
-                    onStepContinue: continued,
-                    onStepCancel: cancel,
-                  ),
+        padding: const EdgeInsets.only(top: 50),
+        child: Form(
+          key: _accountFormKey,
+          child: ListView(
+            children: [
+              Card(
+                margin: const EdgeInsets.symmetric(horizontal: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
                 ),
-                const SizedBox(height: 16),
-                NavigationHelper(
-                  leading: "Already have an account?",
-                  action: "Login",
-                  onTap: () => Navigator.of(context).pop(),
+                elevation: 3,
+                child: Stepper(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  steps: <Step>[
+                    Step(
+                      title: Text(
+                        'Personal Information (1/2)',
+                        style: Constants.headlineStyle.copyWith(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'Required',
+                        style: Constants.subheadlineStyle,
+                      ),
+                      content: Column(
+                        children: [
+                          _firstNameField(),
+                          _lastNameField(),
+                          _emailField(),
+                          _passwordField(),
+                          _passwordConfirmField(),
+                        ],
+                      ),
+                      isActive: _currentStep >= 0,
+                      state: _currentStep >= 0
+                          ? StepState.complete
+                          : StepState.disabled,
+                    ),
+                    Step(
+                      title: Text(
+                        'Personal Information (2/2)',
+                        style: Constants.headlineStyle.copyWith(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                      subtitle: Text(
+                        'Required',
+                        style: Constants.subheadlineStyle,
+                      ),
+                      content: Column(
+                        children: [
+                          _genderSelector(),
+                          _dateSelector(),
+                        ],
+                      ),
+                      isActive: _currentStep >= 0,
+                      state: _currentStep >= 1
+                          ? StepState.complete
+                          : StepState.disabled,
+                    ),
+                    Step(
+                      title: Text(
+                        'Designation',
+                        style: Constants.headlineStyle.copyWith(
+                          color: Colors.black,
+                          fontSize: 20,
+                        ),
+                      ),
+                      content: Column(
+                        children: [
+                          _designationSelector(),
+                        ],
+                      ),
+                      isActive: _currentStep >= 0,
+                      state: _currentStep >= 2
+                          ? StepState.complete
+                          : StepState.disabled,
+                    ),
+                    _currentDesignation == 'Practitioner'
+                        ? Step(
+                            title: Text(
+                              'Practitioners',
+                              style: Constants.headlineStyle.copyWith(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                            ),
+                            subtitle: Text(
+                              'Required',
+                              style: Constants.subheadlineStyle,
+                            ),
+                            content: Column(
+                              children: [
+                                _mpdbField(),
+                                _mpdbRegDateSelector(),
+                              ],
+                            ),
+                            isActive: _currentStep >= 0,
+                            state: _currentStep >= 3
+                                ? StepState.complete
+                                : StepState.disabled,
+                          )
+                        : _currentDesignation == 'General'
+                            ? Step(
+                                title: Text(
+                                  'General',
+                                  style: Constants.headlineStyle.copyWith(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  'Optional',
+                                  style: Constants.subheadlineStyle,
+                                ),
+                                content: Column(
+                                  children: [
+                                    _primaryDoctorField(),
+                                    _otherDoctorsField(),
+                                    _conditionsField(),
+                                    _medicationsField(),
+                                  ],
+                                ),
+                                isActive: _currentStep >= 0,
+                                state: _currentStep >= 3
+                                    ? StepState.complete
+                                    : StepState.disabled,
+                              )
+                            : Step(
+                                title: Text(
+                                  'Let\'s get started',
+                                  style: Constants.headlineStyle.copyWith(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                content: Column(
+                                  children: [],
+                                ),
+                                isActive: _currentStep >= 0,
+                                state: _currentStep >= 3
+                                    ? StepState.complete
+                                    : StepState.disabled,
+                              ),
+                  ],
+                  type: _stepperType,
+                  currentStep: _currentStep,
+                  onStepTapped: (step) => tapped(step),
+                  onStepContinue: continued,
+                  onStepCancel: cancel,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 16),
+              NavigationHelper(
+                leading: "Already have an account?",
+                action: "Login",
+                onTap: () => Navigator.of(context).pop(),
+              ),
+            ],
           ),
         ),
       ),

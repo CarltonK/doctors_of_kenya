@@ -18,7 +18,7 @@ class AuthProvider extends DatabaseProvider with ChangeNotifier {
 
   AuthProvider.instance() : auth = FirebaseAuth.instance {
     // Comment this line for production
-    // auth.useEmulator("http://192.168.0.102:9099");
+    // auth.useEmulator("http://localhost:9099");
     auth.authStateChanges().listen(_onAuthStateChanged);
   }
 
@@ -32,9 +32,11 @@ class AuthProvider extends DatabaseProvider with ChangeNotifier {
       currentUser = firebaseUser;
       _status = Status.Authenticated;
       // Get User Document if user has document
-      dynamic docResult = await retrieveSignInUsersDocument(currentUser!.uid);
-      if (docResult.runtimeType == UserModel) {
-        currentDokUser = docResult;
+      if (!firebaseUser.isAnonymous) {
+        dynamic docResult = await retrieveSignInUsersDocument(currentUser!.uid);
+        if (docResult.runtimeType == UserModel) {
+          currentDokUser = docResult;
+        }
       }
     }
     notifyListeners();
