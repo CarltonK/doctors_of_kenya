@@ -160,13 +160,11 @@ class LoginBody extends StatelessWidget {
       child: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
         padding: layoutPadding(context),
-        // const EdgeInsets.symmetric(horizontal: 16, vertical: 100),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 100),
+          padding: const EdgeInsets.only(top: 50),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              FlutterLogo(size: 100),
               const SizedBox(height: 16),
               Card(
                 margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -198,7 +196,7 @@ class LoginBody extends StatelessWidget {
                         _emailField(context),
                         const SizedBox(height: 16),
                         _passwordField(context),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         TextButton(
                           onPressed: () => Navigator.of(context).push(
                             SlideLeftTransition(
@@ -210,7 +208,7 @@ class LoginBody extends StatelessWidget {
                             style: Theme.of(context).textTheme.subtitle1,
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        const SizedBox(height: 8),
                         GlobalActionButton(
                           action: 'Login',
                           onPressed: () => _loginButtonPressed(context),
@@ -220,7 +218,7 @@ class LoginBody extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 3),
               NavigationHelper(
                 leading: "Don't have an account?",
                 action: "Register Now",
@@ -230,7 +228,6 @@ class LoginBody extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 8),
               NavigationHelper(
                 leading: "Only want to have a look around?",
                 action: "Sign In",
