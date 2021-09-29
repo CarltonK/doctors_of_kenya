@@ -25,8 +25,9 @@ class _AppDrawerState extends State<AppDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    UserModel? dokUser =
-        context.select((AuthProvider value) => value.currentDokUser!);
+    UserModel? dokUser = context.select(
+      (AuthProvider value) => value.currentDokUser ?? null,
+    );
 
     return Drawer(
       child: Column(
@@ -111,7 +112,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   },
                 ),
 
-                if (dokUser!.email == null) ...[
+                if (dokUser != null) ...[
                   ListItem(
                     title: 'Admin',
                     onTap: () {
@@ -139,8 +140,9 @@ class DrawerHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     String? userName, fName, lName, designation;
 
-    UserModel? dokUser =
-        context.select((AuthProvider value) => value.currentDokUser!);
+    UserModel? dokUser = context.select(
+      (AuthProvider value) => value.currentDokUser ?? null,
+    );
 
     fName = dokUser != null ? dokUser.firstName : '';
     lName = dokUser != null ? dokUser.lastName : '';
