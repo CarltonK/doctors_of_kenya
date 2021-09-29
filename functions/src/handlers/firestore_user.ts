@@ -41,9 +41,9 @@ export default class FirestoreUserHandler {
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'general' });
           
-          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
+          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
 
-          this.writeToPrivateDoc(privateProfileDocRef,{ email, firstName, lastName, registeredOn, chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, uid, designation });
+          this.writeToDoc(privateProfileDocRef,{ email, firstName, lastName, registeredOn, chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, uid, designation });
 
         }
 
@@ -52,9 +52,11 @@ export default class FirestoreUserHandler {
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'premium' });
 
-          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, practitionerType });
+          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, practitionerType });
 
-          this.writeToPrivateDoc(premiumProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType });
+          this.writeToDoc(premiumProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType });
+
+          this.writeToDoc(privateProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType });
         } 
         
         if (designation === 'Liaison') {
@@ -62,7 +64,7 @@ export default class FirestoreUserHandler {
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'liaison' });
 
-          this.writeToPublicDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
+          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
 
         }
       } catch (error) {
@@ -74,12 +76,8 @@ export default class FirestoreUserHandler {
     return;
   }
 
-  private writeToPublicDoc(
+  private writeToDoc(
     docRef: firestore.DocumentReference, data: firestore.DocumentData) {
-    this.batch?.set(docRef, data);
-  }
-
-  private writeToPrivateDoc(docRef: firestore.DocumentReference, data: firestore.DocumentData) {
     this.batch?.set(docRef, data);
   }
 
