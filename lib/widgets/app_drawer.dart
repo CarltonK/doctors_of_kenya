@@ -149,7 +149,7 @@ class DrawerHeader extends StatelessWidget {
     userName = fName == null && lName == null ? '' : '$fName  $lName';
 
     designation = dokUser == null
-        ? 'Admin'
+        ? ''
         : dokUser.designation == 'General'
             ? ''
             : dokUser.designation;
