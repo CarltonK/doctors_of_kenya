@@ -10,12 +10,7 @@ class AdminScreen extends StatelessWidget {
     return TabBar(
       tabs: [
         TabWidget(title: 'Practitioners'),
-        TabWidget(title: 'Services'),
         TabWidget(title: 'Facilities'),
-        TabWidget(title: 'Concierge'),
-        TabWidget(title: 'Store'),
-        TabWidget(title: 'Resources'),
-        TabWidget(title: 'Opportunities'),
       ],
       isScrollable: true,
     );
@@ -23,18 +18,13 @@ class AdminScreen extends StatelessWidget {
 
   final List<Widget> _pages = [
     AdminPractitioners(),
-    AdminServices(),
     AdminFacilities(),
-    AdminConcierge(),
-    AdminStore(),
-    AdminResources(),
-    AdminOpportunities()
   ];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 7,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).accentColor,
