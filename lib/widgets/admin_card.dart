@@ -13,6 +13,10 @@ class AdminPractionerCard extends StatelessWidget {
     await context.read<DatabaseProvider>().adminAcceptPractitioner(user.uid!);
   }
 
+  adminRejectButtonPressed(BuildContext context) async {
+    await context.read<DatabaseProvider>().adminRejectPractitioner(user.uid!);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,7 +63,10 @@ class AdminPractionerCard extends StatelessWidget {
                   child: Text('Accept'),
                 ),
                 const SizedBox(width: 10),
-                TextButton(onPressed: () {}, child: Text('Decline'))
+                TextButton(
+                  onPressed: () => adminRejectButtonPressed(context),
+                  child: Text('Decline'),
+                )
               ],
             ),
           ],

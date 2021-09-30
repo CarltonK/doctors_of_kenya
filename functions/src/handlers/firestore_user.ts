@@ -33,47 +33,47 @@ export default class FirestoreUserHandler {
 
     if (!designation) throw this.logger.error('newUserDocumentHandler: ', 'No designation provided');
 
-      try {
-        // Writable UID
-        const uid = this.uid;
+    try {
+      // Writable UID
+      const uid = this.uid;
 
-        if (designation === 'General') {
+      if (designation === 'General') {
 
-          // Assign claims
-          await auth().setCustomUserClaims(this.uid, { role: 'general' });
-          
-          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, isVerified });
+        // Assign claims
+        await auth().setCustomUserClaims(this.uid, { role: 'general' });
 
-          this.writeToDoc(privateProfileDocRef,{ email, firstName, lastName, registeredOn, chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, uid, designation, isVerified });
+        this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, isVerified });
 
-        }
+        this.writeToDoc(privateProfileDocRef, { email, firstName, lastName, registeredOn, chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, uid, designation, isVerified });
 
-        if (designation === 'Practitioner') {
-
-          // Assign claims
-          await auth().setCustomUserClaims(this.uid, { role: 'premium' });
-
-          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, practitionerType, isVerified });
-
-          this.writeToDoc(premiumProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType, isVerified });
-
-          this.writeToDoc(privateProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType, isVerified });
-        } 
-        
-        if (designation === 'Liaison') {
-
-          // Assign claims
-          await auth().setCustomUserClaims(this.uid, { role: 'liaison' });
-
-          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, isVerified });
-
-        }
-      } catch (error) {
-        this.logger.error('newUserDocumentHandler: ', error);
-      } finally {
-        this.obfuscateMainDoc(mainDocRef, snapshot.data());
-        await this.batch.commit();
       }
+
+      if (designation === 'Practitioner') {
+
+        // Assign claims
+        await auth().setCustomUserClaims(this.uid, { role: 'premium' });
+
+        this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, practitionerType, isVerified });
+
+        this.writeToDoc(premiumProfileDocRef, { email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType, isVerified });
+
+        this.writeToDoc(privateProfileDocRef, { email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType, isVerified });
+      }
+
+      if (designation === 'Liaison') {
+
+        // Assign claims
+        await auth().setCustomUserClaims(this.uid, { role: 'liaison' });
+
+        this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, isVerified });
+
+      }
+    } catch (error) {
+      this.logger.error('newUserDocumentHandler: ', error);
+    } finally {
+      this.obfuscateMainDoc(mainDocRef, snapshot.data());
+      await this.batch.commit();
+    }
     return;
   }
 
@@ -87,6 +87,17 @@ export default class FirestoreUserHandler {
       }
     } catch (error) {
       this.logger.error('adminAcceptPractitioner: ', error);
+    }
+    return;
+  }
+
+  async adminRejectPractitioner(snapshot: firestore.QueryDocumentSnapshot) {
+    try {
+      const { uid } = snapshot.data();
+      await this.db.doc(`users/${uid}/private_profile/${uid}`).delete();
+      await this.db.doc(`users/${uid}/premium_profile/${uid}`).delete();
+    } catch (error) {
+      this.logger.error('adminRejectPractitioner: ', error);
     }
     return;
   }
