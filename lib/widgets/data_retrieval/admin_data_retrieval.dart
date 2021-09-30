@@ -4,21 +4,26 @@ import 'package:doctors_of_kenya/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PractitionerRetrieval extends StatefulWidget {
+class AdminPractitionerRetrieval extends StatefulWidget {
+  const AdminPractitionerRetrieval({
+    Key? key,
+    required this.type,
+  }) : super(key: key);
   final String type;
-  PractitionerRetrieval({Key? key, required this.type}) : super(key: key);
 
   @override
-  _PractitionerRetrievalState createState() => _PractitionerRetrievalState();
+  _AdminPractitionerRetrievalState createState() =>
+      _AdminPractitionerRetrievalState();
 }
 
-class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
+class _AdminPractitionerRetrievalState
+    extends State<AdminPractitionerRetrieval> {
   Future? retrievePractitioners;
 
   @override
   void initState() {
     retrievePractitioners =
-        context.read<DatabaseProvider>().retrievePractitioners(widget.type);
+        context.read<DatabaseProvider>().retrieveAllPractitioners();
     super.initState();
   }
 
@@ -59,7 +64,7 @@ class _PractitionerRetrievalState extends State<PractitionerRetrieval> {
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
                 UserModel user = snapshot.data[index];
-                return PractitionerCard(user: user);
+                return AdminPractionerCard(user: user);
               },
             );
         }

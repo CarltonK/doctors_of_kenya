@@ -34,6 +34,8 @@ class UserModel {
   String? qualifications;
   String? userStatus;
 
+  bool? isVerified;
+
   UserModel({
     this.email,
     this.password,
@@ -60,6 +62,7 @@ class UserModel {
     this.registeredOn,
     this.practitionerSubSpeciality,
     this.userStatus,
+    this.isVerified = false,
   });
 
   factory UserModel.fromPrivateDocument(DocumentSnapshot doc) {
@@ -76,6 +79,7 @@ class UserModel {
         practitionerType: data['practitionerType'] ?? null,
         practitionerSpeciality: data['practitionerSpeciality'] ?? null,
         practitionerDiscipline: data['practitionerDiscipline'] ?? null,
+        isVerified: data['isVerified'] ?? false,
         uid: doc.id,
       );
     } else {
@@ -89,6 +93,7 @@ class UserModel {
       firstName: data['firstName'] ?? '',
       userStatus: data['userStatus'],
       lastName: data['lastName'] ?? '',
+      mpdbRegNumber: data['mpdbRegNumber'] ?? '',
       profilePicture: data['profilePicture'] ?? null,
       email: data['email'] ?? null,
       registeredOn: DateTime.fromMillisecondsSinceEpoch(
@@ -98,6 +103,7 @@ class UserModel {
       practitionerSpeciality: data['practitionerSpeciality'] ?? null,
       practitionerDiscipline: data['practitionerDiscipline'] ?? null,
       uid: doc.id,
+      isVerified: data['isVerified'] ?? false,
     );
   }
 
@@ -124,5 +130,6 @@ class UserModel {
         'userContact': userContact != null ? userContact!.toJson() : null,
         'qualifications': qualifications,
         'registeredOn': registeredOn,
+        'isVerified': isVerified,
       };
 }

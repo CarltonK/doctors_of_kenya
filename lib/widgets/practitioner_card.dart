@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:doctors_of_kenya/models/models.dart';
 import 'package:doctors_of_kenya/screens/home/home.dart';
 import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PractitionerCard extends StatelessWidget {
+  final UserModel user;
+  PractitionerCard({required this.user});
   Widget viewPractitioner(BuildContext context) {
     return Container(
       height: 60,
@@ -54,17 +57,16 @@ class PractitionerCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Dr. Wayne Rooney',
+          'Dr. ${user.firstName} ${user.lastName}',
           style: Constants.subHeadlineWhite,
           overflow: TextOverflow.ellipsis,
         ),
-        const SizedBox(
-          height: 5,
+        const SizedBox(height: 5),
+        Text(
+          '${user.practitionerSpeciality ?? ''}',
+          style: Constants.subtitleWhite,
         ),
-        Text('Opthalmologist', style: Constants.subtitleWhite),
-        const SizedBox(
-          height: 5,
-        ),
+        const SizedBox(height: 5),
       ],
     );
   }

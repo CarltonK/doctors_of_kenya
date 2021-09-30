@@ -24,7 +24,7 @@ export default class FirestoreUserHandler {
 
     const { designation } = snapshot.data();
     // General
-    const { email, firstName, lastName, registeredOn } = snapshot.data();
+    const { email, firstName, lastName, registeredOn, isVerified } = snapshot.data();
     // Private - General
     const { chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender } = snapshot.data();
     // Practitioner
@@ -41,9 +41,9 @@ export default class FirestoreUserHandler {
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'general' });
           
-          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
+          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, isVerified });
 
-          this.writeToDoc(privateProfileDocRef,{ email, firstName, lastName, registeredOn, chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, uid, designation });
+          this.writeToDoc(privateProfileDocRef,{ email, firstName, lastName, registeredOn, chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, uid, designation, isVerified });
 
         }
 
@@ -52,11 +52,11 @@ export default class FirestoreUserHandler {
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'premium' });
 
-          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, practitionerType });
+          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, practitionerType, isVerified });
 
-          this.writeToDoc(premiumProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType });
+          this.writeToDoc(premiumProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType, isVerified });
 
-          this.writeToDoc(privateProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType });
+          this.writeToDoc(privateProfileDocRef,{ email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType, isVerified });
         } 
         
         if (designation === 'Liaison') {
@@ -64,7 +64,7 @@ export default class FirestoreUserHandler {
           // Assign claims
           await auth().setCustomUserClaims(this.uid, { role: 'liaison' });
 
-          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid });
+          this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, isVerified });
 
         }
       } catch (error) {

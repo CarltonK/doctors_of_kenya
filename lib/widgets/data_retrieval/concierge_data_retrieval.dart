@@ -1,3 +1,4 @@
+import 'package:doctors_of_kenya/models/models.dart';
 import 'package:doctors_of_kenya/providers/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:doctors_of_kenya/widgets/widgets.dart';
@@ -56,7 +57,10 @@ class _ConciergeRetrievalState extends State<ConciergeRetrieval> {
             return ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
               itemCount: snapshot.data.length,
-              itemBuilder: (context, index) => PractitionerCard(),
+              itemBuilder: (context, index) {
+                UserModel user = snapshot.data[index];
+                return PractitionerCard(user: user);
+              },
             );
         }
         // return GlobalLoader();

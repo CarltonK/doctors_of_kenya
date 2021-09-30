@@ -1,4 +1,4 @@
-// import 'dart:io';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
@@ -47,7 +47,7 @@ class DatabaseProvider {
   /// Populate (Practitioners / Home) Page
   ///
   /// Retrieve practitioners by type
-  Future retrievePractitioners(String type) async {
+  Future retrievePractitioners(String type, [bool isVerified = true]) async {
     QuerySnapshot querySnapshot;
     try {
       Query colGroupRef = _db.collectionGroup('public_profile');
@@ -55,6 +55,24 @@ class DatabaseProvider {
           colGroupRef.where('designation', isEqualTo: 'Practitioner');
       Query secondaryQuery =
           baseQuery.where('practitionerType', isEqualTo: type);
+      Query tripleQuery =
+          secondaryQuery.where('isVerified', isEqualTo: isVerified);
+      querySnapshot = await tripleQuery.get();
+      return querySnapshot.docs
+          .map((document) => UserModel.fromPublicDocument(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  Future retrieveAllPractitioners() async {
+    QuerySnapshot querySnapshot;
+    try {
+      Query colGroupRef = _db.collectionGroup('private_profile');
+      Query baseQuery =
+          colGroupRef.where('designation', isEqualTo: 'Practitioner');
+      Query secondaryQuery = baseQuery.where('isVerified', isEqualTo: false);
       querySnapshot = await secondaryQuery.get();
       return querySnapshot.docs
           .map((document) => UserModel.fromPublicDocument(document))
@@ -151,6 +169,32 @@ class DatabaseProvider {
       return querySnapshot.docs
           .map((document) => OpportunityModel.fromFirestore(document))
           .toList();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  /// Admin Accept Practitioner
+  Future adminAcceptPractitioner(String uid) async {
+    try {
+      CollectionReference colRef = _db.collection('users');
+      await colRef
+          .doc(uid)
+          .collection('private_profile')
+          .doc(uid)
+          .update({'isVerified': true});
+
+      await colRef
+          .doc(uid)
+          .collection('premium_profile')
+          .doc(uid)
+          .update({'isVerified': true});
+
+      await colRef
+          .doc(uid)
+          .collection('public_profile')
+          .doc(uid)
+          .update({'isVerified': true});
     } on FirebaseException catch (error) {
       return error.message;
     }
