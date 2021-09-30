@@ -32,3 +32,5 @@ export const onNewUserCreated = regionalFunctions.auth.user().onCreate(GlobalAut
 FIRESTORE TRIGGERS
 */
 export const onNewUserDocumentCreated = regionalFunctions.firestore.document('/users/{user}').onCreate(GlobalFirestoreUserHandler.newUserDocumentHandler.bind(GlobalFirestoreUserHandler));
+export const onAdminAcceptPractitioner = regionalFunctions.firestore.document('/users/{user}/public_profile/{user}').onUpdate(GlobalFirestoreUserHandler.adminAcceptPractitioner.bind(GlobalFirestoreUserHandler));
+export const onAdminRejectPractitioner = regionalFunctions.firestore.document('/users/{user}/public_profile/{user}').onDelete(GlobalFirestoreUserHandler.adminRejectPractitioner.bind(GlobalFirestoreUserHandler));
