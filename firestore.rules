@@ -39,6 +39,7 @@ service cloud.firestore {
     match /{path=**}/private_profile/{user} {
       allow read: if isSignedIn() && (isRolePremium() || isOwner(user));
       allow update: if isOwner(user);
+      allow delete: if isSignedIn() && isRoleAdmin();
     }
 
     match /{path=**}/premium_profile/{user} {

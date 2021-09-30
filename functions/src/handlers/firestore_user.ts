@@ -1,5 +1,6 @@
 import { Logger } from '@firebase/logger';
 import { firestore, auth } from 'firebase-admin';
+import { Change } from 'firebase-functions'
 
 export default class FirestoreUserHandler {
   private logger: Logger = new Logger('FirestoreUserHandler');
@@ -73,6 +74,20 @@ export default class FirestoreUserHandler {
         this.obfuscateMainDoc(mainDocRef, snapshot.data());
         await this.batch.commit();
       }
+    return;
+  }
+
+  async adminAcceptPractitioner(change: Change<firestore.QueryDocumentSnapshot>) {
+    try {
+      const { isVerified: isVerifiedBefore, uid } = change.before.data();
+      const { isVerified: isVerifiedAfter } = change.after.data();
+      if (isVerifiedBefore === false && isVerifiedAfter === true) {
+        await this.db.doc(`users/${uid}/private_profile/${uid}`).update({ isVerified: true });
+        await this.db.doc(`users/${uid}/premium_profile/${uid}`).update({ isVerified: true });
+      }
+    } catch (error) {
+      this.logger.error('adminAcceptPractitioner: ', error);
+    }
     return;
   }
 
