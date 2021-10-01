@@ -102,7 +102,7 @@ class UserModel {
       isVerified: data['isVerified'] ?? false,
     );
   }
-
+//co
   Map<String, dynamic> toMainFirestoreDoc() => {
         'email': email,
         'uid': uid,
