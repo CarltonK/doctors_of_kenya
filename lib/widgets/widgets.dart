@@ -9,7 +9,8 @@ export 'job_post_card.dart';
 export 'practitioner_card.dart';
 export 'resource_card.dart';
 export 'responsive.dart';
-export 'admin_card.dart';
+export 'admin_practitioner_card.dart';
+export 'admin_facility_card.dart';
 
 // Future Helpers
 export 'data_retrieval/practitioner_data_retrieval.dart';

@@ -128,6 +128,21 @@ class DatabaseProvider {
       return error.message;
     }
   }
+  //Admin retrieve facilities
+
+  Future adminRetrieveFacilities() async {
+    QuerySnapshot querySnapshot;
+    try {
+      CollectionReference colRef = _db.collection('facilities');
+      Query baseQuery = colRef.where('isVerified', isEqualTo: false);
+      querySnapshot = await baseQuery.get();
+      return querySnapshot.docs
+          .map((document) => FacilityModel.fromFirestore(document))
+          .toList();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
 
   /// Populate Store Page
   Future retrieveStore(String itemType) async {
@@ -180,21 +195,39 @@ class DatabaseProvider {
       CollectionReference colRef = _db.collection('users');
       await colRef
           .doc(uid)
-          .collection('private_profile')
-          .doc(uid)
-          .update({'isVerified': true});
-
-      await colRef
-          .doc(uid)
-          .collection('premium_profile')
-          .doc(uid)
-          .update({'isVerified': true});
-
-      await colRef
-          .doc(uid)
           .collection('public_profile')
           .doc(uid)
           .update({'isVerified': true});
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  ///Admin Reject Practitioner
+  Future adminRejectPractitioner(String uid) async {
+    try {
+      CollectionReference colRef = _db.collection('users');
+      await colRef.doc(uid).collection('public_profile').doc(uid).delete();
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  /// Admin Accept Facility
+  Future adminAcceptFacility(String docId) async {
+    try {
+      CollectionReference colRef = _db.collection('facilities');
+      await colRef.doc(docId).update({'isVerified': true});
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
+  /// Admin Reject Facility
+  Future adminRejectFacility(String docId) async {
+    try {
+      CollectionReference colRef = _db.collection('facilities');
+      await colRef.doc(docId).delete();
     } on FirebaseException catch (error) {
       return error.message;
     }

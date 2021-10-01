@@ -7,9 +7,7 @@ import 'package:provider/provider.dart';
 class AdminFacilityRetrieval extends StatefulWidget {
   const AdminFacilityRetrieval({
     Key? key,
-    required this.type,
   }) : super(key: key);
-  final String type;
 
   @override
   _AdminFacilityRetrievalState createState() => _AdminFacilityRetrievalState();
@@ -20,7 +18,7 @@ class _AdminFacilityRetrievalState extends State<AdminFacilityRetrieval> {
   @override
   void initState() {
     retrieveFacilities =
-        context.read<DatabaseProvider>().retrieveFacilities('public');
+        context.read<DatabaseProvider>().adminRetrieveFacilities();
     super.initState();
   }
 
@@ -41,28 +39,23 @@ class _AdminFacilityRetrievalState extends State<AdminFacilityRetrieval> {
             );
 
           case ConnectionState.done:
-            if (snapshot.data.toString().toLowerCase().contains('permission')) {
-              return GlobalErrorContained(
-                errorMessage: 'You do not have sufficient permissions',
+            if (snapshot.data != null) {
+              if (snapshot.data.length == 0) {
+                return GlobalErrorContained(
+                  errorMessage: 'There are no facilities available',
+                );
+              }
+              return ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  FacilityModel facilityModel = snapshot.data[index];
+                  return AdminFacilityCard(facility: facilityModel);
+                },
               );
             }
-            if (snapshot.data.length == 0) {
-              String insertion = widget.type == 'unspecified'
-                  ? 'practitoner'
-                  : widget.type == 'non-clinical'
-                      ? 'practitoner'
-                      : widget.type;
-              return GlobalErrorContained(
-                errorMessage: 'There are no ${insertion}s available',
-              );
-            }
-            return ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-              itemCount: snapshot.data.length,
-              itemBuilder: (context, index) {
-                UserModel user = snapshot.data[index];
-                return AdminPractionerCard(user: user);
-              },
+            return GlobalErrorContained(
+              errorMessage: '${snapshot.error.toString()}',
             );
         }
         // return GlobalLoader();

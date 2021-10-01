@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
 class FacilityModel {
+  String? docId;
   String? name;
   String? facilityType;
   ContactModel? contacts;
   LocationModel? location;
   List<dynamic> paymentModalities;
+  bool isVerified;
 
   FacilityModel({
     this.name,
@@ -14,6 +16,8 @@ class FacilityModel {
     this.location,
     this.paymentModalities = const <String>[],
     this.facilityType,
+    this.docId,
+    this.isVerified = false,
   });
 
   factory FacilityModel.fromFirestore(DocumentSnapshot doc) {
@@ -24,6 +28,8 @@ class FacilityModel {
       contacts: ContactModel.fromMap(data['contacts']),
       location: LocationModel.fromMap(data['location']),
       paymentModalities: data['paymentModalities'] ?? [],
+      docId: doc.id,
+      isVerified: data['isVerified'] ?? false,
     );
   }
 
@@ -33,5 +39,6 @@ class FacilityModel {
         'paymentModalities': paymentModalities,
         'contacts': contacts != null ? contacts!.toJson() : null,
         'location': location != null ? location!.toJson() : null,
+        'isVerified': isVerified
       };
 }
