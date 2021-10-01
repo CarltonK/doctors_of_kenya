@@ -27,9 +27,9 @@ export default class FirestoreUserHandler {
     // General
     const { email, firstName, lastName, registeredOn, isVerified } = snapshot.data();
     // Private - General
-    const { chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender } = snapshot.data();
+    const { chronicConditions, medications, primaryDoctor, otherDoctors, gender } = snapshot.data();
     // Practitioner
-    const { mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, practitionerType } = snapshot.data();
+    const { mpdbRegNumber, userAddress, userContact, qualifications, practitionerType } = snapshot.data();
 
     if (!designation) throw this.logger.error('newUserDocumentHandler: ', 'No designation provided');
 
@@ -44,7 +44,7 @@ export default class FirestoreUserHandler {
 
         this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, isVerified });
 
-        this.writeToDoc(privateProfileDocRef, { email, firstName, lastName, registeredOn, chronicConditions, medications, primaryDoctor, otherDoctors, dob, gender, uid, designation, isVerified });
+        this.writeToDoc(privateProfileDocRef, { email, firstName, lastName, registeredOn, chronicConditions, medications, primaryDoctor, otherDoctors, gender, uid, designation, isVerified });
 
       }
 
@@ -55,9 +55,9 @@ export default class FirestoreUserHandler {
 
         this.writeToDoc(publicProfileDocRef, { email, firstName, lastName, registeredOn, designation, uid, practitionerType, isVerified });
 
-        this.writeToDoc(premiumProfileDocRef, { email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType, isVerified });
+        this.writeToDoc(premiumProfileDocRef, { email, firstName, lastName, registeredOn, mpdbRegNumber, userAddress, userContact, qualifications, gender, uid, designation, practitionerType, isVerified });
 
-        this.writeToDoc(privateProfileDocRef, { email, firstName, lastName, registeredOn, mpdbRegNumber, mpdbRegDate, userAddress, userContact, qualifications, dob, gender, uid, designation, practitionerType, isVerified });
+        this.writeToDoc(privateProfileDocRef, { email, firstName, lastName, registeredOn, mpdbRegNumber, userAddress, userContact, qualifications, gender, uid, designation, practitionerType, isVerified });
       }
 
       if (designation === 'Liaison') {

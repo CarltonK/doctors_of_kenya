@@ -51,14 +51,11 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
   List<String> _designations = ['Practitioner', 'Liaison', 'General'];
   String? _selectedGender;
   List<String> _genders = ['Male', 'Female', 'Do not wish to disclose'];
-  final int _eighteenYearsInDays = 6570;
-  DateTime? _dob;
   List<String> _chronicConditions = [];
   List<String> _currentMedications = [];
   String? _primaryDoctor;
   List<String> _otherDoctors = [];
   String? _mpdbNumber;
-  DateTime? _mpdbRegistrationDate;
   // ignore: unused_field
   bool _formComplete = false;
 
@@ -288,37 +285,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
     });
   }
 
-  // ******Date Selector Stuff*******
-  Widget _dateSelector() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Date of Birth',
-            style: Constants.subheadlineStyle,
-          ),
-          Container(
-            height: 100,
-            child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.date,
-              maximumDate: DateTime.now().subtract(
-                Duration(days: _eighteenYearsInDays),
-              ),
-              initialDateTime: DateTime.now().subtract(
-                Duration(days: _eighteenYearsInDays + 1),
-              ),
-              onDateTimeChanged: (DateTime newDateTime) {
-                _dob = newDateTime;
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   // ******Practitioners Stuff*******
   // ******Mpdb number Stuff*******
   Widget _mpdbField() {
@@ -340,35 +306,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
 
   void saveMpdbNumber(String? value) {
     _mpdbNumber = value!.trim();
-  }
-
-  // ******Mpdb registration date Stuff*******
-  Widget _mpdbRegDateSelector() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'MPDB Registration Date',
-            style: Constants.subheadlineStyle,
-          ),
-          Container(
-            height: 100,
-            child: CupertinoDatePicker(
-              mode: CupertinoDatePickerMode.date,
-              initialDateTime: DateTime.now(),
-              onDateTimeChanged: (DateTime newDateTime) {
-                _mpdbRegistrationDate = newDateTime;
-                setState(() {
-                  _formComplete = true;
-                });
-              },
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   // ******Non-practitioners Stuff*******
@@ -484,6 +421,8 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
       listen: false,
     ).createUser(user);
 
+    print(_registrationResult);
+
     if (_registrationResult.runtimeType == String) {
       return false;
     } else {
@@ -499,11 +438,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
       showInfoDialog(
         _scaffoldKey.currentContext!,
         'Please select your gender',
-      );
-    } else if (_dob == null) {
-      showInfoDialog(
-        _scaffoldKey.currentContext!,
-        'Please select your date of birth',
       );
     } else if (_currentDesignation == null) {
       showInfoDialog(
@@ -521,18 +455,19 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
           email: _email,
           password: _password == _confirmPassword ? _confirmPassword : null,
           gender: _selectedGender,
-          dob: _dob,
           designation: _currentDesignation,
           primaryDoctor: _primaryDoctor,
           otherDoctors: _otherDoctors,
           chronicConditions: _chronicConditions,
           medications: _currentMedications,
           mpdbRegNumber: _mpdbNumber,
-          mpdbRegDate: _mpdbRegistrationDate,
           registeredOn: DateTime.now(),
         );
 
+        print(_userModel!.toMainFirestoreDoc());
+
         _regHandler(_userModel!).then((value) {
+          print(value);
           if (!value) {
             Timer(Duration(milliseconds: 500), () async {
               await showInfoDialog(
@@ -630,7 +565,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                       content: Column(
                         children: [
                           _genderSelector(),
-                          _dateSelector(),
                         ],
                       ),
                       isActive: _currentStep >= 0,
@@ -672,7 +606,6 @@ class _RegistrationStepperState extends State<RegistrationStepper> {
                             content: Column(
                               children: [
                                 _mpdbField(),
-                                _mpdbRegDateSelector(),
                               ],
                             ),
                             isActive: _currentStep >= 0,

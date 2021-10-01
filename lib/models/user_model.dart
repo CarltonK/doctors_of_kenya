@@ -5,7 +5,6 @@ class UserModel {
   String? email;
   String? password;
   String? uid;
-  DateTime? dob;
   String? gender;
   String? firstName;
   String? lastName;
@@ -28,7 +27,6 @@ class UserModel {
   String? practitionerType;
   String? practitionerSpeciality;
   String? practitionerSubSpeciality;
-  DateTime? mpdbRegDate;
   AddressModel? userAddress;
   ContactModel? userContact;
   String? qualifications;
@@ -40,7 +38,6 @@ class UserModel {
     this.email,
     this.password,
     this.uid,
-    this.dob,
     this.gender,
     this.firstName,
     this.lastName,
@@ -53,7 +50,6 @@ class UserModel {
     this.primaryDoctor,
     this.otherDoctors = const <String>[],
     this.mpdbRegNumber,
-    this.mpdbRegDate,
     this.userAddress,
     this.userContact,
     this.practitionerDiscipline,
@@ -110,7 +106,6 @@ class UserModel {
   Map<String, dynamic> toMainFirestoreDoc() => {
         'email': email,
         'uid': uid,
-        'dob': dob,
         'gender': gender,
         'firstName': firstName,
         'lastName': lastName,
@@ -125,7 +120,6 @@ class UserModel {
         'practitionerSubSpeciality': practitionerSubSpeciality,
         'practitionerDiscipline': practitionerDiscipline,
         'profilePicture': profilePicture,
-        'mpdbRegDate': mpdbRegDate,
         'userAddress': userAddress != null ? userAddress!.toJson() : null,
         'userContact': userContact != null ? userContact!.toJson() : null,
         'qualifications': qualifications,
