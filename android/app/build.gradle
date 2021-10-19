@@ -32,7 +32,7 @@ android {
     lintOptions {
         disable 'InvalidPackage'
     }
-
+    ndkVersion "22.0.7026061"
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.doctors.of.doctors_of_kenya"
