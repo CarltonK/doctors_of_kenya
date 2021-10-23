@@ -66,5 +66,9 @@ service cloud.firestore {
     match /opportunities/{doc} {
       allow read: if isSignedIn();
     }
+
+    match /admins/{doc} {
+      allow read: if isSignedIn();
+    }
   }
 }

@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
@@ -47,7 +47,7 @@ class DatabaseProvider {
   /// Populate (Practitioners / Home) Page
   ///
   /// Retrieve practitioners by type
-  Future retrievePractitioners(String type, [bool isVerified = true]) async {
+  Future retrievePractitioners(String type) async {
     QuerySnapshot querySnapshot;
     try {
       Query colGroupRef = _db.collectionGroup('public_profile');
@@ -55,8 +55,7 @@ class DatabaseProvider {
           colGroupRef.where('designation', isEqualTo: 'Practitioner');
       Query secondaryQuery =
           baseQuery.where('practitionerType', isEqualTo: type);
-      Query tripleQuery =
-          secondaryQuery.where('isVerified', isEqualTo: isVerified);
+      Query tripleQuery = secondaryQuery.where('isVerified', isEqualTo: true);
       querySnapshot = await tripleQuery.get();
       return querySnapshot.docs
           .map((document) => UserModel.fromPublicDocument(document))
@@ -69,7 +68,7 @@ class DatabaseProvider {
   Future retrieveAllPractitioners() async {
     QuerySnapshot querySnapshot;
     try {
-      Query colGroupRef = _db.collectionGroup('private_profile');
+      Query colGroupRef = _db.collectionGroup('public_profile');
       Query baseQuery =
           colGroupRef.where('designation', isEqualTo: 'Practitioner');
       Query secondaryQuery = baseQuery.where('isVerified', isEqualTo: false);
@@ -230,6 +229,22 @@ class DatabaseProvider {
       await colRef.doc(docId).delete();
     } on FirebaseException catch (error) {
       return error.message;
+    }
+  }
+
+  //Admin or normal user
+
+  Future<bool> checkAdmin(String email) async {
+    try {
+      CollectionReference colRef = _db.collection('admins');
+      QuerySnapshot snapshot =
+          await colRef.where('email', isEqualTo: email).get();
+      if (snapshot.docs.isEmpty) {
+        return false;
+      }
+      return true;
+    } catch (error) {
+      return false;
     }
   }
 }

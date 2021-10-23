@@ -112,7 +112,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   },
                 ),
 
-                if (dokUser != null) ...[
+                if (dokUser != null && dokUser.isAdmin!) ...[
                   ListItem(
                     title: 'Admin',
                     onTap: () {

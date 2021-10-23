@@ -7,9 +7,7 @@ import 'package:provider/provider.dart';
 class AdminPractitionerRetrieval extends StatefulWidget {
   const AdminPractitionerRetrieval({
     Key? key,
-    required this.type,
   }) : super(key: key);
-  final String type;
 
   @override
   _AdminPractitionerRetrievalState createState() =>
@@ -50,13 +48,8 @@ class _AdminPractitionerRetrievalState
               );
             }
             if (snapshot.data.length == 0) {
-              String insertion = widget.type == 'unspecified'
-                  ? 'practitoner'
-                  : widget.type == 'non-clinical'
-                      ? 'practitoner'
-                      : widget.type;
               return GlobalErrorContained(
-                errorMessage: 'There are no ${insertion}s available',
+                errorMessage: 'There are no practitioners available',
               );
             }
             return ListView.builder(
