@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:doctors_of_kenya/models/models.dart';
 
@@ -7,9 +7,9 @@ class DatabaseProvider {
 
   DatabaseProvider() {
     // Comment this line for production
-    bool isAndroid = Platform.isAndroid;
-    String host = isAndroid ? '10.0.2.2:5002' : 'localhost:5002';
-    _db.settings = Settings(host: host, sslEnabled: false);
+    // bool isAndroid = Platform.isAndroid;
+    // String host = isAndroid ? '10.0.2.2:5002' : 'localhost:5002';
+    // _db.settings = Settings(host: host, sslEnabled: false);
   }
 
   Future saveUser(UserModel user, String uid) async {
@@ -47,7 +47,7 @@ class DatabaseProvider {
   /// Populate (Practitioners / Home) Page
   ///
   /// Retrieve practitioners by type
-  Future retrievePractitioners(String type, [bool isVerified = true]) async {
+  Future retrievePractitioners(String type) async {
     QuerySnapshot querySnapshot;
     try {
       Query colGroupRef = _db.collectionGroup('public_profile');
@@ -55,8 +55,7 @@ class DatabaseProvider {
           colGroupRef.where('designation', isEqualTo: 'Practitioner');
       Query secondaryQuery =
           baseQuery.where('practitionerType', isEqualTo: type);
-      Query tripleQuery =
-          secondaryQuery.where('isVerified', isEqualTo: isVerified);
+      Query tripleQuery = secondaryQuery.where('isVerified', isEqualTo: true);
       querySnapshot = await tripleQuery.get();
       return querySnapshot.docs
           .map((document) => UserModel.fromPublicDocument(document))
@@ -69,7 +68,7 @@ class DatabaseProvider {
   Future retrieveAllPractitioners() async {
     QuerySnapshot querySnapshot;
     try {
-      Query colGroupRef = _db.collectionGroup('private_profile');
+      Query colGroupRef = _db.collectionGroup('public_profile');
       Query baseQuery =
           colGroupRef.where('designation', isEqualTo: 'Practitioner');
       Query secondaryQuery = baseQuery.where('isVerified', isEqualTo: false);
