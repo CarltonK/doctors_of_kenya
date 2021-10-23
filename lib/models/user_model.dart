@@ -33,6 +33,7 @@ class UserModel {
   String? userStatus;
 
   bool? isVerified;
+  bool? isAdmin;
 
   UserModel({
     this.email,
@@ -59,6 +60,7 @@ class UserModel {
     this.practitionerSubSpeciality,
     this.userStatus,
     this.isVerified = false,
+    this.isAdmin = false,
   });
 
   factory UserModel.fromPrivateDocument(DocumentSnapshot doc) {

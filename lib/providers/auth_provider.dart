@@ -37,6 +37,8 @@ class AuthProvider extends DatabaseProvider with ChangeNotifier {
         if (docResult.runtimeType == UserModel) {
           currentDokUser = docResult;
         }
+        bool isAdmin = await checkAdmin(firebaseUser.email!);
+        currentDokUser!.isAdmin = isAdmin;
       }
     }
     notifyListeners();

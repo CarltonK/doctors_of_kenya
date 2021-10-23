@@ -232,4 +232,20 @@ class DatabaseProvider {
       return error.message;
     }
   }
+
+  //Admin or normal user
+
+  Future<bool> checkAdmin(String email) async {
+    try {
+      CollectionReference colRef = _db.collection('admins');
+      QuerySnapshot snapshot =
+          await colRef.where('email', isEqualTo: email).get();
+      if (snapshot.docs.isEmpty) {
+        return false;
+      }
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
 }
