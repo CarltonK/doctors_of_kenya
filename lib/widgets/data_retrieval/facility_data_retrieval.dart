@@ -90,7 +90,7 @@ class FacilityListItem extends StatelessWidget {
                 Icon(Icons.phone, color: Theme.of(context).accentColor),
                 const SizedBox(width: 10),
                 Text(
-                  facilityModel.contacts!.officeNumber!,
+                  facilityModel.contacts!,
                   style: Constants.subheadlineStyle,
                 ),
               ],
@@ -101,7 +101,7 @@ class FacilityListItem extends StatelessWidget {
                 Icon(Icons.place, color: Theme.of(context).accentColor),
                 const SizedBox(width: 10),
                 Text(
-                  facilityModel.location!.town!,
+                  facilityModel.location!,
                   style: Constants.subheadlineStyle,
                 ),
               ],
