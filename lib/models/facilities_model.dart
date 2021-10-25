@@ -5,8 +5,8 @@ class FacilityModel {
   String? docId;
   String? name;
   String? facilityType;
-  ContactModel? contacts;
-  LocationModel? location;
+  String? contacts;
+  String? location;
   List<dynamic> paymentModalities;
   bool isVerified;
 
@@ -25,8 +25,8 @@ class FacilityModel {
     return FacilityModel(
       name: data['name'] ?? '',
       facilityType: data['facilityType'] ?? 'public',
-      contacts: ContactModel.fromMap(data['contacts']),
-      location: LocationModel.fromMap(data['location']),
+      contacts: data['contacts'],
+      location: data['location'],
       paymentModalities: data['paymentModalities'] ?? [],
       docId: doc.id,
       isVerified: data['isVerified'] ?? false,
@@ -37,8 +37,8 @@ class FacilityModel {
         'name': name,
         'facilityType': facilityType,
         'paymentModalities': paymentModalities,
-        'contacts': contacts != null ? contacts!.toJson() : null,
-        'location': location != null ? location!.toJson() : null,
+        'contacts': contacts,
+        'location': location,
         'isVerified': isVerified
       };
 }
