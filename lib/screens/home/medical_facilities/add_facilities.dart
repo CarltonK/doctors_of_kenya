@@ -31,10 +31,16 @@ class AddFacility extends StatelessWidget {
         location: locationModel,
         facilityType: facilityType,
       );
-      context
-          .read<DatabaseProvider>()
-          .addFacility(facility)
-          .catchError((error) {
+      context.read<DatabaseProvider>().addFacility(facility).then((value) {
+        if (value.toString().contains('permission')) {
+          Timer(Duration(milliseconds: 500), () async {
+            await showInfoDialog(
+              context,
+              'Permission denied',
+            );
+          });
+        }
+      }).catchError((error) {
         Timer(Duration(milliseconds: 500), () async {
           await showInfoDialog(
             context,
