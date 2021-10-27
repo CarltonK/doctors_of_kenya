@@ -39,7 +39,7 @@ class AdminFacilityCard extends StatelessWidget {
                 Icon(Icons.add, color: Theme.of(context).accentColor),
                 const SizedBox(width: 10),
                 Text(
-                  '${facility.location}',
+                  '${facility.location!.town}',
                   style: Constants.subheadlineStyle,
                 ),
               ],
@@ -50,7 +50,7 @@ class AdminFacilityCard extends StatelessWidget {
                 Icon(Icons.phone, color: Theme.of(context).accentColor),
                 const SizedBox(width: 10),
                 Text(
-                  '${facility.contacts}',
+                  '${facility.contacts!.officeNumber}',
                   style: Constants.subheadlineStyle,
                 ),
               ],
