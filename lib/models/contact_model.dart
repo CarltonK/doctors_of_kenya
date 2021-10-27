@@ -4,7 +4,8 @@ class ContactModel {
   String? personalNumber;
   String? officeNumber;
   String? email;
-  SocialMediaModel? socialMediaModel;
+  // SocialMediaModel? socialMediaModel = SocialMediaModel(
+  //     twitterHandle: null, facebookHandle: null, youtubeHandle: null);
   String? emergency;
   List<dynamic> otherNumbers;
 
@@ -12,7 +13,7 @@ class ContactModel {
     this.personalNumber,
     this.officeNumber,
     this.email,
-    this.socialMediaModel,
+    // this.socialMediaModel,
     this.emergency,
     this.otherNumbers = const <String>[],
   });
@@ -21,8 +22,8 @@ class ContactModel {
         'personalNumber': personalNumber,
         'officeNumber': officeNumber,
         'email': email,
-        'socialMediaModel':
-            socialMediaModel != null ? socialMediaModel!.toJson() : null,
+        // 'socialMediaModel':
+        //     socialMediaModel != null ? socialMediaModel!.toJson() : null,
         'emergency': emergency,
         'otherNumbers': otherNumbers,
       };
@@ -34,7 +35,7 @@ class ContactModel {
       email: data['email'] ?? '',
       emergency: data['emergency'] ?? '',
       otherNumbers: data['otherNumbers'] ?? [],
-      socialMediaModel: SocialMediaModel.fromMap(data['socialMediaModel']),
+      //socialMediaModel: SocialMediaModel.fromMap(data['socialMediaModel']),
     );
   }
 }

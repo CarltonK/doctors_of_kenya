@@ -1,6 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
+
 import 'package:doctors_of_kenya/models/models.dart';
+import 'package:doctors_of_kenya/providers/database_provider.dart';
+import 'package:doctors_of_kenya/utilities/utilities.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+ContactModel contact = ContactModel();
+LocationModel locationModel = LocationModel();
 
 // ignore: must_be_immutable
 class AddFacility extends StatelessWidget {
@@ -10,21 +17,31 @@ class AddFacility extends StatelessWidget {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? name, contacts, location, facilityType;
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  _addFacility() {
+  _addFacility(BuildContext context) {
     final FormState? state = _formKey.currentState;
 
     if (state!.validate()) {
       state.save();
+      contact.officeNumber = contacts;
+      locationModel.town = location;
       final FacilityModel facility = FacilityModel(
         name: name,
-        contacts: contacts,
-        location: location,
+        contacts: contact,
+        location: locationModel,
         facilityType: facilityType,
       );
-      //print(facility.toMap());
-      //firestore.collection('facility_service').doc().set(facility.toMap());
+      context
+          .read<DatabaseProvider>()
+          .addFacility(facility)
+          .catchError((error) {
+        Timer(Duration(milliseconds: 500), () async {
+          await showInfoDialog(
+            context,
+            error.toString(),
+          );
+        });
+      });
     }
     state.reset();
   }
@@ -158,7 +175,7 @@ class AddFacility extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   color: Colors.orange,
-                  onPressed: _addFacility,
+                  onPressed: () => _addFacility(context),
                   child: Text('Add Facility'),
                 )
               ],

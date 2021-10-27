@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:doctors_of_kenya/models/models.dart';
+
+import 'models.dart';
 
 class FacilityModel {
   String? docId;
   String? name;
   String? facilityType;
-  String? contacts;
-  String? location;
+  ContactModel? contacts;
+  LocationModel? location;
   List<dynamic> paymentModalities;
   bool isVerified;
 
@@ -22,11 +23,12 @@ class FacilityModel {
 
   factory FacilityModel.fromFirestore(DocumentSnapshot doc) {
     dynamic data = doc.data();
+
     return FacilityModel(
       name: data['name'] ?? '',
       facilityType: data['facilityType'] ?? 'public',
-      contacts: data['contacts'],
-      location: data['location'],
+      contacts: ContactModel.fromMap(data['contacts']),
+      location: LocationModel.fromMap(data['location']),
       paymentModalities: data['paymentModalities'] ?? [],
       docId: doc.id,
       isVerified: data['isVerified'] ?? false,
@@ -37,8 +39,8 @@ class FacilityModel {
         'name': name,
         'facilityType': facilityType,
         'paymentModalities': paymentModalities,
-        'contacts': contacts,
-        'location': location,
+        'contacts': contacts != null ? contacts!.toJson() : null,
+        'location': location != null ? location!.toJson() : null,
         'isVerified': isVerified
       };
 }

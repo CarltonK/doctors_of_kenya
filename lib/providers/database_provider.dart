@@ -24,6 +24,16 @@ class DatabaseProvider {
     }
   }
 
+  //Add Facility
+  Future addFacility(FacilityModel facility) async {
+    try {
+      DocumentReference facilityDocRef = _db.collection("facilities").doc();
+      await facilityDocRef.set(facility.toJson());
+    } on FirebaseException catch (error) {
+      return error.message;
+    }
+  }
+
   Future retrievePublicUserDocument(String uid) async {
     try {
       DocumentReference userDoc = _db.doc('users/$uid/public_profile/$uid');
